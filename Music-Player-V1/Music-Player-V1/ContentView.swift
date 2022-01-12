@@ -10,11 +10,21 @@ import MediaPlayer
 
 struct ContentView: View {
     
+    @State var albumsCount: Int = 0
+    
     var body: some View {
         NavigationView {
             VStack {
-                Text("print album collectionView")
+                Text("Number of Albums")
+                    .padding()
+                Text("\(self.albumsCount)")
             }.navigationTitle("Library")
+        }.onAppear(perform: setAlbumsCount)
+    }
+    
+    private func setAlbumsCount() {
+        if let albums = MPMediaQuery.albums().collections {
+            albumsCount = albums.count
         }
     }
     

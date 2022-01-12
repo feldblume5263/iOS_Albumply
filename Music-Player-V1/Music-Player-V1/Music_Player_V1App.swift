@@ -25,10 +25,12 @@ struct Music_Player_V1App: App {
     private func authMediaLibrary() {
         MPMediaLibrary.requestAuthorization { status in
             if status == .authorized {
-                if let albums = MPMediaQuery.albums().collections {
-                    print(albums)
-                }
+                print("Get media permission")
+            } else {
+                print("Fail to get media permission")
+                
             }
+            
         }
     }
 }
