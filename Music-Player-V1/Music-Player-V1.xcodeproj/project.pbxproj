@@ -19,6 +19,7 @@
 		4FD95D12278EDB6E008FFB68 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4FD95D14278EDB70008FFB68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4FD95D17278EDB70008FFB68 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4FD95D20278F15C5008FFB68 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +56,7 @@
 				4FD95D12278EDB6E008FFB68 /* ContentView.swift */,
 				4FD95D14278EDB70008FFB68 /* Assets.xcassets */,
 				4FD95D16278EDB70008FFB68 /* Preview Content */,
+				4FD95D20278F15C5008FFB68 /* info.plist */,
 			);
 			path = "Music-Player-V1";
 			sourceTree = "<group>";
@@ -271,7 +273,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Music-Player-V1/Preview Content\"";
 				DEVELOPMENT_TEAM = 8QSTXVD8H9;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "/Users/Feldblume/DEV_Noah/iOS_Music-Player/Music-Player-V1/Music-Player-V1/info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -300,7 +303,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Music-Player-V1/Preview Content\"";
 				DEVELOPMENT_TEAM = 8QSTXVD8H9;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "/Users/Feldblume/DEV_Noah/iOS_Music-Player/Music-Player-V1/Music-Player-V1/info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

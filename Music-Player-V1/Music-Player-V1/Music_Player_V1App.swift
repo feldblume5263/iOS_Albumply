@@ -6,12 +6,29 @@
 //
 
 import SwiftUI
+import MediaPlayer
 
 @main
 struct Music_Player_V1App: App {
+    
+    
+    init() {
+        authMediaLibrary()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+        }
+    }
+    
+    private func authMediaLibrary() {
+        MPMediaLibrary.requestAuthorization { status in
+            if status == .authorized {
+                if let albums = MPMediaQuery.albums().collections {
+                    print(albums)
+                }
+            }
         }
     }
 }

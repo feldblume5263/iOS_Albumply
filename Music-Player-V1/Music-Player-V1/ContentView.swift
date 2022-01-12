@@ -6,16 +6,19 @@
 //
 
 import SwiftUI
+import MediaPlayer
 
 struct ContentView: View {
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            VStack {
+                Text("print album collectionView")
+            }.navigationTitle("Library")
+        }
     }
+    
+    
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+
