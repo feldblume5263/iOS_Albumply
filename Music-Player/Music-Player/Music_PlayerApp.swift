@@ -1,6 +1,6 @@
 //
-//  Music_Player_V1App.swift
-//  Music-Player-V1
+//  Music_PlayerApp.swift
+//  Music-Player
 //
 //  Created by Junhong Park on 2022/01/12.
 //

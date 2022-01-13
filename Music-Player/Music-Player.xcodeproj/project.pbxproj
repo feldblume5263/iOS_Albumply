@@ -7,27 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4FD95D11278EDB6E008FFB68 /* Music_Player_V1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D10278EDB6E008FFB68 /* Music_Player_V1App.swift */; };
-		4FD95D13278EDB6E008FFB68 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D12278EDB6E008FFB68 /* ContentView.swift */; };
-		4FD95D15278EDB70008FFB68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FD95D14278EDB70008FFB68 /* Assets.xcassets */; };
-		4FD95D18278EDB70008FFB68 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FD95D17278EDB70008FFB68 /* Preview Assets.xcassets */; };
-		4FD95D3D278FF6D2008FFB68 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D3C278FF6D2008FFB68 /* Constants.swift */; };
-		4FD95D3F2790048C008FFB68 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D3E2790048C008FFB68 /* Error.swift */; };
+		4FD95D4D27902CD8008FFB68 /* Music_PlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D4C27902CD8008FFB68 /* Music_PlayerApp.swift */; };
+		4FD95D4F27902CD8008FFB68 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D4E27902CD8008FFB68 /* ContentView.swift */; };
+		4FD95D5127902CDA008FFB68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FD95D5027902CDA008FFB68 /* Assets.xcassets */; };
+		4FD95D5427902CDA008FFB68 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FD95D5327902CDA008FFB68 /* Preview Assets.xcassets */; };
+		4FD95D5D27902D54008FFB68 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D5C27902D54008FFB68 /* Constants.swift */; };
+		4FD95D5F27902D79008FFB68 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D5E27902D79008FFB68 /* Error.swift */; };
+		4FD95D6727903146008FFB68 /* LibraryAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D6627903146008FFB68 /* LibraryAlbum.swift */; };
+		4FD95D6927903176008FFB68 /* LibraryAlbumsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D6827903176008FFB68 /* LibraryAlbumsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4FD95D0D278EDB6E008FFB68 /* Music-Player-V1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Music-Player-V1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4FD95D10278EDB6E008FFB68 /* Music_Player_V1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music_Player_V1App.swift; sourceTree = "<group>"; };
-		4FD95D12278EDB6E008FFB68 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		4FD95D14278EDB70008FFB68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4FD95D17278EDB70008FFB68 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		4FD95D20278F15C5008FFB68 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
-		4FD95D3C278FF6D2008FFB68 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		4FD95D3E2790048C008FFB68 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		4FD95D4927902CD8008FFB68 /* Music-Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Music-Player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FD95D4C27902CD8008FFB68 /* Music_PlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music_PlayerApp.swift; sourceTree = "<group>"; };
+		4FD95D4E27902CD8008FFB68 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4FD95D5027902CDA008FFB68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4FD95D5327902CDA008FFB68 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4FD95D5C27902D54008FFB68 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4FD95D5E27902D79008FFB68 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		4FD95D6027902F3E008FFB68 /* info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
+		4FD95D6627903146008FFB68 /* LibraryAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryAlbum.swift; sourceTree = "<group>"; };
+		4FD95D6827903176008FFB68 /* LibraryAlbumsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryAlbumsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4FD95D0A278EDB6E008FFB68 /* Frameworks */ = {
+		4FD95D4627902CD8008FFB68 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -37,80 +41,114 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4FD95D04278EDB6E008FFB68 = {
+		4FD95D4027902CD8008FFB68 = {
 			isa = PBXGroup;
 			children = (
-				4FD95D0F278EDB6E008FFB68 /* Music-Player-V1 */,
-				4FD95D0E278EDB6E008FFB68 /* Products */,
+				4FD95D4B27902CD8008FFB68 /* Music-Player */,
+				4FD95D4A27902CD8008FFB68 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		4FD95D0E278EDB6E008FFB68 /* Products */ = {
+		4FD95D4A27902CD8008FFB68 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4FD95D0D278EDB6E008FFB68 /* Music-Player-V1.app */,
+				4FD95D4927902CD8008FFB68 /* Music-Player.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4FD95D0F278EDB6E008FFB68 /* Music-Player-V1 */ = {
+		4FD95D4B27902CD8008FFB68 /* Music-Player */ = {
 			isa = PBXGroup;
 			children = (
-				4FD95D10278EDB6E008FFB68 /* Music_Player_V1App.swift */,
-				4FD95D12278EDB6E008FFB68 /* ContentView.swift */,
-				4FD95D3C278FF6D2008FFB68 /* Constants.swift */,
-				4FD95D14278EDB70008FFB68 /* Assets.xcassets */,
-				4FD95D16278EDB70008FFB68 /* Preview Content */,
-				4FD95D20278F15C5008FFB68 /* info.plist */,
-				4FD95D3E2790048C008FFB68 /* Error.swift */,
+				4FD95D652790311D008FFB68 /* Utilites */,
+				4FD95D62279030E9008FFB68 /* Model */,
+				4FD95D63279030EF008FFB68 /* ViewModel */,
+				4FD95D64279030FE008FFB68 /* View */,
+				4FD95D4C27902CD8008FFB68 /* Music_PlayerApp.swift */,
+				4FD95D5027902CDA008FFB68 /* Assets.xcassets */,
+				4FD95D6027902F3E008FFB68 /* info.plist */,
+				4FD95D5227902CDA008FFB68 /* Preview Content */,
 			);
-			path = "Music-Player-V1";
+			path = "Music-Player";
 			sourceTree = "<group>";
 		};
-		4FD95D16278EDB70008FFB68 /* Preview Content */ = {
+		4FD95D5227902CDA008FFB68 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				4FD95D17278EDB70008FFB68 /* Preview Assets.xcassets */,
+				4FD95D5327902CDA008FFB68 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4FD95D62279030E9008FFB68 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4FD95D6627903146008FFB68 /* LibraryAlbum.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4FD95D63279030EF008FFB68 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4FD95D6827903176008FFB68 /* LibraryAlbumsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4FD95D64279030FE008FFB68 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4FD95D4E27902CD8008FFB68 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4FD95D652790311D008FFB68 /* Utilites */ = {
+			isa = PBXGroup;
+			children = (
+				4FD95D5E27902D79008FFB68 /* Error.swift */,
+				4FD95D5C27902D54008FFB68 /* Constants.swift */,
+			);
+			path = Utilites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4FD95D0C278EDB6E008FFB68 /* Music-Player-V1 */ = {
+		4FD95D4827902CD8008FFB68 /* Music-Player */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4FD95D1B278EDB70008FFB68 /* Build configuration list for PBXNativeTarget "Music-Player-V1" */;
+			buildConfigurationList = 4FD95D5727902CDA008FFB68 /* Build configuration list for PBXNativeTarget "Music-Player" */;
 			buildPhases = (
-				4FD95D09278EDB6E008FFB68 /* Sources */,
-				4FD95D0A278EDB6E008FFB68 /* Frameworks */,
-				4FD95D0B278EDB6E008FFB68 /* Resources */,
+				4FD95D4527902CD8008FFB68 /* Sources */,
+				4FD95D4627902CD8008FFB68 /* Frameworks */,
+				4FD95D4727902CD8008FFB68 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Music-Player-V1";
-			productName = "Music-Player-V1";
-			productReference = 4FD95D0D278EDB6E008FFB68 /* Music-Player-V1.app */;
+			name = "Music-Player";
+			productName = "Music-Player";
+			productReference = 4FD95D4927902CD8008FFB68 /* Music-Player.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		4FD95D05278EDB6E008FFB68 /* Project object */ = {
+		4FD95D4127902CD8008FFB68 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
-					4FD95D0C278EDB6E008FFB68 = {
+					4FD95D4827902CD8008FFB68 = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
 				};
 			};
-			buildConfigurationList = 4FD95D08278EDB6E008FFB68 /* Build configuration list for PBXProject "Music-Player-V1" */;
+			buildConfigurationList = 4FD95D4427902CD8008FFB68 /* Build configuration list for PBXProject "Music-Player" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -118,44 +156,46 @@
 				en,
 				Base,
 			);
-			mainGroup = 4FD95D04278EDB6E008FFB68;
-			productRefGroup = 4FD95D0E278EDB6E008FFB68 /* Products */;
+			mainGroup = 4FD95D4027902CD8008FFB68;
+			productRefGroup = 4FD95D4A27902CD8008FFB68 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4FD95D0C278EDB6E008FFB68 /* Music-Player-V1 */,
+				4FD95D4827902CD8008FFB68 /* Music-Player */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		4FD95D0B278EDB6E008FFB68 /* Resources */ = {
+		4FD95D4727902CD8008FFB68 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FD95D18278EDB70008FFB68 /* Preview Assets.xcassets in Resources */,
-				4FD95D15278EDB70008FFB68 /* Assets.xcassets in Resources */,
+				4FD95D5427902CDA008FFB68 /* Preview Assets.xcassets in Resources */,
+				4FD95D5127902CDA008FFB68 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4FD95D09278EDB6E008FFB68 /* Sources */ = {
+		4FD95D4527902CD8008FFB68 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FD95D3F2790048C008FFB68 /* Error.swift in Sources */,
-				4FD95D13278EDB6E008FFB68 /* ContentView.swift in Sources */,
-				4FD95D11278EDB6E008FFB68 /* Music_Player_V1App.swift in Sources */,
-				4FD95D3D278FF6D2008FFB68 /* Constants.swift in Sources */,
+				4FD95D6927903176008FFB68 /* LibraryAlbumsViewModel.swift in Sources */,
+				4FD95D5F27902D79008FFB68 /* Error.swift in Sources */,
+				4FD95D4F27902CD8008FFB68 /* ContentView.swift in Sources */,
+				4FD95D4D27902CD8008FFB68 /* Music_PlayerApp.swift in Sources */,
+				4FD95D5D27902D54008FFB68 /* Constants.swift in Sources */,
+				4FD95D6727903146008FFB68 /* LibraryAlbum.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		4FD95D19278EDB70008FFB68 /* Debug */ = {
+		4FD95D5527902CDA008FFB68 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -216,7 +256,7 @@
 			};
 			name = Debug;
 		};
-		4FD95D1A278EDB70008FFB68 /* Release */ = {
+		4FD95D5627902CDA008FFB68 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -271,18 +311,18 @@
 			};
 			name = Release;
 		};
-		4FD95D1C278EDB70008FFB68 /* Debug */ = {
+		4FD95D5827902CDA008FFB68 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Music-Player-V1/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Music-Player/Preview Content\"";
 				DEVELOPMENT_TEAM = 8QSTXVD8H9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "/Users/Feldblume/DEV_Noah/iOS_Music-Player/Music-Player-V1/Music-Player-V1/info.plist";
+				INFOPLIST_FILE = "/Users/Feldblume/DEV_Noah/iOS_Music-Player/Music-Player/Music-Player/info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -293,7 +333,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.NoahPark.Music-Player-V1";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.NoahPark.Music-Player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -301,18 +341,18 @@
 			};
 			name = Debug;
 		};
-		4FD95D1D278EDB70008FFB68 /* Release */ = {
+		4FD95D5927902CDA008FFB68 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Music-Player-V1/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Music-Player/Preview Content\"";
 				DEVELOPMENT_TEAM = 8QSTXVD8H9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "/Users/Feldblume/DEV_Noah/iOS_Music-Player/Music-Player-V1/Music-Player-V1/info.plist";
+				INFOPLIST_FILE = "/Users/Feldblume/DEV_Noah/iOS_Music-Player/Music-Player/Music-Player/info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -323,7 +363,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.NoahPark.Music-Player-V1";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.NoahPark.Music-Player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -334,25 +374,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4FD95D08278EDB6E008FFB68 /* Build configuration list for PBXProject "Music-Player-V1" */ = {
+		4FD95D4427902CD8008FFB68 /* Build configuration list for PBXProject "Music-Player" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4FD95D19278EDB70008FFB68 /* Debug */,
-				4FD95D1A278EDB70008FFB68 /* Release */,
+				4FD95D5527902CDA008FFB68 /* Debug */,
+				4FD95D5627902CDA008FFB68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4FD95D1B278EDB70008FFB68 /* Build configuration list for PBXNativeTarget "Music-Player-V1" */ = {
+		4FD95D5727902CDA008FFB68 /* Build configuration list for PBXNativeTarget "Music-Player" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4FD95D1C278EDB70008FFB68 /* Debug */,
-				4FD95D1D278EDB70008FFB68 /* Release */,
+				4FD95D5827902CDA008FFB68 /* Debug */,
+				4FD95D5927902CDA008FFB68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 4FD95D05278EDB6E008FFB68 /* Project object */;
+	rootObject = 4FD95D4127902CD8008FFB68 /* Project object */;
 }

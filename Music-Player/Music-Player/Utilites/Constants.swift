@@ -1,6 +1,6 @@
 //
 //  Constants.swift
-//  Music-Player-V1
+//  Music-Player
 //
 //  Created by Junhong Park on 2022/01/13.
 //
