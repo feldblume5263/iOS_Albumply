@@ -12,8 +12,8 @@ let undefinedString: String = "Undefined"
 
 
 // Font
-let libraryAlbumTitleFont = Font.system(size: 13, weight: .semibold)
-let libraryAlbumArtistFont = Font.system(size: 10, weight: .regular)
+let libraryAlbumTitleFont = Font.system(size: 15, weight: .semibold)
+let libraryAlbumArtistFont = Font.system(size: 13, weight: .regular)
 
 
 // Color

@@ -29,12 +29,14 @@ class LibraryAlbumsViewModel: ObservableObject {
     }
     
     private func parseLibraryAlbums() {
+        libraryAlbums.removeAll()
         libraryAlbumsItemCollection?.forEach({ libraryAlbumItemCollection in
-            let newAlbumTitle = libraryAlbumItemCollection.representativeItem?.albumTitle ?? undefinedString
-            let newAlbumArtist = libraryAlbumItemCollection.representativeItem?.albumArtist ?? undefinedString
-            let newLibraryAlbum = LibraryAlbumModel(albumTitle: newAlbumTitle, albumArtist: newAlbumArtist)
+            let libraryAlbumRepresentativeItem = libraryAlbumItemCollection.representativeItem
+            let newAlbumTitle = libraryAlbumRepresentativeItem?.albumTitle ?? undefinedString
+            let newAlbumArtist = libraryAlbumRepresentativeItem?.albumArtist ?? undefinedString
+            let newAlbumArtwork = libraryAlbumRepresentativeItem?.artwork?.image(at: CGSize(width: 500, height: 500)) ?? UIImage()
+            let newLibraryAlbum = LibraryAlbumModel(albumTitle: newAlbumTitle, albumArtist: newAlbumArtist, albumArtwork: newAlbumArtwork)
             libraryAlbums.append(newLibraryAlbum)
-            print(newLibraryAlbum)
         })
     }
     
