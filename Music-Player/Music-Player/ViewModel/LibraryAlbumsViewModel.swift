@@ -13,9 +13,10 @@ class LibraryAlbumsViewModel: ObservableObject {
     private var libraryAlbumsItemCollection: [MPMediaItemCollection]?
     @Published var libraryAlbums = [LibraryAlbumModel]()
     
-    func getLibraryAlbumByIndex(at index: Int) throws -> LibraryAlbumModel? {
+    func getLibraryAlbumByIndex(at index: Int) -> LibraryAlbumModel? {
         if index < 0 || index >= libraryAlbums.count {
-            throw runtimeError.outOfRange
+//            throw runtimeError.outOfRange
+            return nil
         }
         return libraryAlbums[index]
         
@@ -35,7 +36,8 @@ class LibraryAlbumsViewModel: ObservableObject {
             let newAlbumTitle = libraryAlbumRepresentativeItem?.albumTitle ?? undefinedString
             let newAlbumArtist = libraryAlbumRepresentativeItem?.albumArtist ?? undefinedString
             let newAlbumArtwork = libraryAlbumRepresentativeItem?.artwork?.image(at: CGSize(width: 500, height: 500)) ?? UIImage()
-            let newLibraryAlbum = LibraryAlbumModel(albumTitle: newAlbumTitle, albumArtist: newAlbumArtist, albumArtwork: newAlbumArtwork)
+            let newAlbumSongs = getSongsIn(Album: newAlbumTitle)
+            let newLibraryAlbum = LibraryAlbumModel(albumTitle: newAlbumTitle, albumArtist: newAlbumArtist, albumArtwork: newAlbumArtwork, albumSongs: newAlbumSongs)
             libraryAlbums.append(newLibraryAlbum)
         })
     }
@@ -52,10 +54,16 @@ class LibraryAlbumsViewModel: ObservableObject {
         return libraryAlbums.count
     }
     
-    // Test 버튼 액션
-    func changeDataForTest() {
-        (0 ..< getLibraryAlbumsCount()).forEach { libraryAlbumIndex in
-            libraryAlbums[libraryAlbumIndex].albumArtist = "junhong"
+    private func getSongsIn(Album: String) -> [MPMediaItem] {
+        //How to search for a particular album
+        let albumTitleFilter = MPMediaPropertyPredicate(value: Album,
+                                 forProperty: MPMediaItemPropertyAlbumTitle,
+                                 comparisonType: .equalTo)
+        
+        if let collections = MPMediaQuery(filterPredicates: Set(arrayLiteral: albumTitleFilter)).items {
+            return collections
+        } else {
+            return []
         }
     }
 }
