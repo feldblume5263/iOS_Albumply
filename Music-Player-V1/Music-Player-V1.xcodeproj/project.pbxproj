@@ -11,6 +11,8 @@
 		4FD95D13278EDB6E008FFB68 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D12278EDB6E008FFB68 /* ContentView.swift */; };
 		4FD95D15278EDB70008FFB68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FD95D14278EDB70008FFB68 /* Assets.xcassets */; };
 		4FD95D18278EDB70008FFB68 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FD95D17278EDB70008FFB68 /* Preview Assets.xcassets */; };
+		4FD95D3D278FF6D2008FFB68 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D3C278FF6D2008FFB68 /* Constants.swift */; };
+		4FD95D3F2790048C008FFB68 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D3E2790048C008FFB68 /* Error.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,9 @@
 		4FD95D12278EDB6E008FFB68 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4FD95D14278EDB70008FFB68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4FD95D17278EDB70008FFB68 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4FD95D20278F15C5008FFB68 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
+		4FD95D3C278FF6D2008FFB68 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4FD95D3E2790048C008FFB68 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,8 +58,11 @@
 			children = (
 				4FD95D10278EDB6E008FFB68 /* Music_Player_V1App.swift */,
 				4FD95D12278EDB6E008FFB68 /* ContentView.swift */,
+				4FD95D3C278FF6D2008FFB68 /* Constants.swift */,
 				4FD95D14278EDB70008FFB68 /* Assets.xcassets */,
 				4FD95D16278EDB70008FFB68 /* Preview Content */,
+				4FD95D20278F15C5008FFB68 /* info.plist */,
+				4FD95D3E2790048C008FFB68 /* Error.swift */,
 			);
 			path = "Music-Player-V1";
 			sourceTree = "<group>";
@@ -137,8 +145,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FD95D3F2790048C008FFB68 /* Error.swift in Sources */,
 				4FD95D13278EDB6E008FFB68 /* ContentView.swift in Sources */,
 				4FD95D11278EDB6E008FFB68 /* Music_Player_V1App.swift in Sources */,
+				4FD95D3D278FF6D2008FFB68 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,7 +281,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Music-Player-V1/Preview Content\"";
 				DEVELOPMENT_TEAM = 8QSTXVD8H9;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "/Users/Feldblume/DEV_Noah/iOS_Music-Player/Music-Player-V1/Music-Player-V1/info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -300,7 +311,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Music-Player-V1/Preview Content\"";
 				DEVELOPMENT_TEAM = 8QSTXVD8H9;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "/Users/Feldblume/DEV_Noah/iOS_Music-Player/Music-Player-V1/Music-Player-V1/info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
