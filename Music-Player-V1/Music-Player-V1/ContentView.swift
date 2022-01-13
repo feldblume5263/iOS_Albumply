@@ -9,27 +9,41 @@ import SwiftUI
 import MediaPlayer
 
 
-struct LibraryAlbum {
+struct LibraryAlbumModel {
     
 //    var albumID: String
 //    var albumImage: UIImage
     var albumTitle: String
+    var albumArtist: String
 }
 
 class LibraryAlbumsViewModel: ObservableObject {
     
     private var libraryAlbumsItemCollection: [MPMediaItemCollection]?
-    @Published var libraryAlbums = [LibraryAlbum]()
+    @Published var libraryAlbums = [LibraryAlbumModel]()
     
-    init() {
-        setLibraryAlbumsQuery()
-        makeLibraryAlbumsArray()
+//    init() {
+//        refreshLibraryAlbumArray()
+//    }
+    
+    func getLibraryAlbumByIndex(at index: Int) throws -> LibraryAlbumModel? {
+        if index < 0 || index >= libraryAlbums.count {
+            throw runtimeError.outOfRange
+        }
+        return libraryAlbums[index]
+        
     }
     
-    private func makeLibraryAlbumsArray() {
+    func refreshLibraryAlbums() {
+        setLibraryAlbumsQuery()
+        parseLibraryAlbums()
+    }
+    
+    private func parseLibraryAlbums() {
         libraryAlbumsItemCollection?.forEach({ libraryAlbumItemCollection in
-            let newAlbumTitle = libraryAlbumItemCollection.representativeItem?.albumTitle
-            let newLibraryAlbum = LibraryAlbum(albumTitle: newAlbumTitle ?? "Undefined")
+            let newAlbumTitle = libraryAlbumItemCollection.representativeItem?.albumTitle ?? undefinedString
+            let newAlbumArtist = libraryAlbumItemCollection.representativeItem?.albumArtist ?? undefinedString
+            let newLibraryAlbum = LibraryAlbumModel(albumTitle: newAlbumTitle, albumArtist: newAlbumArtist)
             libraryAlbums.append(newLibraryAlbum)
         })
     }
@@ -44,6 +58,13 @@ class LibraryAlbumsViewModel: ObservableObject {
     // 라이브러리 앨범 개수 반환
     func getLibraryAlbumsCount() -> Int {
         return libraryAlbums.count
+    }
+    
+    // Test 버튼 액션
+    func changeDataForTest() {
+        (0 ..< getLibraryAlbumsCount()).forEach { libraryAlbumIndex in
+            libraryAlbums[libraryAlbumIndex].albumArtist = "junhong"
+        }
     }
 }
 
@@ -66,15 +87,23 @@ struct LibraryAlbumsView: View {
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     var body: some View {
         ScrollView {
+            Button("test button") {
+                libraryAlbumsViewModel.changeDataForTest()
+            }
             LazyVGrid(columns: columns, spacing: 30) {
-                ForEach(0 ..< libraryAlbumsViewModel.libraryAlbums.count, id: \.self) { libraryAlbumIndex in
+                ForEach(0 ..< libraryAlbumsViewModel.getLibraryAlbumsCount(), id: \.self) { libraryAlbumIndex in
                     VStack {
                         Text(libraryAlbumsViewModel.libraryAlbums[libraryAlbumIndex].albumTitle)
+                            .font(libraryAlbumTitleFont)
+                            .foregroundColor(libraryAlbumTitleFontColor)
+                        Text(libraryAlbumsViewModel.libraryAlbums[libraryAlbumIndex].albumArtist)
+                            .font(libraryAlbumArtistFont)
+                            .foregroundColor(libraryAlbumArtistFontColor)
                     }
                 }.background(Color.green)
             }
             .navigationTitle("라이브러리")
-        }
+        }.onAppear(perform: libraryAlbumsViewModel.refreshLibraryAlbums)
     }
 }
 
