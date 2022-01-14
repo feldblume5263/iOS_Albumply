@@ -9,42 +9,10 @@ import SwiftUI
 import MediaPlayer
 import AVFoundation
 
-
-struct SongsInAlbum {
-    var songs: [MPMediaItem] = []
-    var playStartingIndex: Int = 0
-}
-
-
-class AlbumDetailViewModel: ObservableObject {
-    
-    @Published var songsInAlbum: SongsInAlbum?
-    
-    func setSongsInAlbum(albumTitle: String) {
-        let songs = getSongsIn(Album: albumTitle)
-        songsInAlbum = SongsInAlbum(songs: songs)
-    }
-    
-    private func getSongsIn(Album: String) -> [MPMediaItem] {
-        let albumTitleFilter = MPMediaPropertyPredicate(value: Album,
-                                                        forProperty: MPMediaItemPropertyAlbumTitle,
-                                                        comparisonType: .equalTo)
-        
-        if let collections = MPMediaQuery(filterPredicates: Set(arrayLiteral: albumTitleFilter)).items {
-            return collections
-        } else {
-            return []
-        }
-    }
-    
-    func getSongsCount() -> Int {
-        return songsInAlbum?.songs.count ?? 0
-    }
-}
-
 struct AlbumDetailView: View {
     
-    @Binding var album: LibraryAlbumModel
+    // Binding이 작동하지 않는다... 그 이유는??
+    @Binding var album: Album
     @ObservedObject var albumDetail = AlbumDetailViewModel()
     
     var body: some View {
@@ -70,9 +38,13 @@ struct AlbumDetailView: View {
                 HStack {
                     Text("\(songIndex + 1)")
                         .frame(minWidth: 10, idealWidth: 15, maxWidth: 30)
+                        .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
+                        .lineLimit(1)
+                    Text(albumDetail.songs?.songs[songIndex].title ?? undefinedString)
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                    Text(albumDetail.songsInAlbum?.songs[songIndex].title ?? undefinedString)
-                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                        .lineLimit(1)
+                    Spacer()
+                    Image(systemName: "ellipsis")
                 }
             }
         }
@@ -80,7 +52,7 @@ struct AlbumDetailView: View {
     }
     
     func initSongsInAlbum() {
-        albumDetail.setSongsInAlbum(albumTitle: album.albumTitle)
+        albumDetail.setSongsInAlbumDetail(albumTitle: album.albumTitle)
     }
 }
 

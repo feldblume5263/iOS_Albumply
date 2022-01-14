@@ -6,10 +6,8 @@
 //
 
 import SwiftUI
-import MediaPlayer
 
-struct LibraryAlbumModel {
-    
+struct Album {
     var albumTitle: String
     var albumArtist: String
     var albumArtwork: UIImage

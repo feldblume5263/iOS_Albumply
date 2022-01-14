@@ -1,29 +1,19 @@
 //
-//  ContentView.swift
+//  LibraryView.swift
 //  Music-Player
 //
-//  Created by Junhong Park on 2022/01/12.
+//  Created by Junhong Park on 2022/01/14.
 //
 
 import SwiftUI
 
 struct LibraryView: View {
     
-    var miniPlayerView: some View = LibraryGridView()
+    @ObservedObject var libraryViewModel = LibraryViewModel()
     
-    var body: some View {
-        NavigationView {
-            LibraryGridView()
-        }
-        Text("mini player")
+    init() {
+        libraryViewModel.refreshAlbums()
     }
-}
-
-
-// MARK: - swipe해서 refresh, active될때 감지해서 refresh
-struct LibraryGridView: View {
-    
-    @ObservedObject var libraryAlbumsViewModel = LibraryAlbumsViewModel()
     
     let columns: [GridItem] = [GridItem(.flexible(), spacing: 20, alignment: .center),
                                GridItem(.flexible(), spacing: 20, alignment: .center)]
@@ -31,15 +21,19 @@ struct LibraryGridView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, alignment: .center, spacing: 20) {
-                ForEach(0 ..< libraryAlbumsViewModel.getLibraryAlbumsCount(), id: \.self) { index in
-                    NavigationLink(destination: AlbumDetailView(album: $libraryAlbumsViewModel.libraryAlbums[index])) {
+                ForEach(0 ..< libraryViewModel.getAlbumsCount(), id: \.self) { index in
+                    //libraryViewModel.getAlbum(at: index)
+                    NavigationLink(destination: AlbumDetailView(album: $libraryViewModel.albums[index])) {
+                        
                         makeGridAlbumItem(index: index)
                     }
                 }
             }
             .navigationTitle("라이브러리")
+            Button("Refresh Test") {
+                libraryViewModel.refreshAlbums()
+            }
         }
-        .onAppear(perform: libraryAlbumsViewModel.refreshLibraryAlbums)
         .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
     }
     
@@ -56,17 +50,17 @@ struct LibraryGridView: View {
     
     private func makeAlbumItemContents(index: Int) -> some View {
         VStack{
-            Image(uiImage: libraryAlbumsViewModel.getLibraryAlbum(at: index).albumArtwork)
+            Image(uiImage: libraryViewModel.getAlbum(at: index).albumArtwork)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             VStack {
                 // MARK: - index로 받아오기 (try, catch)
-                Text(libraryAlbumsViewModel.getLibraryAlbum(at: index).albumTitle)
+                Text(libraryViewModel.getAlbum(at: index).albumTitle)
                     .font(libraryAlbumTitleFont)
                     .foregroundColor(libraryAlbumTitleFontColor)
                     .lineLimit(1)
-                Text(libraryAlbumsViewModel.getLibraryAlbum(at: index).albumArtist)
+                Text(libraryViewModel.getAlbum(at: index).albumArtist)
                     .font(libraryAlbumArtistFont)
                     .foregroundColor(libraryAlbumArtistFontColor)
                     .lineLimit(1)
@@ -76,5 +70,3 @@ struct LibraryGridView: View {
         .cornerRadius(20)
     }
 }
-
-

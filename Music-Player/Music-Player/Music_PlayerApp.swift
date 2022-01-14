@@ -17,7 +17,7 @@ struct Music_PlayerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LibraryView()
+            ContentView()
         }
     }
     
