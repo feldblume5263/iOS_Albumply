@@ -9,10 +9,18 @@ import MediaPlayer
 
 class AlbumDetailViewModel: ObservableObject {
     
-    @Published var songs: SongsInAlbum?
+    @Published var inAlbum: AlbumContents?
+    
+    func allSongsPlayButtonPressed() -> PlayingSong {
+        if getSongsCount() > 0 {
+            return PlayingSong(title: inAlbum?.songs[0].title ?? "", artist: inAlbum?.songs[0].artist ?? "", artWorkImage: UIImage())
+        } else {
+            return PlayingSong(title: "", artist: "", artWorkImage: UIImage())
+        }
+    }
     
     func setSongsInAlbumDetail(albumTitle: String) {
-        songs = SongsInAlbum(songs: getSongsFor(Album: albumTitle))
+        inAlbum = AlbumContents(songs: getSongsFor(Album: albumTitle))
     }
     
     private func getSongsFor(Album: String) -> [MPMediaItem] {
@@ -28,6 +36,6 @@ class AlbumDetailViewModel: ObservableObject {
     }
     
     func getSongsCount() -> Int {
-        return songs?.songs.count ?? 0
+        return inAlbum?.songs.count ?? 0
     }
 }

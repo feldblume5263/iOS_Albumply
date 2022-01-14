@@ -11,8 +11,9 @@ import AVFoundation
 
 struct AlbumDetailView: View {
     
-    // Binding이 작동하지 않는다... 그 이유는??
-    @Binding var album: Album
+    var album: Album
+    @Binding var isViewDisplaying: Bool
+    @Binding var playingSong: PlayingSong
     @ObservedObject var albumDetail = AlbumDetailViewModel()
     
     var body: some View {
@@ -20,7 +21,7 @@ struct AlbumDetailView: View {
         Text("\(album.albumArtist)")
         HStack {
             Button {
-                
+                playingSong =  albumDetail.allSongsPlayButtonPressed()
             } label: {
                 Image(systemName: "play.fill")
             }
@@ -40,7 +41,7 @@ struct AlbumDetailView: View {
                         .frame(minWidth: 10, idealWidth: 15, maxWidth: 30)
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
                         .lineLimit(1)
-                    Text(albumDetail.songs?.songs[songIndex].title ?? undefinedString)
+                    Text(albumDetail.inAlbum?.songs[songIndex].title ?? undefinedString)
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                         .lineLimit(1)
                     Spacer()
@@ -48,7 +49,13 @@ struct AlbumDetailView: View {
                 }
             }
         }
-        .onAppear(perform: initSongsInAlbum)
+        .onAppear {
+            initSongsInAlbum()
+            isViewDisplaying = true
+        }
+        .onDisappear {
+            isViewDisplaying = false
+        }
     }
     
     func initSongsInAlbum() {

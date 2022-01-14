@@ -18,7 +18,7 @@
 		4FD95D6B27906690008FFB68 /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D6A27906690008FFB68 /* AlbumDetailView.swift */; };
 		4FD95D6D27915824008FFB68 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D6C27915824008FFB68 /* LibraryView.swift */; };
 		4FD95D6F279165E9008FFB68 /* AlbumDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D6E279165E9008FFB68 /* AlbumDetailViewModel.swift */; };
-		4FD95D712791662F008FFB68 /* SongsInAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D702791662F008FFB68 /* SongsInAlbum.swift */; };
+		4FD95D712791662F008FFB68 /* AlbumContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D702791662F008FFB68 /* AlbumContents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +35,7 @@
 		4FD95D6A27906690008FFB68 /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
 		4FD95D6C27915824008FFB68 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		4FD95D6E279165E9008FFB68 /* AlbumDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailViewModel.swift; sourceTree = "<group>"; };
-		4FD95D702791662F008FFB68 /* SongsInAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsInAlbum.swift; sourceTree = "<group>"; };
+		4FD95D702791662F008FFB68 /* AlbumContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumContents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				4FD95D6627903146008FFB68 /* Album.swift */,
-				4FD95D702791662F008FFB68 /* SongsInAlbum.swift */,
+				4FD95D702791662F008FFB68 /* AlbumContents.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -202,7 +202,7 @@
 				4FD95D4D27902CD8008FFB68 /* Music_PlayerApp.swift in Sources */,
 				4FD95D6D27915824008FFB68 /* LibraryView.swift in Sources */,
 				4FD95D5D27902D54008FFB68 /* Constants.swift in Sources */,
-				4FD95D712791662F008FFB68 /* SongsInAlbum.swift in Sources */,
+				4FD95D712791662F008FFB68 /* AlbumContents.swift in Sources */,
 				4FD95D6B27906690008FFB68 /* AlbumDetailView.swift in Sources */,
 				4FD95D6727903146008FFB68 /* Album.swift in Sources */,
 			);

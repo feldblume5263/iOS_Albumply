@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
+import MediaPlayer
 
 struct LibraryView: View {
     
     @ObservedObject var libraryViewModel = LibraryViewModel()
+    @Binding var playingSong: PlayingSong
+    @State var isAlbumDetailViewDisplaying = false
     
-    init() {
-        libraryViewModel.refreshAlbums()
+    
+    init(playingSong: Binding<PlayingSong>) {
+        self._playingSong = playingSong
     }
     
     let columns: [GridItem] = [GridItem(.flexible(), spacing: 20, alignment: .center),
@@ -23,7 +27,7 @@ struct LibraryView: View {
             LazyVGrid(columns: columns, alignment: .center, spacing: 20) {
                 ForEach(0 ..< libraryViewModel.getAlbumsCount(), id: \.self) { index in
                     //libraryViewModel.getAlbum(at: index)
-                    NavigationLink(destination: AlbumDetailView(album: $libraryViewModel.albums[index])) {
+                    NavigationLink(destination: AlbumDetailView(album: libraryViewModel.albums[index], isViewDisplaying: $isAlbumDetailViewDisplaying, playingSong: $playingSong)) {
                         
                         makeGridAlbumItem(index: index)
                     }
@@ -31,10 +35,15 @@ struct LibraryView: View {
             }
             .navigationTitle("라이브러리")
             Button("Refresh Test") {
-                libraryViewModel.refreshAlbums()
+                libraryViewModel.testRefreshAlbums()
             }
         }
         .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
+        .onAppear {
+            if !isAlbumDetailViewDisplaying {
+                libraryViewModel.refreshAlbums()
+            }
+        }
     }
     
     private func makeGridAlbumItem(index: Int) -> some View {

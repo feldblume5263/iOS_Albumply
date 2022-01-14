@@ -7,7 +7,7 @@
 
 import MediaPlayer
 
-struct SongsInAlbum {
+struct AlbumContents {
     var songs: [MPMediaItem] = []
     var firstPlayingIndex: Int = 0
 }
