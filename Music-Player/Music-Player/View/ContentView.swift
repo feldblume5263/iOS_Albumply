@@ -22,9 +22,15 @@ struct ContentView: View {
 }
 
 
-struct MiniPlayerViewModel {
+class MiniPlayerViewModel: ObservableObject {
     
-    
+    func getSongsIDs(queue: [MPMediaItem]?) -> [String] {
+        var stringQueue: [String] = []
+        queue?.forEach({ song in
+            stringQueue.append(song.playbackStoreID)
+        })
+        return stringQueue
+    }
 }
 
 struct MiniPlayerView: View {
@@ -32,18 +38,24 @@ struct MiniPlayerView: View {
     @Binding var musicPlayer: MPMusicPlayerController
     @Binding var songQueue: [MPMediaItem]?
     @State var isPlaying = false
-    
+    @ObservedObject var playerViewModel = MiniPlayerViewModel()
+    @State var songsIDs: [String] = []
     
     var body: some View {
         HStack {
             Button {
                 isPlaying.toggle()
+                if isPlaying {
+                    playQueue()
+                } else {
+                    stopPlay()
+                }
             } label: {
                 isPlaying ? Image(systemName: "play.fill") : Image(systemName: "pause.fill")
             }
             Spacer()
             VStack {
-                Text("")
+                Text("\(songQueue?.count ?? 0)")
                 Text("")
             }
             Spacer()
@@ -57,4 +69,13 @@ struct MiniPlayerView: View {
         .padding()
     }
     
+    private func playQueue() {
+        songsIDs = playerViewModel.getSongsIDs(queue: songQueue)
+        musicPlayer.setQueue(with: songsIDs)
+        musicPlayer.play()
+    }
+    
+    private func stopPlay() {
+        musicPlayer.pause()
+    }
 }
