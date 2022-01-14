@@ -13,5 +13,4 @@ struct LibraryAlbumModel {
     var albumTitle: String
     var albumArtist: String
     var albumArtwork: UIImage
-    var albumSongs: [MPMediaItem]
 }
