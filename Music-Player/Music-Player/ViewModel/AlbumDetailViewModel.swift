@@ -11,12 +11,8 @@ class AlbumDetailViewModel: ObservableObject {
     
     @Published var inAlbum: AlbumContents?
     
-    func allSongsPlayButtonPressed() -> PlayingSong {
-        if getSongsCount() > 0 {
-            return PlayingSong(title: inAlbum?.songs[0].title ?? "", artist: inAlbum?.songs[0].artist ?? "", artWorkImage: UIImage())
-        } else {
-            return PlayingSong(title: "", artist: "", artWorkImage: UIImage())
-        }
+    func allSongsPlayButtonPressed() -> [MPMediaItem]? {
+        return inAlbum?.songs
     }
     
     func setSongsInAlbumDetail(albumTitle: String) {

@@ -13,7 +13,7 @@ struct AlbumDetailView: View {
     
     var album: Album
     @Binding var isViewDisplaying: Bool
-    @Binding var playingSong: PlayingSong
+    @Binding var songQueue: [MPMediaItem]?
     @ObservedObject var albumDetail = AlbumDetailViewModel()
     
     var body: some View {
@@ -21,7 +21,7 @@ struct AlbumDetailView: View {
         Text("\(album.albumArtist)")
         HStack {
             Button {
-                playingSong =  albumDetail.allSongsPlayButtonPressed()
+                songQueue = albumDetail.allSongsPlayButtonPressed()
             } label: {
                 Image(systemName: "play.fill")
             }

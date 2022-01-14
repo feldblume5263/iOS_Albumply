@@ -8,22 +8,16 @@
 import SwiftUI
 import MediaPlayer
 
-struct PlayingSong {
-    var title: String
-    var artist: String
-    var artWorkImage: UIImage
-}
-
 struct ContentView: View {
     
     @State private var musicPlayer = MPMusicPlayerController.applicationMusicPlayer
-    @State private var playingSong = PlayingSong(title: "", artist: "", artWorkImage: UIImage())
+    @State private var songQueue: [MPMediaItem]? = []
     
     var body: some View {
         NavigationView {
-            LibraryView(playingSong: $playingSong)
+            LibraryView(songQueue: $songQueue)
         }
-        MiniPlayerView(musicPlayer: $musicPlayer, playingSong: $playingSong)
+        MiniPlayerView(musicPlayer: $musicPlayer, songQueue: $songQueue)
     }
 }
 
@@ -34,8 +28,9 @@ struct MiniPlayerViewModel {
 }
 
 struct MiniPlayerView: View {
+    
     @Binding var musicPlayer: MPMusicPlayerController
-    @Binding var playingSong: PlayingSong
+    @Binding var songQueue: [MPMediaItem]?
     @State var isPlaying = false
     
     
@@ -48,12 +43,11 @@ struct MiniPlayerView: View {
             }
             Spacer()
             VStack {
-                Text(playingSong.title)
-                Text(playingSong.artist)
+                Text("")
+                Text("")
             }
             Spacer()
-            let songArtWork = playingSong.artWorkImage
-            Image(uiImage: songArtWork)
+            Image(uiImage: UIImage())
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: 10, maxHeight: 10)

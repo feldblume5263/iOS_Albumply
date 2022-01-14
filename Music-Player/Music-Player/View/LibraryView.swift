@@ -11,13 +11,8 @@ import MediaPlayer
 struct LibraryView: View {
     
     @ObservedObject var libraryViewModel = LibraryViewModel()
-    @Binding var playingSong: PlayingSong
+    @Binding var songQueue: [MPMediaItem]?
     @State var isAlbumDetailViewDisplaying = false
-    
-    
-    init(playingSong: Binding<PlayingSong>) {
-        self._playingSong = playingSong
-    }
     
     let columns: [GridItem] = [GridItem(.flexible(), spacing: 20, alignment: .center),
                                GridItem(.flexible(), spacing: 20, alignment: .center)]
@@ -27,7 +22,7 @@ struct LibraryView: View {
             LazyVGrid(columns: columns, alignment: .center, spacing: 20) {
                 ForEach(0 ..< libraryViewModel.getAlbumsCount(), id: \.self) { index in
                     //libraryViewModel.getAlbum(at: index)
-                    NavigationLink(destination: AlbumDetailView(album: libraryViewModel.albums[index], isViewDisplaying: $isAlbumDetailViewDisplaying, playingSong: $playingSong)) {
+                    NavigationLink(destination: AlbumDetailView(album: libraryViewModel.albums[index], isViewDisplaying: $isAlbumDetailViewDisplaying, songQueue: $songQueue)) {
                         
                         makeGridAlbumItem(index: index)
                     }
