@@ -11,9 +11,10 @@ import AVFoundation
 
 struct AlbumDetailView: View {
     
-    var album: Album
+    var album: Album // Binding작업 필요
     @Binding var isViewDisplaying: Bool
-    @Binding var songQueue: [MPMediaItem]?
+    @Binding var player: MPMusicPlayerController
+    @Binding var isPlaying: Bool
     @ObservedObject var albumDetail = AlbumDetailViewModel()
     
     var body: some View {
@@ -21,7 +22,8 @@ struct AlbumDetailView: View {
         Text("\(album.albumArtist)")
         HStack {
             Button {
-                songQueue = albumDetail.allSongsPlayButtonPressed()
+                allSongsPlayButtonPressed()
+                isPlaying = true
             } label: {
                 Image(systemName: "play.fill")
             }
@@ -60,6 +62,12 @@ struct AlbumDetailView: View {
     
     func initSongsInAlbum() {
         albumDetail.setSongsInAlbumDetail(albumTitle: album.albumTitle)
+    }
+    
+    func allSongsPlayButtonPressed() {
+        albumDetail.setIDsQueue()
+        player.setQueue(with: albumDetail.songIDsQueue)
+        player.play()
     }
 }
 

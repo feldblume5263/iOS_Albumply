@@ -10,36 +10,27 @@ import MediaPlayer
 
 struct ContentView: View {
     
-    @State private var musicPlayer = MPMusicPlayerController.applicationMusicPlayer
-    @State private var songQueue: [MPMediaItem]? = []
+    @State private var player = MPMusicPlayerController.applicationMusicPlayer
+    @State var isPlaying = false
     
     var body: some View {
         NavigationView {
-            LibraryView(songQueue: $songQueue)
+            LibraryView(player: $player, isPlaying: $isPlaying)
         }
-        MiniPlayerView(musicPlayer: $musicPlayer, songQueue: $songQueue)
+        MiniPlayerView(player: $player, isPlaying: $isPlaying)
     }
 }
 
-
 class MiniPlayerViewModel: ObservableObject {
     
-    func getSongsIDs(queue: [MPMediaItem]?) -> [String] {
-        var stringQueue: [String] = []
-        queue?.forEach({ song in
-            stringQueue.append(song.playbackStoreID)
-        })
-        return stringQueue
-    }
 }
 
 struct MiniPlayerView: View {
     
-    @Binding var musicPlayer: MPMusicPlayerController
-    @Binding var songQueue: [MPMediaItem]?
-    @State var isPlaying = false
     @ObservedObject var playerViewModel = MiniPlayerViewModel()
-    @State var songsIDs: [String] = []
+    @Binding var player: MPMusicPlayerController
+    @Binding var isPlaying: Bool
+    @State var refreshView: Bool = false
     
     var body: some View {
         HStack {
@@ -48,34 +39,39 @@ struct MiniPlayerView: View {
                 if isPlaying {
                     playQueue()
                 } else {
-                    stopPlay()
+                    pausePlay()
                 }
             } label: {
-                isPlaying ? Image(systemName: "play.fill") : Image(systemName: "pause.fill")
+                isPlaying ? Image(systemName: "pause.fill") : Image(systemName: "play.fill")
             }
+            .font(.title)
             Spacer()
             VStack {
-                Text("\(songQueue?.count ?? 0)")
-                Text("")
+                Text(player.nowPlayingItem?.title ?? undefinedString)
+                HStack {
+                    Text(player.nowPlayingItem?.artist ?? undefinedString)
+                        .lineLimit(1)
+                    Text(" ")
+                    Text(player.nowPlayingItem?.albumTitle ?? undefinedString)
+                        .lineLimit(1)
+                }
             }
             Spacer()
             Image(uiImage: UIImage())
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: 10, maxHeight: 10)
+                .frame(maxWidth: 50, maxHeight: 50)
                 .background(Color.gray)
         }
         .frame(height: 50)
-        .padding()
+        .padding(EdgeInsets(top: 5, leading: 50, bottom: 5, trailing: 50))
     }
     
     private func playQueue() {
-        songsIDs = playerViewModel.getSongsIDs(queue: songQueue)
-        musicPlayer.setQueue(with: songsIDs)
-        musicPlayer.play()
+        player.play()
     }
     
-    private func stopPlay() {
-        musicPlayer.pause()
+    private func pausePlay() {
+        player.pause()
     }
 }

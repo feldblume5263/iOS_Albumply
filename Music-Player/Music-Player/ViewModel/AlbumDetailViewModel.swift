@@ -10,9 +10,15 @@ import MediaPlayer
 class AlbumDetailViewModel: ObservableObject {
     
     @Published var inAlbum: AlbumContents?
+    @Published var songIDsQueue: [String] = []
     
-    func allSongsPlayButtonPressed() -> [MPMediaItem]? {
-        return inAlbum?.songs
+    func setIDsQueue() {
+        var stringQueue: [String] = []
+        songIDsQueue.removeAll()
+        inAlbum?.songs.forEach({ song in
+            stringQueue.append(song.playbackStoreID)
+        })
+        songIDsQueue = stringQueue
     }
     
     func setSongsInAlbumDetail(albumTitle: String) {
