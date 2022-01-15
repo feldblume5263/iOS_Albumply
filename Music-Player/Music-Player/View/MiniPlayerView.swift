@@ -12,12 +12,21 @@ class MiniPlayerViewModel: ObservableObject {
     
 }
 
+enum RepeatMode: CaseIterable {
+    case noRepeat
+    case albumRepeat
+    case oneSongRepeat
+}
+
 struct MiniPlayerView: View {
     
     @State var showFullPlayer: Bool = false
     @ObservedObject var playerViewModel = MiniPlayerViewModel()
     @Binding var player: MPMusicPlayerController
     @State var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
+    @State var refreshView: Bool = false
+    @State var repeatMode: RepeatMode = .noRepeat
+    
     
     var body: some View {
         VStack {
@@ -38,13 +47,13 @@ struct MiniPlayerView: View {
                             contentInfoText()
                             Divider()
                         }
-                        Image(uiImage: player.nowPlayingItem?.artwork?.image(at: CGSize(width: 100, height: 100)) ?? UIImage())
+                        Image(uiImage: player.nowPlayingItem?.artwork?.image(at: CGSize(width: 500, height: 500)) ?? UIImage())
                             .resizable()
-                            .padding(.top, showFullPlayer ? 50 : 0)
                             .frame(maxWidth: showFullPlayer ? .infinity : 50, maxHeight: showFullPlayer ? .infinity : 50)
                             .aspectRatio(contentMode: .fit)
                             .allowsHitTesting(false)
-                            
+                            .cornerRadius(10)
+                        
                     }
                 }
                 .padding(.bottom)
@@ -62,54 +71,45 @@ struct MiniPlayerView: View {
             .shadow(radius: 3)
             .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerPlaybackStateDidChange)){ _ in
                 playbackState = MPMusicPlayerController.applicationMusicPlayer.playbackState
+                playbackState?.printState()
             }
         }
     }
-    
-    //        VStack {
-    //            Spacer()
-    //            HStack {
-    //                Button {
-    //                    playbackState == .playing ? pauseSong() : playSong()
-    //                } label: {
-    //                    playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill")
-    //                }
-    //                .font(.title)
-    //                Spacer()
-    //                VStack {
-    //                    Text(player.nowPlayingItem?.title ?? undefinedString)
-    //                    HStack {
-    //                        Text(player.nowPlayingItem?.artist ?? undefinedString)
-    //                            .lineLimit(1)
-    //                        Text(" ")
-    //                        Text(player.nowPlayingItem?.albumTitle ?? undefinedString)
-    //                            .lineLimit(1)
-    //                    }
-    //                }
-    //                Spacer()
-    //                Image(uiImage: player.nowPlayingItem?.artwork?.image(at: CGSize(width: 100, height: 100)) ?? UIImage())
-    //                    .resizable()
-    //                    .aspectRatio(contentMode: .fit)
-    //                    .frame(maxWidth: 50, maxHeight: 50)
-    //            }
-    //
-    //        }
-    //        .background(Color.white)
-    //        .shadow(radius: 3)
-    //        .padding(.all)
-    //    }
     
     private func makefullPlayerView() -> some View {
         VStack{
             HStack {
                 Button {
+                    repeatMode = repeatMode.next()
+                    print(repeatMode)
+                    switch repeatMode {
+                    case .noRepeat:
+                        player.repeatMode = .none
+                    case .albumRepeat:
+                        player.repeatMode = .all
+                    case .oneSongRepeat:
+                        player.repeatMode = .one
+                    }
                 } label: {
-                    Image(systemName: "repeat")
-                        .font(.title)
-                        .foregroundColor(.secondary)
+                    switch repeatMode {
+                    case .noRepeat:
+                        Image(systemName: "repeat")
+                            .font(.title)
+                            .foregroundColor(.secondary)
+                    case .albumRepeat:
+                        Image(systemName: "repeat")
+                            .font(.title)
+                            .foregroundColor(.black)
+                    case .oneSongRepeat:
+                        Image(systemName: "repeat.1")
+                            .font(.title)
+                            .foregroundColor(.black)
+                    }
                 }
                 Spacer()
                 Button {
+                    player.skipToNextItem()
+                    refreshView.toggle()
                 } label: {
                     Image(systemName: "backward.fill")
                         .font(.title)
@@ -119,6 +119,8 @@ struct MiniPlayerView: View {
                 playPauseButton()
                 Spacer()
                 Button {
+                    player.skipToNextItem()
+                    refreshView.toggle()
                 } label: {
                     Image(systemName: "forward.fill")
                         .font(.title)
@@ -138,9 +140,11 @@ struct MiniPlayerView: View {
     
     private func contentInfoText() -> some View {
         VStack(alignment: .center) {
-            Text(player.nowPlayingItem?.title ?? "")
-            Text(player.nowPlayingItem?.artist ?? "")
-                .foregroundColor(.red)
+            if refreshView || !refreshView {
+                Text(player.nowPlayingItem?.title ?? "")
+                Text(player.nowPlayingItem?.artist ?? "")
+                    .foregroundColor(.red)
+            }
         }
     }
     
