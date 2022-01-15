@@ -31,6 +31,24 @@ class MiniPlayerViewModel: ObservableObject {
     }
 }
 
+struct VolumeSlider: UIViewRepresentable {
+   func makeUIView(context: Context) -> MPVolumeView {
+       MPVolumeView(frame: .zero)
+   }
+    
+   func updateUIView(_ view: MPVolumeView, context: Context) {
+       let temp = view.subviews
+       for current in temp {
+           if current.isKind(of: UISlider.self) {
+               let tempSlider = current as! UISlider
+               tempSlider.minimumTrackTintColor = .blue
+               tempSlider.maximumTrackTintColor = .systemMint
+           }
+       }
+   }
+}
+
+
 struct MiniPlayerView: View {
     @ObservedObject var playerViewModel = MiniPlayerViewModel()
     @Binding var player: MPMusicPlayerController
@@ -83,11 +101,15 @@ struct MiniPlayerView: View {
                 playbackState = MPMusicPlayerController.applicationMusicPlayer.playbackState
                 playbackState?.printState()
             }
+            .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerNowPlayingItemDidChange)){ _ in
+                refreshView.toggle()
+            }
         }
     }
     
     private func makefullPlayerView() -> some View {
         VStack{
+            Spacer()
             HStack {
                 Button {
                     player.repeatMode = playerViewModel.changeRepeatMode()
@@ -139,6 +161,10 @@ struct MiniPlayerView: View {
                     }
                 }
             }
+            Spacer()
+            VolumeSlider()
+               .frame(height: 40)
+               .padding(.horizontal)
             Spacer()
         }
     }
