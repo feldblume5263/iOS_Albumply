@@ -15,8 +15,8 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            LibraryView(player: $player, isPlaying: $isPlaying)
+            LibraryView(player: $player)
         }
-        MiniPlayerView(player: $player, isPlaying: $isPlaying)
+        MiniPlayerView(player: $player)
     }
 }

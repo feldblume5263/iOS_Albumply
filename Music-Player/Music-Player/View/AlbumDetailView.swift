@@ -13,7 +13,6 @@ struct AlbumDetailView: View {
     
     var album: Album // Binding작업 필요
     @Binding var player: MPMusicPlayerController
-    @Binding var isPlaying: Bool
     @ObservedObject var albumDetail = AlbumDetailViewModel()
     
     var body: some View {
@@ -62,20 +61,16 @@ struct AlbumDetailView: View {
     }
     
     private func allSongsPlayButtonPressed(isShuffle: Bool) {
-        isPlaying = false
         albumDetail.setIDsQueue(isShuffle: isShuffle)
         player.setQueue(with: albumDetail.songIDsQueue)
         player.play()
-        isPlaying = true
     }
     
     private func specificSongPlayButtonPressed(songIndex: Int) {
-        isPlaying = false
         albumDetail.setIDsQueue(isShuffle: false)
         player.setQueue(with: albumDetail.songIDsQueue)
         player.play()
         player.nowPlayingItem = albumDetail.albumContents?.songs[songIndex]
-        isPlaying = true
     }
     
 }

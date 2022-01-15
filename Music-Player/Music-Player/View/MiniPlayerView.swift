@@ -16,16 +16,19 @@ struct MiniPlayerView: View {
     
     @ObservedObject var playerViewModel = MiniPlayerViewModel()
     @Binding var player: MPMusicPlayerController
-    @Binding var isPlaying: Bool
     @State var refreshView: Bool = false
     @State var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     
     var body: some View {
         HStack {
             Button {
-                changePlayingStatusBy(playbackState: playbackState)
+                if playbackState == .paused {
+                    playSong()
+                } else {
+                    pauseSong()
+                }
             } label: {
-                isPlaying ? Image(systemName: "pause.fill") : Image(systemName: "play.fill")
+                playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill")
             }
             .font(.title)
             Spacer()
@@ -49,31 +52,17 @@ struct MiniPlayerView: View {
         .frame(height: 50)
         .padding(EdgeInsets(top: 5, leading: 50, bottom: 5, trailing: 50))
         .onAppear {
-            changePlayingStatusBy(playbackState: playbackState)
         }
         .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerPlaybackStateDidChange)){ _ in
             playbackState = MPMusicPlayerController.applicationMusicPlayer.playbackState
-            changePlayingStatusBy(playbackState: playbackState)
         }
     }
     
     private func playSong() {
         player.play()
-        isPlaying = true
     }
     
     private func pauseSong() {
         player.pause()
-        isPlaying = false
-    }
-    
-    private func changePlayingStatusBy(playbackState: MPMusicPlaybackState?) {
-        switch playbackState {
-        case .playing:
-            isPlaying = true
-            break
-        default:
-            isPlaying = false
-        }
     }
 }
