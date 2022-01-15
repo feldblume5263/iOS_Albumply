@@ -31,16 +31,18 @@ struct MiniPlayerView: View {
     @Binding var player: MPMusicPlayerController
     @Binding var isPlaying: Bool
     @State var refreshView: Bool = false
-    @State var playbackState: MPMusicPlaybackState = .paused
     
     var body: some View {
         HStack {
             Button {
-                switch playbackState {
-                case .paused:
-                    playSong()
-                default:
+                switch player.playbackState {
+                case .playing:
+                    print("pause song")
                     pauseSong()
+                    break
+                default:
+                    print("play song")
+                    playSong()
                 }
             } label: {
                 isPlaying ? Image(systemName: "pause.fill") : Image(systemName: "play.fill")
@@ -67,10 +69,10 @@ struct MiniPlayerView: View {
         .frame(height: 50)
         .padding(EdgeInsets(top: 5, leading: 50, bottom: 5, trailing: 50))
         .onAppear {
-            playbackState = player.playbackState
-            switch playbackState {
+            switch player.playbackState {
             case .playing:
                 isPlaying = true
+                break
             default:
                 isPlaying = false
             }
