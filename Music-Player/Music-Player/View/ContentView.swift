@@ -14,9 +14,16 @@ struct ContentView: View {
     @State var isPlaying = false
     
     var body: some View {
-        NavigationView {
-            LibraryView(player: $player)
+        ZStack {
+            NavigationView {
+                LibraryView(player: $player)
+            }
+            VStack {
+                Spacer()
+                MiniPlayerView(player: $player)
+                    .frame(minHeight: 500, idealHeight: 650, maxHeight: 800, alignment: .bottom)
+            }
+            .edgesIgnoringSafeArea(.bottom)
         }
-        MiniPlayerView(player: $player)
     }
 }
