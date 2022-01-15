@@ -9,20 +9,21 @@ import MediaPlayer
 
 class AlbumDetailViewModel: ObservableObject {
     
-    @Published var inAlbum: AlbumContents?
+    @Published var albumContents: AlbumContents?
     @Published var songIDsQueue: [String] = []
     
-    func setIDsQueue() {
+    func setIDsQueue(isShuffle: Bool) {
         var stringQueue: [String] = []
         songIDsQueue.removeAll()
-        inAlbum?.songs.forEach({ song in
+        albumContents?.songs.forEach({ song in
             stringQueue.append(song.playbackStoreID)
         })
-        songIDsQueue = stringQueue
+        
+        songIDsQueue = isShuffle ? stringQueue.shuffled() : stringQueue
     }
     
     func setSongsInAlbumDetail(albumTitle: String) {
-        inAlbum = AlbumContents(songs: getSongsFor(Album: albumTitle))
+        albumContents = AlbumContents(songs: getSongsFor(Album: albumTitle))
     }
     
     private func getSongsFor(Album: String) -> [MPMediaItem] {
@@ -38,6 +39,6 @@ class AlbumDetailViewModel: ObservableObject {
     }
     
     func getSongsCount() -> Int {
-        return inAlbum?.songs.count ?? 0
+        return albumContents?.songs.count ?? 0
     }
 }

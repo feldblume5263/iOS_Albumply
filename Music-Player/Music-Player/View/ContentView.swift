@@ -31,6 +31,7 @@ struct MiniPlayerView: View {
     @Binding var player: MPMusicPlayerController
     @Binding var isPlaying: Bool
     @State var refreshView: Bool = false
+    @State var nowPlayingSong: MPMediaItem?
     
     var body: some View {
         HStack {
@@ -69,9 +70,11 @@ struct MiniPlayerView: View {
     
     private func playQueue() {
         player.play()
+        isPlaying = true
     }
     
     private func pausePlay() {
         player.pause()
+        isPlaying = false
     }
 }
