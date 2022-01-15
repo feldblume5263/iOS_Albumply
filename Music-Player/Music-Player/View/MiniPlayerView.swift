@@ -32,20 +32,20 @@ class MiniPlayerViewModel: ObservableObject {
 }
 
 struct VolumeSlider: UIViewRepresentable {
-   func makeUIView(context: Context) -> MPVolumeView {
-       MPVolumeView(frame: .zero)
-   }
+    func makeUIView(context: Context) -> MPVolumeView {
+        MPVolumeView(frame: .zero)
+    }
     
-   func updateUIView(_ view: MPVolumeView, context: Context) {
-       let temp = view.subviews
-       for current in temp {
-           if current.isKind(of: UISlider.self) {
-               let tempSlider = current as! UISlider
-               tempSlider.minimumTrackTintColor = .blue
-               tempSlider.maximumTrackTintColor = .systemMint
-           }
-       }
-   }
+    func updateUIView(_ view: MPVolumeView, context: Context) {
+        let temp = view.subviews
+        for current in temp {
+            if current.isKind(of: UISlider.self) {
+                let tempSlider = current as! UISlider
+                tempSlider.minimumTrackTintColor = .blue
+                tempSlider.maximumTrackTintColor = .systemMint
+            }
+        }
+    }
 }
 
 
@@ -55,6 +55,11 @@ struct MiniPlayerView: View {
     @State var showFullPlayer: Bool = false
     @State var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     @State var refreshView: Bool = false
+    @State var musicProgressAmount: Double = 0.0
+    @State var progressRate:Double = 0.0
+    @State var totalRate: Double = 0.0
+    
+    let timer = Timer.publish(every: 0.1, on: .current, in: .common).autoconnect()
     
     var body: some View {
         VStack {
@@ -104,6 +109,9 @@ struct MiniPlayerView: View {
             .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerNowPlayingItemDidChange)){ _ in
                 refreshView.toggle()
             }
+            .onReceive(timer) { _ in
+                progressRate = player.currentPlaybackTime
+            }
         }
     }
     
@@ -131,7 +139,11 @@ struct MiniPlayerView: View {
                 }
                 Spacer()
                 Button {
-                    player.skipToNextItem()
+                    if player.currentPlaybackTime > 5 {
+                        player.skipToBeginning()
+                    } else {
+                        player.skipToPreviousItem()
+                    }
                     refreshView.toggle()
                 } label: {
                     Image(systemName: "backward.fill")
@@ -163,8 +175,10 @@ struct MiniPlayerView: View {
             }
             Spacer()
             VolumeSlider()
-               .frame(height: 40)
-               .padding(.horizontal)
+                .frame(height: 40)
+                .padding(.horizontal)
+            Spacer()
+            ProgressView(value: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 0)
             Spacer()
         }
     }

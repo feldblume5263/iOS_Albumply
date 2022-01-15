@@ -21,7 +21,7 @@ struct ContentView: View {
             VStack {
                 Spacer()
                 MiniPlayerView(player: $player)
-                    .frame(minHeight: 500, idealHeight: 650, maxHeight: 800, alignment: .bottom)
+                    .frame(minHeight: 450, idealHeight: 600, maxHeight: 750, alignment: .bottom)
             }
             .edgesIgnoringSafeArea(.bottom)
         }
