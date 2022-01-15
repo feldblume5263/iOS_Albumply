@@ -9,7 +9,6 @@ import SwiftUI
 import MediaPlayer
 
 struct LibraryView: View {
-    
     @ObservedObject var libraryViewModel = LibraryViewModel()
     @Binding var player: MPMusicPlayerController
     

@@ -8,25 +8,35 @@
 import SwiftUI
 import MediaPlayer
 
-class MiniPlayerViewModel: ObservableObject {
-    
-}
-
 enum RepeatMode: CaseIterable {
     case noRepeat
     case albumRepeat
     case oneSongRepeat
 }
 
-struct MiniPlayerView: View {
+class MiniPlayerViewModel: ObservableObject {
+    @Published var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
+    @Published var repeatMode: RepeatMode = .noRepeat
     
-    @State var showFullPlayer: Bool = false
+    func changeRepeatMode() -> MPMusicRepeatMode {
+        repeatMode = repeatMode.next()
+        switch repeatMode {
+        case .noRepeat:
+            return MPMusicRepeatMode.none
+        case .albumRepeat:
+            return MPMusicRepeatMode.all
+        case .oneSongRepeat:
+            return MPMusicRepeatMode.one
+        }
+    }
+}
+
+struct MiniPlayerView: View {
     @ObservedObject var playerViewModel = MiniPlayerViewModel()
     @Binding var player: MPMusicPlayerController
+    @State var showFullPlayer: Bool = false
     @State var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     @State var refreshView: Bool = false
-    @State var repeatMode: RepeatMode = .noRepeat
-    
     
     var body: some View {
         VStack {
@@ -80,18 +90,9 @@ struct MiniPlayerView: View {
         VStack{
             HStack {
                 Button {
-                    repeatMode = repeatMode.next()
-                    print(repeatMode)
-                    switch repeatMode {
-                    case .noRepeat:
-                        player.repeatMode = .none
-                    case .albumRepeat:
-                        player.repeatMode = .all
-                    case .oneSongRepeat:
-                        player.repeatMode = .one
-                    }
+                    player.repeatMode = playerViewModel.changeRepeatMode()
                 } label: {
-                    switch repeatMode {
+                    switch playerViewModel.repeatMode {
                     case .noRepeat:
                         Image(systemName: "repeat")
                             .font(.title)
@@ -128,10 +129,14 @@ struct MiniPlayerView: View {
                 }
                 Spacer()
                 Button {
+                    player.shuffleMode = player.shuffleMode == .off ? MPMusicShuffleMode.songs : MPMusicShuffleMode.off
+                    refreshView.toggle()
                 } label: {
-                    Image(systemName: "shuffle")
-                        .font(.title)
-                        .foregroundColor(.secondary)
+                    if refreshView || !refreshView {
+                        Image(systemName: "shuffle")
+                            .font(.title)
+                            .foregroundColor(player.shuffleMode == .off ? .secondary : .black)
+                    }
                 }
             }
             Spacer()

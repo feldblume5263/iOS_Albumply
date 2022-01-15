@@ -8,18 +8,17 @@
 import MediaPlayer
 
 class AlbumDetailViewModel: ObservableObject {
-    
     @Published var albumContents: AlbumContents?
     @Published var songIDsQueue: [String] = []
     
-    func setIDsQueue(isShuffle: Bool) {
+    func setIDsQueue() {
         var stringQueue: [String] = []
         songIDsQueue.removeAll()
         albumContents?.songs.forEach({ song in
             stringQueue.append(song.playbackStoreID)
         })
         
-        songIDsQueue = isShuffle ? stringQueue.shuffled() : stringQueue
+        songIDsQueue = stringQueue
     }
     
     func setSongsInAlbumDetail(albumTitle: String) {

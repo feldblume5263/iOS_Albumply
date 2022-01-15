@@ -10,7 +10,6 @@ import MediaPlayer
 import AVFoundation
 
 struct AlbumDetailView: View {
-    
     var album: Album // Binding작업 필요
     @Binding var player: MPMusicPlayerController
     @ObservedObject var albumDetail = AlbumDetailViewModel()
@@ -61,13 +60,16 @@ struct AlbumDetailView: View {
     }
     
     private func allSongsPlayButtonPressed(isShuffle: Bool) {
-        albumDetail.setIDsQueue(isShuffle: isShuffle)
+        albumDetail.setIDsQueue()
         player.setQueue(with: albumDetail.songIDsQueue)
+        if isShuffle {
+            player.shuffleMode = MPMusicShuffleMode.songs
+        }
         player.play()
     }
     
     private func specificSongPlayButtonPressed(songIndex: Int) {
-        albumDetail.setIDsQueue(isShuffle: false)
+        albumDetail.setIDsQueue()
         player.setQueue(with: albumDetail.songIDsQueue)
         player.play()
         player.nowPlayingItem = albumDetail.albumContents?.songs[songIndex]
