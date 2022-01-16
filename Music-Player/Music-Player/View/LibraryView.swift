@@ -9,7 +9,7 @@ import SwiftUI
 import MediaPlayer
 
 struct LibraryView: View {
-    @ObservedObject var libraryViewModel = LibraryViewModel()
+    @StateObject var libraryViewModel = LibraryViewModel()
     var player: MPMusicPlayerController
     
     let columns: [GridItem] = [GridItem(.flexible(), spacing: 20, alignment: .center),
@@ -39,6 +39,9 @@ struct LibraryView: View {
                     player.prepareToPlay()
                 }
             }
+        }
+        .onDisappear {
+            print("disappear")
         }
     }
     

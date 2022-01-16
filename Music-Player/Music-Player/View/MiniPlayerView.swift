@@ -9,7 +9,7 @@ import SwiftUI
 import MediaPlayer
 
 struct MiniPlayerView: View {
-    @ObservedObject var playerViewModel = MiniPlayerViewModel()
+    @StateObject var playerViewModel = MiniPlayerViewModel()
     var player: MPMusicPlayerController
     @Binding var isFullPlayer: Bool
     @State var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
@@ -23,7 +23,8 @@ struct MiniPlayerView: View {
             }
             VStack() {
                 if !isFullPlayer {
-                    ProgressView(value: progressRate < 0 ? progressRate * -1: progressRate, total: playerViewModel.nowPlayingSong.totalRate)
+                    let currentRate = progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : progressRate
+                    ProgressView(value: currentRate < 0 ? currentRate * -1: currentRate, total: playerViewModel.nowPlayingSong.totalRate)
                 }
                 HStack() {
                     
@@ -84,6 +85,7 @@ struct MiniPlayerView: View {
             }
             .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerNowPlayingItemDidChange)){ _ in
                 let song = player.nowPlayingItem
+                progressRate = 0.0
                 playerViewModel.makeNowPlayingSong(title: song?.title,
                                                    albumeTitle: song?.albumTitle,
                                                    artist: song?.artist,
