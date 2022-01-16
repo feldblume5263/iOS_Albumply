@@ -15,10 +15,17 @@ enum RepeatMode: CaseIterable {
 }
 
 // 현재 재생하고 있는 곡 정보 모델
-
+struct NowPlayingSong {
+    var title: String
+    var albumTitle: String
+    var artist: String
+    var artWork: UIImage
+    var totalRate: Double
+}
 
 // 현재 재생되는 부분이 바뀔 때 뷰가 그려지도록
 class MiniPlayerViewModel: ObservableObject {
+    @Published var nowPlayingSong = NowPlayingSong(title: "", albumTitle: "", artist: "", artWork: UIImage(), totalRate: 1.0)
     @Published var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     @Published var repeatMode: RepeatMode = .noRepeat
     @Published var isShuffle: Bool = false
@@ -33,6 +40,14 @@ class MiniPlayerViewModel: ObservableObject {
         case .oneSongRepeat:
             return MPMusicRepeatMode.one
         }
+    }
+    
+    func makeNowPlayingSong(title: String?, albumeTitle: String?, artist: String?, artWork: MPMediaItemArtwork?, totalRate: Double?) {
+        self.nowPlayingSong.title = title ?? ""
+        self.nowPlayingSong.albumTitle = albumeTitle ?? ""
+        self.nowPlayingSong.artist = artist ?? ""
+        self.nowPlayingSong.artWork = artWork?.image(at: CGSize(width: 100, height: 100)) ?? UIImage()
+        self.nowPlayingSong.totalRate = totalRate ?? 10.0
     }
 }
 
@@ -60,7 +75,6 @@ struct MiniPlayerView: View {
     @Binding var isFullPlayer: Bool
     @State var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     @State var progressRate:Double = 0.0
-    @State var totalRate: Double = 10.0
     
     
     var body: some View {
@@ -70,7 +84,7 @@ struct MiniPlayerView: View {
             }
             VStack() {
                 if !isFullPlayer {
-                    ProgressView(value: progressRate, total: totalRate)
+                    ProgressView(value: progressRate, total: playerViewModel.nowPlayingSong.totalRate)
                 }
                 HStack() {
                     
@@ -100,7 +114,7 @@ struct MiniPlayerView: View {
                             Divider()
                         }
                         
-                        Image(uiImage: player.nowPlayingItem?.artwork?.image(at: CGSize(width: 500, height: 500)) ?? UIImage())
+                        Image(uiImage: playerViewModel.nowPlayingSong.artWork)
                             .resizable()
                             .frame(maxWidth: isFullPlayer ? .infinity : 50, maxHeight: isFullPlayer ? .infinity : 50)
                             .aspectRatio(contentMode: .fit)
@@ -130,7 +144,12 @@ struct MiniPlayerView: View {
                 playbackState?.printState()
             }
             .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerNowPlayingItemDidChange)){ _ in
-                totalRate = player.nowPlayingItem?.playbackDuration ?? 10.0
+                let song = player.nowPlayingItem
+                playerViewModel.makeNowPlayingSong(title: song?.title,
+                                                   albumeTitle: song?.albumTitle,
+                                                   artist: song?.artist,
+                                                   artWork: song?.artwork,
+                                                   totalRate: player.nowPlayingItem?.playbackDuration)
             }
             .onAppear {
                 DispatchQueue.global(qos: .background).async {
@@ -203,15 +222,15 @@ struct MiniPlayerView: View {
                 .frame(height: 40)
                 .padding(.horizontal)
             Spacer()
-            ProgressView(value: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 0)
+            ProgressView(value: progressRate < 0 ? progressRate * -1: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 0)
             Spacer()
         }
     }
     
     private func contentInfoText() -> some View {
         VStack(alignment: .center) {
-            Text(player.nowPlayingItem?.title ?? "")
-            Text(player.nowPlayingItem?.artist ?? "")
+            Text(playerViewModel.nowPlayingSong.title)
+            Text(playerViewModel.nowPlayingSong.artist)
                 .foregroundColor(.red)
         }
     }
