@@ -9,25 +9,17 @@ import SwiftUI
 import MediaPlayer
 
 struct LibraryView: View {
-    
     @ObservedObject var libraryViewModel = LibraryViewModel()
-    @Binding var playingSong: PlayingSong
-    @State var isAlbumDetailViewDisplaying = false
-    
-    
-    init(playingSong: Binding<PlayingSong>) {
-        self._playingSong = playingSong
-    }
+    @Binding var player: MPMusicPlayerController
     
     let columns: [GridItem] = [GridItem(.flexible(), spacing: 20, alignment: .center),
                                GridItem(.flexible(), spacing: 20, alignment: .center)]
-
+    
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, alignment: .center, spacing: 20) {
                 ForEach(0 ..< libraryViewModel.getAlbumsCount(), id: \.self) { index in
-                    //libraryViewModel.getAlbum(at: index)
-                    NavigationLink(destination: AlbumDetailView(album: libraryViewModel.albums[index], isViewDisplaying: $isAlbumDetailViewDisplaying, playingSong: $playingSong)) {
+                    NavigationLink(destination: AlbumDetailView(album: libraryViewModel.getAlbum(at: index), player: $player)) {
                         
                         makeGridAlbumItem(index: index)
                     }
@@ -40,8 +32,12 @@ struct LibraryView: View {
         }
         .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
         .onAppear {
-            if !isAlbumDetailViewDisplaying {
-                libraryViewModel.refreshAlbums()
+            libraryViewModel.refreshAlbums()
+            if player.nowPlayingItem == nil {
+                if libraryViewModel.getAlbumsCount() > 0 {
+                    player.setQueue(with: MPMediaQuery.songs())
+                    player.prepareToPlay()
+                }
             }
         }
     }
