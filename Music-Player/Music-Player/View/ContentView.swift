@@ -40,6 +40,7 @@ struct ContentView: View {
     @State private var player = MPMusicPlayerController.applicationMusicPlayer
     @State var isPlaying = false
     @State var isFullPlayer: Bool = false
+    @State var alertVisible: Bool = false
     @ObservedObject var authViewModel = AuthViewModel()
     
     var body: some View {
@@ -57,6 +58,20 @@ struct ContentView: View {
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
+        } else {
+            Spacer()
+            Text("미디어 및 Apple Music 권한 설정이 필요합니다.")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            Spacer()
+            Button("설정창으로 가기") {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            }
+            .font(.subheadline)
+            .foregroundColor(.primary)
+            Spacer()
         }
     }
 }
