@@ -9,7 +9,7 @@ import SwiftUI
 import MediaPlayer
 
 class AuthViewModel: ObservableObject {
-    @Published var authStatus: Bool = false
+    @Published var authStatus: Bool = true
     
     init() {
         getAuthrization()
@@ -48,7 +48,9 @@ struct ContentView: View {
             ZStack {
                 NavigationView {
                     LibraryView(player: player)
+                        .padding(.bottom, 80)
                 }
+                .edgesIgnoringSafeArea(.bottom)
                 BlurView()
                     .opacity(isFullPlayer ? 0.5 : 0.0)
                 VStack {
@@ -56,8 +58,8 @@ struct ContentView: View {
                     MiniPlayerView(player: player, isFullPlayer: $isFullPlayer)
                         .frame(minHeight: 450, idealHeight: 600, maxHeight: 750, alignment: .bottom)
                 }
+                .edgesIgnoringSafeArea(.bottom)
             }
-            .edgesIgnoringSafeArea(.bottom)
         } else {
             Spacer()
             Text("미디어 및 Apple Music 권한 설정이 필요합니다.")

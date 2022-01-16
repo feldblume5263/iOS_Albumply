@@ -28,7 +28,6 @@ struct MiniPlayerView: View {
                     let currentRate = progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : progressRate
                     ProgressView(value: currentRate < 0 ? currentRate * -1: currentRate, total: playerViewModel.nowPlayingSong.totalRate)
                         .padding(EdgeInsets(top: -20, leading: -30, bottom: -20, trailing: -30))
-                        .frame(alignment: .top)
                 }
                 HStack() {
                     if !isFullPlayer {
@@ -48,7 +47,6 @@ struct MiniPlayerView: View {
                                         }
                                     }
                                 }
-                                .frame(width: 100, height: 50)
                                 Spacer()
                                 contentInfoText()
                                     .frame(alignment: .center)

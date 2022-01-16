@@ -26,9 +26,6 @@ struct LibraryView: View {
                 }
             }
             .navigationTitle("라이브러리")
-            Button("Refresh Test") {
-                libraryViewModel.testRefreshAlbums()
-            }
         }
         .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
         .onAppear {
@@ -39,9 +36,6 @@ struct LibraryView: View {
                     player.prepareToPlay()
                 }
             }
-        }
-        .onDisappear {
-            print("disappear")
         }
     }
     

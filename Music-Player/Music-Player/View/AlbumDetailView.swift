@@ -79,6 +79,7 @@ struct AlbumDetailView: View {
                 }
             }
         }
+        .padding(.bottom, 80)
         .onAppear {
             initSongsInAlbum()
         }

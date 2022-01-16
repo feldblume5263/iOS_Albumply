@@ -22,7 +22,6 @@ class LibraryViewModel: ObservableObject {
     func refreshAlbums() {
         self.makeAlbumsQuery()
         self.setAlbums()
-        print("refreshed")
     }
     
     func testRefreshAlbums() {
