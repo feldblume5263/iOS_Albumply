@@ -17,7 +17,9 @@ struct MiniPlayerView: View {
     
     
     var body: some View {
+                
         VStack {
+            
             if isFullPlayer {
                 Spacer()
             }
@@ -25,9 +27,10 @@ struct MiniPlayerView: View {
                 if !isFullPlayer {
                     let currentRate = progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : progressRate
                     ProgressView(value: currentRate < 0 ? currentRate * -1: currentRate, total: playerViewModel.nowPlayingSong.totalRate)
+                        .padding(EdgeInsets(top: -20, leading: -30, bottom: -20, trailing: -30))
+                        .frame(alignment: .top)
                 }
                 HStack() {
-                    
                     if !isFullPlayer {
                         playPauseButton()
                         Spacer()
