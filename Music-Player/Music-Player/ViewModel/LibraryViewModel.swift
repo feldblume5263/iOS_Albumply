@@ -49,7 +49,7 @@ class LibraryViewModel: ObservableObject {
             self.albumsItemCollection = nil
         }
     }
-    // 라이브러리 앨범 개수 반환
+    
     func getAlbumsCount() -> Int {
         return albums.count
     }

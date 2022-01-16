@@ -10,24 +10,28 @@ import MediaPlayer
 import AVFoundation
 
 struct AlbumDetailView: View {
-    var album: Album // Binding작업 필요, ViewModel에서 참조하도록 해야하나??
-    @Binding var player: MPMusicPlayerController
-    @ObservedObject var albumDetail = AlbumDetailViewModel()
+    var player: MPMusicPlayerController
+    @StateObject var albumDetail: AlbumDetailViewModel
+    
+    init(album: Album, player: MPMusicPlayerController) {
+        _albumDetail = StateObject(wrappedValue: AlbumDetailViewModel(album: album))
+        self.player = player
+    }
     
     var body: some View {
         VStack {
             HStack {
-                Image(uiImage: album.albumArtwork)
+                Image(uiImage: albumDetail.album.albumArtwork)
                     .resizable()
                     .frame(width: 100, height: 100, alignment: .leading)
                     .aspectRatio(contentMode: .fit)
                     .padding()
                 VStack {
-                    Text(album.albumTitle)
+                    Text(albumDetail.album.albumTitle)
                         .font(.title2)
                         .foregroundColor(Color.black)
                         .lineLimit(1)
-                    Text(album.albumArtist)
+                    Text(albumDetail.album.albumArtist)
                         .font(.subheadline)
                         .foregroundColor(Color.secondary)
                         .frame(alignment: .topLeading)
@@ -81,7 +85,7 @@ struct AlbumDetailView: View {
     }
     
     private func initSongsInAlbum() {
-        albumDetail.setSongsInAlbumDetail(albumTitle: album.albumTitle)
+        albumDetail.setSongsInAlbumDetail(albumTitle: albumDetail.album.albumTitle)
     }
     
     private func allSongsPlayButtonPressed(isShuffle: Bool) {

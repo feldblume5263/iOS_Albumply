@@ -17,11 +17,11 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             NavigationView {
-                LibraryView(player: $player)
+                LibraryView(player: player)
             }
             VStack {
                 Spacer()
-                MiniPlayerView(player: $player, isFullPlayer: $isFullPlayer)
+                MiniPlayerView(player: player, isFullPlayer: $isFullPlayer)
                     .frame(minHeight: 450, idealHeight: 600, maxHeight: 750, alignment: .bottom)
             }
             .edgesIgnoringSafeArea(.bottom)

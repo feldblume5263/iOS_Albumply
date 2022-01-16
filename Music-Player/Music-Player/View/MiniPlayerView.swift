@@ -14,9 +14,14 @@ enum RepeatMode: CaseIterable {
     case oneSongRepeat
 }
 
+// 현재 재생하고 있는 곡 정보 모델
+
+
+// 현재 재생되는 부분이 바뀔 때 뷰가 그려지도록
 class MiniPlayerViewModel: ObservableObject {
     @Published var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     @Published var repeatMode: RepeatMode = .noRepeat
+    @Published var isShuffle: Bool = false
     
     func changeRepeatMode() -> MPMusicRepeatMode {
         repeatMode = repeatMode.next()
@@ -51,15 +56,12 @@ struct VolumeSlider: UIViewRepresentable {
 
 struct MiniPlayerView: View {
     @ObservedObject var playerViewModel = MiniPlayerViewModel()
-    @Binding var player: MPMusicPlayerController
+    var player: MPMusicPlayerController
     @Binding var isFullPlayer: Bool
     @State var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
-    @State var refreshView: Bool = false
-    @State var musicProgressAmount: Double = 0.0
     @State var progressRate:Double = 0.0
-    @State var totalRate: Double = 1.0
-
-//    let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+    @State var totalRate: Double = 10.0
+    
     
     var body: some View {
         VStack {
@@ -68,7 +70,7 @@ struct MiniPlayerView: View {
             }
             VStack() {
                 if !isFullPlayer {
-                    ProgressView(value: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 0)
+                    ProgressView(value: progressRate, total: totalRate)
                 }
                 HStack() {
                     
@@ -80,17 +82,16 @@ struct MiniPlayerView: View {
                     }
                     VStack {
                         if isFullPlayer {
+                            Spacer()
                             HStack {
-                                Button {
+                                Button("Close") {
                                     DispatchQueue.global(qos: .userInteractive).async {
                                         withAnimation(Animation.easeOut(duration: 0.3)) {
                                             self.isFullPlayer.toggle()
                                         }
                                     }
-                                } label: {
-                                    Image(systemName: "chevron.down")
                                 }
-                                .contentShape(Rectangle())
+                                .frame(width: 100, height: 50)
                                 Spacer()
                                 contentInfoText()
                                     .frame(alignment: .center)
@@ -114,10 +115,12 @@ struct MiniPlayerView: View {
             }
             .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
             .background(Color.white.onTapGesture {
+                if !isFullPlayer {
                     DispatchQueue.global(qos: .userInteractive).async {
                         withAnimation(Animation.easeOut(duration: 0.3)) {
                             self.isFullPlayer.toggle()
                         }
+                    }
                 }
             })
             .cornerRadius(10)
@@ -127,18 +130,16 @@ struct MiniPlayerView: View {
                 playbackState?.printState()
             }
             .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerNowPlayingItemDidChange)){ _ in
-                refreshView.toggle()
+                totalRate = player.nowPlayingItem?.playbackDuration ?? 10.0
             }
-//            .onReceive(timer) { _ in
-//                progressRate = player.currentPlaybackTime
-//            }
             .onAppear {
                 DispatchQueue.global(qos: .background).async {
-                        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                            progressRate = player.currentPlaybackTime
-                        }
-                        RunLoop.current.run()
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                        progressRate = player.currentPlaybackTime
                     }
+                    // Combine으로 해보기.
+                    RunLoop.current.run()
+                }
             }
         }
     }
@@ -172,7 +173,6 @@ struct MiniPlayerView: View {
                     } else {
                         player.skipToPreviousItem()
                     }
-                    refreshView.toggle()
                 } label: {
                     Image(systemName: "backward.fill")
                         .font(.title)
@@ -183,7 +183,6 @@ struct MiniPlayerView: View {
                 Spacer()
                 Button {
                     player.skipToNextItem()
-                    refreshView.toggle()
                 } label: {
                     Image(systemName: "forward.fill")
                         .font(.title)
@@ -192,13 +191,11 @@ struct MiniPlayerView: View {
                 Spacer()
                 Button {
                     player.shuffleMode = player.shuffleMode == .off ? MPMusicShuffleMode.songs : MPMusicShuffleMode.off
-                    refreshView.toggle()
+                    playerViewModel.isShuffle = player.shuffleMode == .off ? false : true
                 } label: {
-                    if refreshView || !refreshView {
                         Image(systemName: "shuffle")
                             .font(.title)
                             .foregroundColor(player.shuffleMode == .off ? .secondary : .black)
-                    }
                 }
             }
             Spacer()
@@ -213,11 +210,9 @@ struct MiniPlayerView: View {
     
     private func contentInfoText() -> some View {
         VStack(alignment: .center) {
-            if refreshView || !refreshView {
-                Text(player.nowPlayingItem?.title ?? "")
-                Text(player.nowPlayingItem?.artist ?? "")
-                    .foregroundColor(.red)
-            }
+            Text(player.nowPlayingItem?.title ?? "")
+            Text(player.nowPlayingItem?.artist ?? "")
+                .foregroundColor(.red)
         }
     }
     

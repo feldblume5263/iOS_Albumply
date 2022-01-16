@@ -10,7 +10,7 @@ import MediaPlayer
 
 struct LibraryView: View {
     @ObservedObject var libraryViewModel = LibraryViewModel()
-    @Binding var player: MPMusicPlayerController
+    var player: MPMusicPlayerController
     
     let columns: [GridItem] = [GridItem(.flexible(), spacing: 20, alignment: .center),
                                GridItem(.flexible(), spacing: 20, alignment: .center)]
@@ -19,7 +19,7 @@ struct LibraryView: View {
         ScrollView {
             LazyVGrid(columns: columns, alignment: .center, spacing: 20) {
                 ForEach(0 ..< libraryViewModel.getAlbumsCount(), id: \.self) { index in
-                    NavigationLink(destination: AlbumDetailView(album: libraryViewModel.getAlbum(at: index), player: $player)) {
+                    NavigationLink(destination: AlbumDetailView(album: libraryViewModel.getAlbum(at: index), player: player)) {
                         
                         makeGridAlbumItem(index: index)
                     }

@@ -10,7 +10,12 @@ import MediaPlayer
 class AlbumDetailViewModel: ObservableObject {
     @Published var albumContents: AlbumContents?
     @Published var songIDsQueue: [String] = []
+    var album: Album
     
+    init(album: Album) {
+        self.album = album
+    }
+
     func setIDsQueue() {
         var stringQueue: [String] = []
         songIDsQueue.removeAll()
