@@ -12,6 +12,7 @@ struct ContentView: View {
     
     @State private var player = MPMusicPlayerController.applicationMusicPlayer
     @State var isPlaying = false
+    @State var isFullPlayer: Bool = false
     
     var body: some View {
         ZStack {
@@ -20,7 +21,7 @@ struct ContentView: View {
             }
             VStack {
                 Spacer()
-                MiniPlayerView(player: $player)
+                MiniPlayerView(player: $player, isFullPlayer: $isFullPlayer)
                     .frame(minHeight: 450, idealHeight: 600, maxHeight: 750, alignment: .bottom)
             }
             .edgesIgnoringSafeArea(.bottom)

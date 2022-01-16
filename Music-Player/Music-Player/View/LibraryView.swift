@@ -33,6 +33,12 @@ struct LibraryView: View {
         .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
         .onAppear {
             libraryViewModel.refreshAlbums()
+            if player.nowPlayingItem == nil {
+                if libraryViewModel.getAlbumsCount() > 0 {
+                    player.setQueue(with: MPMediaQuery.songs())
+                    player.prepareToPlay()
+                }
+            }
         }
     }
     

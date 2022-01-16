@@ -52,52 +52,71 @@ struct VolumeSlider: UIViewRepresentable {
 struct MiniPlayerView: View {
     @ObservedObject var playerViewModel = MiniPlayerViewModel()
     @Binding var player: MPMusicPlayerController
-    @State var showFullPlayer: Bool = false
+    @Binding var isFullPlayer: Bool
     @State var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     @State var refreshView: Bool = false
     @State var musicProgressAmount: Double = 0.0
     @State var progressRate:Double = 0.0
-    @State var totalRate: Double = 0.0
-    
-    let timer = Timer.publish(every: 0.1, on: .current, in: .common).autoconnect()
+    @State var totalRate: Double = 1.0
+
+//    let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
     var body: some View {
         VStack {
-            if showFullPlayer {
+            if isFullPlayer {
                 Spacer()
             }
             VStack() {
+                if !isFullPlayer {
+                    ProgressView(value: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 0)
+                }
                 HStack() {
                     
-                    if !showFullPlayer {
+                    if !isFullPlayer {
                         playPauseButton()
                         Spacer()
                         contentInfoText()
                         Spacer()
                     }
                     VStack {
-                        if showFullPlayer {
-                            contentInfoText()
+                        if isFullPlayer {
+                            HStack {
+                                Button {
+                                    DispatchQueue.global(qos: .userInteractive).async {
+                                        withAnimation(Animation.easeOut(duration: 0.3)) {
+                                            self.isFullPlayer.toggle()
+                                        }
+                                    }
+                                } label: {
+                                    Image(systemName: "chevron.down")
+                                }
+                                .contentShape(Rectangle())
+                                Spacer()
+                                contentInfoText()
+                                    .frame(alignment: .center)
+                                Spacer()
+                            }
                             Divider()
                         }
+                        
                         Image(uiImage: player.nowPlayingItem?.artwork?.image(at: CGSize(width: 500, height: 500)) ?? UIImage())
                             .resizable()
-                            .frame(maxWidth: showFullPlayer ? .infinity : 50, maxHeight: showFullPlayer ? .infinity : 50)
+                            .frame(maxWidth: isFullPlayer ? .infinity : 50, maxHeight: isFullPlayer ? .infinity : 50)
                             .aspectRatio(contentMode: .fit)
-                            .allowsHitTesting(false)
                             .cornerRadius(10)
-                        
                     }
                 }
                 .padding(.bottom)
-                if showFullPlayer {
+                if isFullPlayer {
                     makefullPlayerView()
                 }
             }
             .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
             .background(Color.white.onTapGesture {
-                withAnimation(Animation.easeOut(duration: 0.3)) {
-                    self.showFullPlayer.toggle()
+                    DispatchQueue.global(qos: .userInteractive).async {
+                        withAnimation(Animation.easeOut(duration: 0.3)) {
+                            self.isFullPlayer.toggle()
+                        }
                 }
             })
             .cornerRadius(10)
@@ -109,8 +128,16 @@ struct MiniPlayerView: View {
             .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerNowPlayingItemDidChange)){ _ in
                 refreshView.toggle()
             }
-            .onReceive(timer) { _ in
-                progressRate = player.currentPlaybackTime
+//            .onReceive(timer) { _ in
+//                progressRate = player.currentPlaybackTime
+//            }
+            .onAppear {
+                DispatchQueue.global(qos: .background).async {
+                        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                            progressRate = player.currentPlaybackTime
+                        }
+                        RunLoop.current.run()
+                    }
             }
         }
     }
@@ -195,7 +222,9 @@ struct MiniPlayerView: View {
     
     private func playPauseButton() -> some View {
         Button {
-            playbackState == .playing ? pauseSong() : playSong()
+            DispatchQueue.global(qos: .userInteractive).async {
+                playbackState == .playing ? pauseSong() : playSong()
+            }
         } label: {
             (playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill"))
                 .font(.largeTitle)
