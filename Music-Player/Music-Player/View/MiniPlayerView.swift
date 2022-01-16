@@ -8,67 +8,6 @@
 import SwiftUI
 import MediaPlayer
 
-enum RepeatMode: CaseIterable {
-    case noRepeat
-    case albumRepeat
-    case oneSongRepeat
-}
-
-// 현재 재생하고 있는 곡 정보 모델
-struct NowPlayingSong {
-    var title: String
-    var albumTitle: String
-    var artist: String
-    var artWork: UIImage
-    var totalRate: Double
-}
-
-// 현재 재생되는 부분이 바뀔 때 뷰가 그려지도록
-class MiniPlayerViewModel: ObservableObject {
-    @Published var nowPlayingSong = NowPlayingSong(title: "", albumTitle: "", artist: "", artWork: UIImage(), totalRate: 1.0)
-    @Published var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
-    @Published var repeatMode: RepeatMode = .noRepeat
-    @Published var isShuffle: Bool = false
-    
-    func changeRepeatMode() -> MPMusicRepeatMode {
-        repeatMode = repeatMode.next()
-        switch repeatMode {
-        case .noRepeat:
-            return MPMusicRepeatMode.none
-        case .albumRepeat:
-            return MPMusicRepeatMode.all
-        case .oneSongRepeat:
-            return MPMusicRepeatMode.one
-        }
-    }
-    
-    func makeNowPlayingSong(title: String?, albumeTitle: String?, artist: String?, artWork: MPMediaItemArtwork?, totalRate: Double?) {
-        self.nowPlayingSong.title = title ?? ""
-        self.nowPlayingSong.albumTitle = albumeTitle ?? ""
-        self.nowPlayingSong.artist = artist ?? ""
-        self.nowPlayingSong.artWork = artWork?.image(at: CGSize(width: 100, height: 100)) ?? UIImage()
-        self.nowPlayingSong.totalRate = totalRate ?? 10.0
-    }
-}
-
-struct VolumeSlider: UIViewRepresentable {
-    func makeUIView(context: Context) -> MPVolumeView {
-        MPVolumeView(frame: .zero)
-    }
-    
-    func updateUIView(_ view: MPVolumeView, context: Context) {
-        let temp = view.subviews
-        for current in temp {
-            if current.isKind(of: UISlider.self) {
-                let tempSlider = current as! UISlider
-                tempSlider.minimumTrackTintColor = .blue
-                tempSlider.maximumTrackTintColor = .systemMint
-            }
-        }
-    }
-}
-
-
 struct MiniPlayerView: View {
     @ObservedObject var playerViewModel = MiniPlayerViewModel()
     var player: MPMusicPlayerController
@@ -84,7 +23,7 @@ struct MiniPlayerView: View {
             }
             VStack() {
                 if !isFullPlayer {
-                    ProgressView(value: progressRate, total: playerViewModel.nowPlayingSong.totalRate)
+                    ProgressView(value: progressRate < 0 ? progressRate * -1: progressRate, total: playerViewModel.nowPlayingSong.totalRate)
                 }
                 HStack() {
                     
@@ -253,5 +192,22 @@ struct MiniPlayerView: View {
     
     private func pauseSong() {
         player.pause()
+    }
+}
+
+struct VolumeSlider: UIViewRepresentable {
+    func makeUIView(context: Context) -> MPVolumeView {
+        MPVolumeView(frame: .zero)
+    }
+    
+    func updateUIView(_ view: MPVolumeView, context: Context) {
+        let temp = view.subviews
+        for current in temp {
+            if current.isKind(of: UISlider.self) {
+                let tempSlider = current as! UISlider
+                tempSlider.minimumTrackTintColor = .blue
+                tempSlider.maximumTrackTintColor = .systemMint
+            }
+        }
     }
 }

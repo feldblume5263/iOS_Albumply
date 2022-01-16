@@ -20,6 +20,8 @@
 		4FD95D6F279165E9008FFB68 /* AlbumDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D6E279165E9008FFB68 /* AlbumDetailViewModel.swift */; };
 		4FD95D712791662F008FFB68 /* AlbumContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D702791662F008FFB68 /* AlbumContents.swift */; };
 		4FD95D752792A51F008FFB68 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D742792A51E008FFB68 /* MiniPlayerView.swift */; };
+		4FD95D77279444FE008FFB68 /* NowPlayingSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D76279444FE008FFB68 /* NowPlayingSong.swift */; };
+		4FD95D7927944549008FFB68 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D7827944549008FFB68 /* PlayerViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		4FD95D6E279165E9008FFB68 /* AlbumDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailViewModel.swift; sourceTree = "<group>"; };
 		4FD95D702791662F008FFB68 /* AlbumContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumContents.swift; sourceTree = "<group>"; };
 		4FD95D742792A51E008FFB68 /* MiniPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
+		4FD95D76279444FE008FFB68 /* NowPlayingSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingSong.swift; sourceTree = "<group>"; };
+		4FD95D7827944549008FFB68 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,7 @@
 			children = (
 				4FD95D6627903146008FFB68 /* Album.swift */,
 				4FD95D702791662F008FFB68 /* AlbumContents.swift */,
+				4FD95D76279444FE008FFB68 /* NowPlayingSong.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -104,6 +109,7 @@
 			children = (
 				4FD95D6827903176008FFB68 /* LibraryViewModel.swift */,
 				4FD95D6E279165E9008FFB68 /* AlbumDetailViewModel.swift */,
+				4FD95D7827944549008FFB68 /* PlayerViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -202,8 +208,10 @@
 				4FD95D5F27902D79008FFB68 /* Error.swift in Sources */,
 				4FD95D6F279165E9008FFB68 /* AlbumDetailViewModel.swift in Sources */,
 				4FD95D4F27902CD8008FFB68 /* ContentView.swift in Sources */,
+				4FD95D7927944549008FFB68 /* PlayerViewModel.swift in Sources */,
 				4FD95D752792A51F008FFB68 /* MiniPlayerView.swift in Sources */,
 				4FD95D4D27902CD8008FFB68 /* Music_PlayerApp.swift in Sources */,
+				4FD95D77279444FE008FFB68 /* NowPlayingSong.swift in Sources */,
 				4FD95D6D27915824008FFB68 /* LibraryView.swift in Sources */,
 				4FD95D5D27902D54008FFB68 /* Constants.swift in Sources */,
 				4FD95D712791662F008FFB68 /* AlbumContents.swift in Sources */,
