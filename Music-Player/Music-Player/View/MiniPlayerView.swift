@@ -104,6 +104,7 @@ struct MiniPlayerView: View {
                             .frame(maxWidth: isFullPlayer ? .infinity : 50, maxHeight: isFullPlayer ? .infinity : 50)
                             .aspectRatio(contentMode: .fit)
                             .cornerRadius(10)
+                            .allowsHitTesting(false)
                     }
                 }
                 .padding(.bottom)

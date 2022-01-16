@@ -10,27 +10,52 @@ import MediaPlayer
 import AVFoundation
 
 struct AlbumDetailView: View {
-    var album: Album // Binding작업 필요
+    var album: Album // Binding작업 필요, ViewModel에서 참조하도록 해야하나??
     @Binding var player: MPMusicPlayerController
     @ObservedObject var albumDetail = AlbumDetailViewModel()
     
     var body: some View {
-        Text("\(album.albumTitle)")
-        Text("\(album.albumArtist)")
-        HStack {
-            Button {
-                allSongsPlayButtonPressed(isShuffle: false)
-            } label: {
-                Image(systemName: "play.fill")
+        VStack {
+            HStack {
+                Image(uiImage: album.albumArtwork)
+                    .resizable()
+                    .frame(width: 100, height: 100, alignment: .leading)
+                    .aspectRatio(contentMode: .fit)
+                    .padding()
+                VStack {
+                    Text(album.albumTitle)
+                        .font(.title2)
+                        .foregroundColor(Color.black)
+                        .lineLimit(1)
+                    Text(album.albumArtist)
+                        .font(.subheadline)
+                        .foregroundColor(Color.secondary)
+                        .frame(alignment: .topLeading)
+                        .lineLimit(1)
+                }
+                Spacer()
+            }
+            Divider()
+            HStack {
+                Spacer()
+                Button {
+                    allSongsPlayButtonPressed(isShuffle: false)
+                } label: {
+                    Image(systemName: "play.fill")
+                        .foregroundColor(Color.black)
+                }
+                .padding()
+                Spacer()
+                Button {
+                    allSongsPlayButtonPressed(isShuffle: true)
+                } label: {
+                    Image(systemName: "shuffle")
+                        .foregroundColor(Color.black)
+                }
+                .padding()
+                Spacer()
             }
             .padding()
-            Button {
-                allSongsPlayButtonPressed(isShuffle: true)
-            } label: {
-                Image(systemName: "arrow.left.arrow.right")
-            }
-            .padding()
-            
         }
         List {
             ForEach(0 ..< albumDetail.getSongsCount(), id: \.self) { songIndex in
