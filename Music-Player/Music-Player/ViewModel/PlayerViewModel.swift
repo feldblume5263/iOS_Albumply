@@ -39,4 +39,18 @@ class MiniPlayerViewModel: ObservableObject {
         self.nowPlayingSong.artWork = artWork?.image(at: CGSize(width: 500, height: 500)) ?? UIImage(named: "emptyAlbum") ?? UIImage()
         self.nowPlayingSong.totalRate = totalRate ?? 10.0
     }
+    
+    func getTimeFrom(rawValue: Double) -> String {
+        
+        
+        let hour = (Int(rawValue) % 86400) / 3600
+        let minute = (Int(rawValue) % 3600) / 60
+        let second = (Int(rawValue) % 3600) % 60
+        
+        if hour > 0 {
+            return String(format: "%02d", hour) + ":" + String(format: "%02d", minute) + ":" + String(format: "%02d", second)
+        } else {
+            return String(format: "%02d", minute) + ":" + String(format: "%02d", second)
+        }
+    }
 }

@@ -177,9 +177,26 @@ struct MiniPlayerView: View {
                 .frame(height: 30)
                 .padding(.horizontal)
             Spacer()
-            ProgressView(value: progressRate < 0 ? progressRate * -1: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 0)
-                .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
+            VStack {
+                Spacer()
+                ZStack {
+                Text(playerViewModel.getTimeFrom(rawValue: progressRate))
+                    .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+                    .padding(EdgeInsets(top: 0, leading: -10, bottom: 0, trailing: -10))
+                    .offset(x: UIScreen.main.bounds.width * progressRate / (player.nowPlayingItem?.playbackDuration ?? 1) - 30, y: -10)
+                    .font(.caption)
+                    .foregroundColor(mainTextColor)
+                    Text(playerViewModel.getTimeFrom(rawValue: (player.nowPlayingItem?.playbackDuration ?? 1) - progressRate))
+                        .frame(width: UIScreen.main.bounds.width, alignment: .trailing)
+                        .font(.caption)
+                        .offset(x: 0, y: -10)
+                        .font(.caption)
+                        .foregroundColor(subColor)
+                }
+                ProgressView(value: progressRate < 0 ? progressRate * -1: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 1)
                 .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
+                .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
+            }
         }
     }
     
