@@ -43,11 +43,13 @@ struct AlbumDetailView: View {
                         Spacer()
                         
                     }
-                    .padding()
+                    .padding(.top, 25)
+                    .padding(.bottom)
                     Spacer()
                 }
                 .fixedSize()
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.trailing)
                 Divider()
                 HStack {
                     Spacer()
@@ -91,21 +93,28 @@ struct AlbumDetailView: View {
                     Text("\(songIndex + 1)")
                         .frame(minWidth: 10, idealWidth: 15, maxWidth: 30)
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
+                        .font(.subheadline)
+                        .foregroundColor(Color.gray)
                         .lineLimit(1)
                     Text(albumDetail.albumContents?.songs[songIndex].title ?? undefinedString)
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                        .font(.subheadline)
+                        .foregroundColor(Color.black)
                         .lineLimit(1)
                     Spacer()
                     Image(systemName: "ellipsis")
+                        .foregroundColor(mainColor)
                 }
-                .onTapGesture {
+                .frame(height: 40)
+                .background(Color.white .onTapGesture {
                     if !waitingForPrepare {
                         specificSongPlayButtonPressed(songIndex: songIndex)
                     }
-                }
+                })
             }
         }
         .padding(.bottom, 80)
+        .background(Color.white)
         .onAppear {
             initSongsInAlbum()
         }

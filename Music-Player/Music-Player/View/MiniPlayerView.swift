@@ -17,7 +17,7 @@ struct MiniPlayerView: View {
     
     
     var body: some View {
-                
+        
         VStack {
             
             if isFullPlayer {
@@ -42,20 +42,20 @@ struct MiniPlayerView: View {
                             Spacer()
                             HStack {
                                 ZStack {
-                                Button {
-                                    DispatchQueue.global(qos: .userInteractive).async {
-                                        withAnimation(Animation.easeOut(duration: 0.3)) {
-                                            self.isFullPlayer.toggle()
+                                    Button {
+                                        DispatchQueue.global(qos: .userInteractive).async {
+                                            withAnimation(Animation.easeOut(duration: 0.3)) {
+                                                self.isFullPlayer.toggle()
+                                            }
                                         }
+                                    } label: {
+                                        Image(systemName: "chevron.down")
+                                            .frame(width: 50, height: 50)
+                                            .foregroundColor(mainColor)
                                     }
-                                } label: {
-                                    Image(systemName: "chevron.down")
-                                        .frame(width: 50, height: 50)
-                                        .foregroundColor(mainColor)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                contentInfoText()
-                                    .frame(alignment: .center)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    contentInfoText()
+                                        .frame(width: 300, alignment: .center)
                                 }
                             }
                             Divider()
@@ -72,6 +72,7 @@ struct MiniPlayerView: View {
                 }
                 .padding(.bottom)
                 if isFullPlayer {
+                    Spacer()
                     makefullPlayerView()
                 }
             }
@@ -166,10 +167,10 @@ struct MiniPlayerView: View {
                     player.shuffleMode = player.shuffleMode == .off ? MPMusicShuffleMode.songs : MPMusicShuffleMode.off
                     playerViewModel.isShuffle = player.shuffleMode == .off ? false : true
                 } label: {
-                        Image(systemName: "shuffle")
-                            .font(.headline)
-                            .foregroundColor(player.shuffleMode == .off ? subColor : mainColor)
-                            .frame(width: 50, height: 50)
+                    Image(systemName: "shuffle")
+                        .font(.headline)
+                        .foregroundColor(player.shuffleMode == .off ? subColor : mainColor)
+                        .frame(width: 50, height: 50)
                 }
             }
             Spacer()
@@ -180,23 +181,24 @@ struct MiniPlayerView: View {
             VStack {
                 Spacer()
                 ZStack {
-                Text(playerViewModel.getTimeFrom(rawValue: progressRate))
-                    .frame(width: UIScreen.main.bounds.width, alignment: .leading)
-                    .padding(EdgeInsets(top: 0, leading: -10, bottom: 0, trailing: -10))
-                    .offset(x: UIScreen.main.bounds.width * progressRate / (player.nowPlayingItem?.playbackDuration ?? 1) - 30, y: -10)
-                    .font(.caption)
-                    .foregroundColor(mainTextColor)
-                    Text(playerViewModel.getTimeFrom(rawValue: (player.nowPlayingItem?.playbackDuration ?? 1) - progressRate))
+                    Text(playerViewModel.getTimeFrom(rawValue: (player.nowPlayingItem?.playbackDuration ?? 1) - progressRate, timeLeftMode: true))
                         .frame(width: UIScreen.main.bounds.width, alignment: .trailing)
                         .font(.caption)
                         .offset(x: 0, y: -10)
                         .font(.caption)
                         .foregroundColor(subColor)
+                    Text(playerViewModel.getTimeFrom(rawValue: progressRate, timeLeftMode: false))
+                        .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+                        .padding(EdgeInsets(top: 0, leading: -10, bottom: 0, trailing: -10))
+                        .offset(x: UIScreen.main.bounds.width * progressRate / (player.nowPlayingItem?.playbackDuration ?? 1) - 30, y: -10)
+                        .font(.caption)
+                        .foregroundColor(mainTextColor)
                 }
                 ProgressView(value: progressRate < 0 ? progressRate * -1: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 1)
-                .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
-                .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
+                    .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
+                    .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
             }
+            .fixedSize()
         }
     }
     
@@ -205,9 +207,11 @@ struct MiniPlayerView: View {
             Text(playerViewModel.nowPlayingSong.title)
                 .font(.headline)
                 .foregroundColor(mainTextColor)
+                .lineLimit(1)
             Text(playerViewModel.nowPlayingSong.artist + " ― " + playerViewModel.nowPlayingSong.albumTitle)
                 .font(.subheadline)
                 .foregroundColor(mainTextColor)
+                .lineLimit(1)
         }
     }
     
@@ -250,6 +254,6 @@ struct VolumeSlider: UIViewRepresentable {
     }
     
     func updateUIView(_ view: UIView, context: Context) {
-
+        
     }
 }

@@ -40,7 +40,7 @@ class MiniPlayerViewModel: ObservableObject {
         self.nowPlayingSong.totalRate = totalRate ?? 10.0
     }
     
-    func getTimeFrom(rawValue: Double) -> String {
+    func getTimeFrom(rawValue: Double, timeLeftMode: Bool) -> String {
         
         
         let hour = (Int(rawValue) % 86400) / 3600
@@ -48,9 +48,9 @@ class MiniPlayerViewModel: ObservableObject {
         let second = (Int(rawValue) % 3600) % 60
         
         if hour > 0 {
-            return String(format: "%02d", hour) + ":" + String(format: "%02d", minute) + ":" + String(format: "%02d", second)
+            return (timeLeftMode ? "-" : "") + String(format: "%02d", hour) + ":" + String(format: "%02d", minute) + ":" + String(format: "%02d", second)
         } else {
-            return String(format: "%02d", minute) + ":" + String(format: "%02d", second)
+            return (timeLeftMode ? "-" : "") + String(format: "%02d", minute) + ":" + String(format: "%02d", second)
         }
     }
 }
