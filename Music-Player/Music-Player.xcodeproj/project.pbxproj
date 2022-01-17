@@ -77,10 +77,10 @@
 			isa = PBXGroup;
 			children = (
 				4FD95D4C27902CD8008FFB68 /* Music_PlayerApp.swift */,
-				4FD95D652790311D008FFB68 /* Utilites */,
 				4FD95D62279030E9008FFB68 /* Model */,
 				4FD95D63279030EF008FFB68 /* ViewModel */,
 				4FD95D64279030FE008FFB68 /* View */,
+				4FD95D652790311D008FFB68 /* Utilites */,
 				4FD95D5027902CDA008FFB68 /* Assets.xcassets */,
 				4FD95D6027902F3E008FFB68 /* info.plist */,
 				4FD95D5227902CDA008FFB68 /* Preview Content */,

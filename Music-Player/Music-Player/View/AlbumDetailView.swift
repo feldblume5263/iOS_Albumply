@@ -49,18 +49,28 @@ struct AlbumDetailView: View {
                 Button {
                     allSongsPlayButtonPressed(isShuffle: false)
                 } label: {
+                    ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                            .frame(height: 40, alignment: .center)
+                            .foregroundColor(Color.gray)
                     Image(systemName: "play.fill")
                         .foregroundColor(Color.black)
+                        .font(.headline)
+                    }
                 }
-                .padding()
                 Spacer()
                 Button {
                     allSongsPlayButtonPressed(isShuffle: true)
                 } label: {
+                    ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                            .frame(height: 40, alignment: .center)
+                            .foregroundColor(Color.gray)
                     Image(systemName: "shuffle")
                         .foregroundColor(Color.black)
+                        .font(.headline)
+                    }
                 }
-                .padding()
                 Spacer()
             }
             .padding()
