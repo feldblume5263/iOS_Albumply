@@ -8,8 +8,14 @@
 import SwiftUI
 import MediaPlayer
 
+enum AuthStatus {
+    case notYetDetermined
+    case permitted
+    case notPermitted
+}
+
 class AuthViewModel: ObservableObject {
-    @Published var authStatus: Bool = true
+    @Published var authStatus: AuthStatus = .notYetDetermined
     
     init() {
         getAuthrization()
@@ -18,14 +24,14 @@ class AuthViewModel: ObservableObject {
     func getAuthrization()  {
         let status = MPMediaLibrary.authorizationStatus()
         if(status == MPMediaLibraryAuthorizationStatus.authorized){
-            self.authStatus = true
+            self.authStatus = .permitted
         }else{
             MPMediaLibrary.requestAuthorization() { status in
                 DispatchQueue.main.async {
                     if status == .authorized {
-                        self.authStatus = true
+                        self.authStatus = .permitted
                     }else{
-                        self.authStatus = false
+                        self.authStatus = .notPermitted
                     }
                 }
             }
