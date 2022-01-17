@@ -35,7 +35,7 @@ struct LibraryView: View {
                 if libraryViewModel.getAlbumsCount() > 0 {
                     player.setQueue(with: MPMediaQuery.songs())
                     player.prepareToPlay()
-                    player.stop()
+                    player.skipToBeginning()
                 }
             }
         }
