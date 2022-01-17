@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MediaPlayer
+import Combine
 
 enum RepeatMode: CaseIterable {
     case noRepeat
@@ -19,6 +20,19 @@ class MiniPlayerViewModel: ObservableObject {
     @Published var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     @Published var repeatMode: RepeatMode = .noRepeat
     @Published var isShuffle: Bool = false
+//    let currentTimePublisher = Timer.TimerPublisher(interval: 1.0, runLoop: .current, mode: .default)
+//    var cancellable: AnyCancellable?
+//
+//
+//    init() {
+//        DispatchQueue.global(qos: .background).async {
+//            self.cancellable = self.currentTimePublisher.connect() as? AnyCancellable
+//        }
+//    }
+//
+//    deinit {
+//        self.cancellable?.cancel()
+//    }
     
     func changeRepeatMode() -> MPMusicRepeatMode {
         repeatMode = repeatMode.next()

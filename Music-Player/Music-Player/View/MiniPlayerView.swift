@@ -7,14 +7,16 @@
 
 import SwiftUI
 import MediaPlayer
+import Combine
+
 
 struct MiniPlayerView: View {
     @StateObject var playerViewModel = MiniPlayerViewModel()
     var player: MPMusicPlayerController
     @Binding var isFullPlayer: Bool
-    @State var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
-    @State var progressRate:Double = 0.0
-    
+    @State private var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
+    @State private var progressRate:Double = 0.0
+    @State private var currentTime: Date = Date()
     
     var body: some View {
         
@@ -101,14 +103,36 @@ struct MiniPlayerView: View {
                                                    artWork: song?.artwork,
                                                    totalRate: player.nowPlayingItem?.playbackDuration)
             }
+//            .onReceive(playerViewModel.currentTimePublisher.receive(on: DispatchQueue.global(qos: .background))) { newCurrentTime in
+//
+//                print("is MainThread? : ", Thread.isMainThread)
+//                print()
+//                    self.currentTime = newCurrentTime
+//                    progressRate = player.currentPlaybackTime
+//                    print(progressRate)
+//
+//            }
             .onAppear {
                 DispatchQueue.global(qos: .background).async {
                     Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                         progressRate = player.currentPlaybackTime
                     }
-                    // Combine으로 해보기.
                     RunLoop.current.run()
                 }
+                //                DispatchQueue.global(qos: .background).async {
+                //                    var subscriptions = Set<AnyCancellable>()
+                //                    let start = Date()
+                //                    Timer.publish(every: 1.0, on: .current, in: .common).autoconnect()
+                //                        .map({ (output) in
+                //                            return output.timeIntervalSince(start)
+                //                        })
+                //                        .map({ (timeInterval) in
+                //                            return Int(timeInterval)
+                //                        })
+                //                        .sink { (seconds) in
+                //                            progressRate = player.currentPlaybackTime
+                //                        }
+                //                        .store(in: &subscriptions)
             }
         }
     }
