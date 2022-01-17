@@ -213,18 +213,22 @@ struct MiniPlayerView: View {
 }
 
 struct VolumeSlider: UIViewRepresentable {
-    func makeUIView(context: Context) -> MPVolumeView {
-        MPVolumeView(frame: .zero)
-    }
-    
-    func updateUIView(_ view: MPVolumeView, context: Context) {
-        let temp = view.subviews
-        for current in temp {
+    func makeUIView(context: Context) -> UIView {
+        
+        let view = MPVolumeView(frame: .zero)
+        let subViews = view.subviews
+        for current in subViews {
             if current.isKind(of: UISlider.self) {
                 let tempSlider = current as! UISlider
                 tempSlider.minimumTrackTintColor = .blue
                 tempSlider.maximumTrackTintColor = .systemMint
+                return current
             }
         }
+        return view
+    }
+    
+    func updateUIView(_ view: UIView, context: Context) {
+
     }
 }

@@ -20,60 +20,66 @@ struct AlbumDetailView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Image(uiImage: albumDetail.album.albumArtwork)
-                    .resizable()
-                    .frame(width: 100, height: 100, alignment: .leading)
-                    .aspectRatio(contentMode: .fit)
-                    .cornerRadius(10)
+            VStack {
+                HStack {
+                    Image(uiImage: albumDetail.album.albumArtwork)
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .leading)
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(10)
+                        .padding()
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(albumDetail.album.albumTitle)
+                            .font(.headline)
+                            .foregroundColor(Color.black)
+                            .lineLimit(1)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Text(albumDetail.album.albumArtist)
+                            .font(.subheadline)
+                            .foregroundColor(Color.secondary)
+                            .frame(alignment: .topLeading)
+                            .lineLimit(1)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Spacer()
+                        
+                    }
                     .padding()
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(albumDetail.album.albumTitle)
-                        .font(.headline)
-                        .foregroundColor(Color.black)
-                        .lineLimit(1)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text(albumDetail.album.albumArtist)
-                        .font(.subheadline)
-                        .foregroundColor(Color.secondary)
-                        .frame(alignment: .topLeading)
-                        .lineLimit(1)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
+                    Spacer()
                 }
-                Spacer()
-            }
-            Divider()
-            HStack {
-                Spacer()
-                Button {
-                    allSongsPlayButtonPressed(isShuffle: false)
-                } label: {
-                    ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                            .frame(height: 40, alignment: .center)
-                            .foregroundColor(Color.gray)
-                    Image(systemName: "play.fill")
-                        .foregroundColor(Color.black)
-                        .font(.headline)
+                .fixedSize()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                Divider()
+                HStack {
+                    Spacer()
+                    Button {
+                        allSongsPlayButtonPressed(isShuffle: false)
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .frame(height: 40, alignment: .center)
+                                .foregroundColor(Color.gray)
+                            Image(systemName: "play.fill")
+                                .foregroundColor(Color.black)
+                                .font(.headline)
+                        }
                     }
-                }
-                Spacer()
-                Button {
-                    allSongsPlayButtonPressed(isShuffle: true)
-                } label: {
-                    ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                            .frame(height: 40, alignment: .center)
-                            .foregroundColor(Color.gray)
-                    Image(systemName: "shuffle")
-                        .foregroundColor(Color.black)
-                        .font(.headline)
+                    Spacer()
+                    Button {
+                        allSongsPlayButtonPressed(isShuffle: true)
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .frame(height: 40, alignment: .center)
+                                .foregroundColor(Color.gray)
+                            Image(systemName: "shuffle")
+                                .foregroundColor(Color.black)
+                                .font(.headline)
+                        }
                     }
+                    Spacer()
                 }
-                Spacer()
+                .padding()
             }
-            .padding()
         }
         List {
             ForEach(0 ..< albumDetail.getSongsCount(), id: \.self) { songIndex in
