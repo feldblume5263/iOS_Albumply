@@ -57,9 +57,9 @@ struct AlbumDetailView: View {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .frame(height: 40, alignment: .center)
-                                .foregroundColor(Color.gray)
+                                .foregroundColor(subColor)
                             Image(systemName: "play.fill")
-                                .foregroundColor(Color.black)
+                                .foregroundColor(mainColor)
                                 .font(.headline)
                         }
                     }
@@ -70,9 +70,9 @@ struct AlbumDetailView: View {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .frame(height: 40, alignment: .center)
-                                .foregroundColor(Color.gray)
+                                .foregroundColor(subColor)
                             Image(systemName: "shuffle")
-                                .foregroundColor(Color.black)
+                                .foregroundColor(mainColor)
                                 .font(.headline)
                         }
                     }

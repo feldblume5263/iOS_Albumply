@@ -28,6 +28,7 @@ struct MiniPlayerView: View {
                     let currentRate = progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : progressRate
                     ProgressView(value: currentRate < 0 ? currentRate * -1: currentRate, total: playerViewModel.nowPlayingSong.totalRate)
                         .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
+                        .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
                 }
                 HStack() {
                     if !isFullPlayer {
@@ -48,8 +49,9 @@ struct MiniPlayerView: View {
                                         }
                                     }
                                 } label: {
-                                    Image(uiImage: UIImage(systemName: "chevron.down") ?? UIImage())
+                                    Image(systemName: "chevron.down")
                                         .frame(width: 50, height: 50)
+                                        .foregroundColor(mainColor)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 contentInfoText()
@@ -121,17 +123,17 @@ struct MiniPlayerView: View {
                     case .noRepeat:
                         Image(systemName: "repeat")
                             .font(.headline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(subColor)
                             .frame(width: 50, height: 50)
                     case .albumRepeat:
                         Image(systemName: "repeat")
                             .font(.headline)
-                            .foregroundColor(.black)
+                            .foregroundColor(mainColor)
                             .frame(width: 50, height: 50)
                     case .oneSongRepeat:
                         Image(systemName: "repeat.1")
                             .font(.headline)
-                            .foregroundColor(.black)
+                            .foregroundColor(mainColor)
                             .frame(width: 50, height: 50)
                     }
                 }
@@ -145,7 +147,7 @@ struct MiniPlayerView: View {
                 } label: {
                     Image(systemName: "backward.fill")
                         .font(.headline)
-                        .foregroundColor(.black)
+                        .foregroundColor(mainColor)
                         .frame(width: 50, height: 50)
                 }
                 Spacer()
@@ -156,7 +158,7 @@ struct MiniPlayerView: View {
                 } label: {
                     Image(systemName: "forward.fill")
                         .font(.headline)
-                        .foregroundColor(.black)
+                        .foregroundColor(mainColor)
                         .frame(width: 50, height: 50)
                 }
                 Spacer()
@@ -166,7 +168,7 @@ struct MiniPlayerView: View {
                 } label: {
                         Image(systemName: "shuffle")
                             .font(.headline)
-                            .foregroundColor(player.shuffleMode == .off ? .secondary : .black)
+                            .foregroundColor(player.shuffleMode == .off ? subColor : mainColor)
                             .frame(width: 50, height: 50)
                 }
             }
@@ -177,6 +179,7 @@ struct MiniPlayerView: View {
             Spacer()
             ProgressView(value: progressRate < 0 ? progressRate * -1: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 0)
                 .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
+                .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
         }
     }
     
@@ -184,9 +187,10 @@ struct MiniPlayerView: View {
         VStack(alignment: .center) {
             Text(playerViewModel.nowPlayingSong.title)
                 .font(.headline)
+                .foregroundColor(mainTextColor)
             Text(playerViewModel.nowPlayingSong.artist + " ― " + playerViewModel.nowPlayingSong.albumTitle)
-                .foregroundColor(.red)
                 .font(.subheadline)
+                .foregroundColor(mainTextColor)
         }
     }
     
@@ -198,7 +202,7 @@ struct MiniPlayerView: View {
         } label: {
             (playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill"))
                 .font(.title)
-                .foregroundColor(.black)
+                .foregroundColor(mainColor)
                 .frame(width: 50, height: 50)
         }
     }
@@ -220,8 +224,8 @@ struct VolumeSlider: UIViewRepresentable {
         for current in subViews {
             if current.isKind(of: UISlider.self) {
                 let tempSlider = current as! UISlider
-                tempSlider.minimumTrackTintColor = .blue
-                tempSlider.maximumTrackTintColor = .systemMint
+                tempSlider.minimumTrackTintColor = mainUIColor
+                tempSlider.maximumTrackTintColor = subUIColor
                 return current
             }
         }
