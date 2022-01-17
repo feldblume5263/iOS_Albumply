@@ -23,6 +23,7 @@
 		4FD95D77279444FE008FFB68 /* NowPlayingSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D76279444FE008FFB68 /* NowPlayingSong.swift */; };
 		4FD95D7927944549008FFB68 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D7827944549008FFB68 /* PlayerViewModel.swift */; };
 		4FD95D7B27953E55008FFB68 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D7A27953E54008FFB68 /* AuthViewModel.swift */; };
+		4FD95D7D27957252008FFB68 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D7C27957252008FFB68 /* NavigationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		4FD95D76279444FE008FFB68 /* NowPlayingSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingSong.swift; sourceTree = "<group>"; };
 		4FD95D7827944549008FFB68 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		4FD95D7A27953E54008FFB68 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		4FD95D7C27957252008FFB68 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 			children = (
 				4FD95D5E27902D79008FFB68 /* Error.swift */,
 				4FD95D5C27902D54008FFB68 /* Constants.swift */,
+				4FD95D7C27957252008FFB68 /* NavigationView.swift */,
 			);
 			path = Utilites;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				4FD95D7927944549008FFB68 /* PlayerViewModel.swift in Sources */,
 				4FD95D752792A51F008FFB68 /* MiniPlayerView.swift in Sources */,
 				4FD95D4D27902CD8008FFB68 /* Music_PlayerApp.swift in Sources */,
+				4FD95D7D27957252008FFB68 /* NavigationView.swift in Sources */,
 				4FD95D77279444FE008FFB68 /* NowPlayingSong.swift in Sources */,
 				4FD95D6D27915824008FFB68 /* LibraryView.swift in Sources */,
 				4FD95D5D27902D54008FFB68 /* Constants.swift in Sources */,

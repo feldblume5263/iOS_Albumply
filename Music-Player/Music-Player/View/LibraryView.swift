@@ -26,6 +26,7 @@ struct LibraryView: View {
                 }
             }
             .navigationTitle("라이브러리")
+            .padding(.top, 20)
         }
         .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
         .onAppear {
@@ -34,6 +35,7 @@ struct LibraryView: View {
                 if libraryViewModel.getAlbumsCount() > 0 {
                     player.setQueue(with: MPMediaQuery.songs())
                     player.prepareToPlay()
+                    player.stop()
                 }
             }
         }

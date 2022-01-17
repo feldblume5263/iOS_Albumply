@@ -7,7 +7,6 @@
 
 import SwiftUI
 import MediaPlayer
-import AVFoundation
 
 struct AlbumDetailView: View {
     var player: MPMusicPlayerController
@@ -33,13 +32,13 @@ struct AlbumDetailView: View {
                             .font(.headline)
                             .foregroundColor(Color.black)
                             .lineLimit(1)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .frame(maxWidth: 200, alignment: .leading)
                         Text(albumDetail.album.albumArtist)
                             .font(.subheadline)
                             .foregroundColor(Color.secondary)
                             .frame(alignment: .topLeading)
                             .lineLimit(1)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .frame(maxWidth: 200, alignment: .leading)
                         Spacer()
                         
                     }
