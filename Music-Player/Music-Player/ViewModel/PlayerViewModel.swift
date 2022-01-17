@@ -36,7 +36,7 @@ class MiniPlayerViewModel: ObservableObject {
         self.nowPlayingSong.title = title ?? ""
         self.nowPlayingSong.albumTitle = albumeTitle ?? ""
         self.nowPlayingSong.artist = artist ?? ""
-        self.nowPlayingSong.artWork = artWork?.image(at: CGSize(width: 100, height: 100)) ?? UIImage()
+        self.nowPlayingSong.artWork = artWork?.image(at: CGSize(width: 500, height: 500)) ?? UIImage()
         self.nowPlayingSong.totalRate = totalRate ?? 10.0
     }
 }

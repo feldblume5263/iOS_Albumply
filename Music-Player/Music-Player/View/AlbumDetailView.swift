@@ -25,17 +25,21 @@ struct AlbumDetailView: View {
                     .resizable()
                     .frame(width: 100, height: 100, alignment: .leading)
                     .aspectRatio(contentMode: .fit)
+                    .cornerRadius(10)
                     .padding()
-                VStack {
+                VStack(alignment: .leading, spacing: 0) {
                     Text(albumDetail.album.albumTitle)
-                        .font(.title2)
+                        .font(.headline)
                         .foregroundColor(Color.black)
                         .lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     Text(albumDetail.album.albumArtist)
                         .font(.subheadline)
                         .foregroundColor(Color.secondary)
                         .frame(alignment: .topLeading)
                         .lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
                 }
                 Spacer()
             }
@@ -83,6 +87,7 @@ struct AlbumDetailView: View {
         .onAppear {
             initSongsInAlbum()
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func initSongsInAlbum() {

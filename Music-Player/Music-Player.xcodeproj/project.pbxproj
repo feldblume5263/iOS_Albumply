@@ -22,6 +22,7 @@
 		4FD95D752792A51F008FFB68 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D742792A51E008FFB68 /* MiniPlayerView.swift */; };
 		4FD95D77279444FE008FFB68 /* NowPlayingSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D76279444FE008FFB68 /* NowPlayingSong.swift */; };
 		4FD95D7927944549008FFB68 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D7827944549008FFB68 /* PlayerViewModel.swift */; };
+		4FD95D7B27953E55008FFB68 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D7A27953E54008FFB68 /* AuthViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		4FD95D742792A51E008FFB68 /* MiniPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
 		4FD95D76279444FE008FFB68 /* NowPlayingSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingSong.swift; sourceTree = "<group>"; };
 		4FD95D7827944549008FFB68 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
+		4FD95D7A27953E54008FFB68 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				4FD95D6827903176008FFB68 /* LibraryViewModel.swift */,
 				4FD95D6E279165E9008FFB68 /* AlbumDetailViewModel.swift */,
 				4FD95D7827944549008FFB68 /* PlayerViewModel.swift */,
+				4FD95D7A27953E54008FFB68 /* AuthViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				4FD95D77279444FE008FFB68 /* NowPlayingSong.swift in Sources */,
 				4FD95D6D27915824008FFB68 /* LibraryView.swift in Sources */,
 				4FD95D5D27902D54008FFB68 /* Constants.swift in Sources */,
+				4FD95D7B27953E55008FFB68 /* AuthViewModel.swift in Sources */,
 				4FD95D712791662F008FFB68 /* AlbumContents.swift in Sources */,
 				4FD95D6B27906690008FFB68 /* AlbumDetailView.swift in Sources */,
 				4FD95D6727903146008FFB68 /* Album.swift in Sources */,

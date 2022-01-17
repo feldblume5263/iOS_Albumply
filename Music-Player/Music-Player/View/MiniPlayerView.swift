@@ -27,7 +27,7 @@ struct MiniPlayerView: View {
                 if !isFullPlayer {
                     let currentRate = progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : progressRate
                     ProgressView(value: currentRate < 0 ? currentRate * -1: currentRate, total: playerViewModel.nowPlayingSong.totalRate)
-                        .padding(EdgeInsets(top: -20, leading: -30, bottom: -20, trailing: -30))
+                        .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
                 }
                 HStack() {
                     if !isFullPlayer {
@@ -40,17 +40,21 @@ struct MiniPlayerView: View {
                         if isFullPlayer {
                             Spacer()
                             HStack {
-                                Button("Close") {
+                                ZStack {
+                                Button {
                                     DispatchQueue.global(qos: .userInteractive).async {
                                         withAnimation(Animation.easeOut(duration: 0.3)) {
                                             self.isFullPlayer.toggle()
                                         }
                                     }
+                                } label: {
+                                    Image(uiImage: UIImage(systemName: "chevron.down") ?? UIImage())
+                                        .frame(width: 50, height: 50)
                                 }
-                                Spacer()
+                                .frame(maxWidth: .infinity, alignment: .leading)
                                 contentInfoText()
                                     .frame(alignment: .center)
-                                Spacer()
+                                }
                             }
                             Divider()
                         }
@@ -61,6 +65,7 @@ struct MiniPlayerView: View {
                             .aspectRatio(contentMode: .fit)
                             .cornerRadius(10)
                             .allowsHitTesting(false)
+                            .padding(isFullPlayer ? EdgeInsets(top: 0, leading: -30, bottom: -30, trailing: -30) : EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     }
                 }
                 .padding(.bottom)
@@ -68,7 +73,7 @@ struct MiniPlayerView: View {
                     makefullPlayerView()
                 }
             }
-            .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
+            .padding(EdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10))
             .background(Color.white.onTapGesture {
                 if !isFullPlayer {
                     DispatchQueue.global(qos: .userInteractive).async {
@@ -115,16 +120,19 @@ struct MiniPlayerView: View {
                     switch playerViewModel.repeatMode {
                     case .noRepeat:
                         Image(systemName: "repeat")
-                            .font(.title)
+                            .font(.headline)
                             .foregroundColor(.secondary)
+                            .frame(width: 50, height: 50)
                     case .albumRepeat:
                         Image(systemName: "repeat")
-                            .font(.title)
+                            .font(.headline)
                             .foregroundColor(.black)
+                            .frame(width: 50, height: 50)
                     case .oneSongRepeat:
                         Image(systemName: "repeat.1")
-                            .font(.title)
+                            .font(.headline)
                             .foregroundColor(.black)
+                            .frame(width: 50, height: 50)
                     }
                 }
                 Spacer()
@@ -136,8 +144,9 @@ struct MiniPlayerView: View {
                     }
                 } label: {
                     Image(systemName: "backward.fill")
-                        .font(.title)
+                        .font(.headline)
                         .foregroundColor(.black)
+                        .frame(width: 50, height: 50)
                 }
                 Spacer()
                 playPauseButton()
@@ -146,8 +155,9 @@ struct MiniPlayerView: View {
                     player.skipToNextItem()
                 } label: {
                     Image(systemName: "forward.fill")
-                        .font(.title)
+                        .font(.headline)
                         .foregroundColor(.black)
+                        .frame(width: 50, height: 50)
                 }
                 Spacer()
                 Button {
@@ -155,25 +165,28 @@ struct MiniPlayerView: View {
                     playerViewModel.isShuffle = player.shuffleMode == .off ? false : true
                 } label: {
                         Image(systemName: "shuffle")
-                            .font(.title)
+                            .font(.headline)
                             .foregroundColor(player.shuffleMode == .off ? .secondary : .black)
+                            .frame(width: 50, height: 50)
                 }
             }
             Spacer()
             VolumeSlider()
-                .frame(height: 40)
+                .frame(height: 30)
                 .padding(.horizontal)
             Spacer()
             ProgressView(value: progressRate < 0 ? progressRate * -1: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 0)
-            Spacer()
+                .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
         }
     }
     
     private func contentInfoText() -> some View {
         VStack(alignment: .center) {
             Text(playerViewModel.nowPlayingSong.title)
-            Text(playerViewModel.nowPlayingSong.artist)
+                .font(.headline)
+            Text(playerViewModel.nowPlayingSong.artist + " ― " + playerViewModel.nowPlayingSong.albumTitle)
                 .foregroundColor(.red)
+                .font(.subheadline)
         }
     }
     
@@ -184,8 +197,9 @@ struct MiniPlayerView: View {
             }
         } label: {
             (playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill"))
-                .font(.largeTitle)
+                .font(.title)
                 .foregroundColor(.black)
+                .frame(width: 50, height: 50)
         }
     }
     
