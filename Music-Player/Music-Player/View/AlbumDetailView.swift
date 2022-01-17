@@ -11,6 +11,7 @@ import MediaPlayer
 struct AlbumDetailView: View {
     var player: MPMusicPlayerController
     @StateObject var albumDetail: AlbumDetailViewModel
+    @State var waitingForPrepare: Bool = false
     
     init(album: Album, player: MPMusicPlayerController) {
         _albumDetail = StateObject(wrappedValue: AlbumDetailViewModel(album: album))
@@ -51,7 +52,9 @@ struct AlbumDetailView: View {
                 HStack {
                     Spacer()
                     Button {
-                        allSongsPlayButtonPressed(isShuffle: false)
+                        if !waitingForPrepare {
+                            allSongsPlayButtonPressed(isShuffle: false)
+                        }
                     } label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -64,7 +67,9 @@ struct AlbumDetailView: View {
                     }
                     Spacer()
                     Button {
-                        allSongsPlayButtonPressed(isShuffle: true)
+                        if !waitingForPrepare {
+                            allSongsPlayButtonPressed(isShuffle: true)
+                        }
                     } label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -94,7 +99,9 @@ struct AlbumDetailView: View {
                     Image(systemName: "ellipsis")
                 }
                 .onTapGesture {
-                    specificSongPlayButtonPressed(songIndex: songIndex)
+                    if !waitingForPrepare {
+                        specificSongPlayButtonPressed(songIndex: songIndex)
+                    }
                 }
             }
         }
@@ -110,20 +117,28 @@ struct AlbumDetailView: View {
     }
     
     private func allSongsPlayButtonPressed(isShuffle: Bool) {
+        waitingForPrepare = true
+        player.stop()
         albumDetail.setIDsQueue()
         player.setQueue(with: albumDetail.songIDsQueue)
         if isShuffle {
             player.shuffleMode = MPMusicShuffleMode.songs
         }
         player.play()
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
+            waitingForPrepare = false
+        }
     }
     
     private func specificSongPlayButtonPressed(songIndex: Int) {
+        waitingForPrepare = true
         albumDetail.setIDsQueue()
         player.setQueue(with: albumDetail.songIDsQueue)
         player.play()
         player.nowPlayingItem = albumDetail.albumContents?.songs[songIndex]
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
+            waitingForPrepare = false
+        }
     }
-    
 }
 
