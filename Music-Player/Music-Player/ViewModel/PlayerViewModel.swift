@@ -16,10 +16,19 @@ enum RepeatMode: CaseIterable {
 }
 
 class MiniPlayerViewModel: ObservableObject {
+    
+    var player: MPMusicPlayerController
     @Published var nowPlayingSong = NowPlayingSong(title: "", albumTitle: "", artist: "", artWork: UIImage(), totalRate: 1.0)
     @Published var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     @Published var repeatMode: RepeatMode = .noRepeat
     @Published var isShuffle: Bool = false
+    @Published var isFullPlayer: Bool
+    @Published var progressRate:Double = 0.0
+    
+    init(player: MPMusicPlayerController, isFullPlayer: Bool) {
+        self.player = player
+        self.isFullPlayer = isFullPlayer
+    }
     
     func changeRepeatMode() -> MPMusicRepeatMode {
         repeatMode = repeatMode.next()

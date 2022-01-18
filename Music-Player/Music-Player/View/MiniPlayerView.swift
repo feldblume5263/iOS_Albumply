@@ -11,32 +11,33 @@ import Combine
 
 
 struct MiniPlayerView: View {
-    @StateObject var playerViewModel = MiniPlayerViewModel()
-    var player: MPMusicPlayerController
-    @Binding var isFullPlayer: Bool
-    @State private var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
-    @State private var progressRate:Double = 0.0
+    @StateObject var playerViewModel: MiniPlayerViewModel
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    
+    init(player: MPMusicPlayerController, isFullPlayer: Bool) {
+        _playerViewModel = StateObject(wrappedValue: MiniPlayerViewModel(player: player, isFullPlayer: isFullPlayer))
+    }
+    
     
     var body: some View {
         
         VStack {
-            if isFullPlayer {
+            if playerViewModel.isFullPlayer {
                 Spacer()
             }
             VStack() {
-                if !isFullPlayer {
-                    let currentRate = progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : progressRate
+                if !playerViewModel.isFullPlayer {
+                    let currentRate = playerViewModel.progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : playerViewModel.progressRate
                     ProgressView(value: currentRate < 0 ? currentRate * -1: currentRate, total: playerViewModel.nowPlayingSong.totalRate)
                         .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
                         .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
                         .onReceive(timer) { _ in
-                            progressRate = player.currentPlaybackTime
+                            playerViewModel.progressRate = playerViewModel.player.currentPlaybackTime
                         }
                 }
                 HStack() {
-                    if !isFullPlayer {
-                        if player.nowPlayingItem != nil {
+                    if !playerViewModel.isFullPlayer {
+                        if playerViewModel.player.nowPlayingItem != nil {
                             playPauseButton()
                         }
                         Spacer()
@@ -44,14 +45,14 @@ struct MiniPlayerView: View {
                         Spacer()
                     }
                     VStack {
-                        if isFullPlayer {
+                        if playerViewModel.isFullPlayer {
                             Spacer()
                             HStack {
                                 ZStack {
                                     Button {
                                         DispatchQueue.global(qos: .userInteractive).async {
                                             withAnimation(Animation.easeOut(duration: 0.3)) {
-                                                self.isFullPlayer.toggle()
+                                                playerViewModel.isFullPlayer.toggle()
                                             }
                                         }
                                     } label: {
@@ -66,29 +67,29 @@ struct MiniPlayerView: View {
                             }
                             Divider()
                         }
-                        if player.nowPlayingItem != nil {
+                        if playerViewModel.player.nowPlayingItem != nil {
                             Image(uiImage: playerViewModel.nowPlayingSong.artWork)
                                 .resizable()
-                                .frame(maxWidth: isFullPlayer ? .infinity : 50, maxHeight: isFullPlayer ? .infinity : 50)
+                                .frame(maxWidth: playerViewModel.isFullPlayer ? .infinity : 50, maxHeight: playerViewModel.isFullPlayer ? .infinity : 50)
                                 .aspectRatio(contentMode: .fit)
                                 .cornerRadius(10)
                                 .allowsHitTesting(false)
-                                .padding(isFullPlayer ? EdgeInsets(top: 0, leading: -30, bottom: -30, trailing: -30) : EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                .padding(playerViewModel.isFullPlayer ? EdgeInsets(top: 0, leading: -30, bottom: -30, trailing: -30) : EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         }
                     }
                 }
                 .padding(.bottom)
-                if isFullPlayer {
+                if playerViewModel.isFullPlayer {
                     Spacer()
                     makefullPlayerView()
                 }
             }
             .padding(EdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10))
             .background(Color.white.onTapGesture {
-                if !isFullPlayer && player.nowPlayingItem != nil {
+                if !playerViewModel.isFullPlayer && playerViewModel.player.nowPlayingItem != nil {
                     DispatchQueue.global(qos: .userInteractive).async {
                         withAnimation(Animation.easeOut(duration: 0.3)) {
-                            self.isFullPlayer.toggle()
+                            playerViewModel.isFullPlayer.toggle()
                         }
                     }
                 }
@@ -96,40 +97,40 @@ struct MiniPlayerView: View {
             .cornerRadius(10)
             .shadow(radius: 3)
             .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerPlaybackStateDidChange)){ _ in
-                playbackState = MPMusicPlayerController.applicationMusicPlayer.playbackState
+                playerViewModel.playbackState = MPMusicPlayerController.applicationMusicPlayer.playbackState
             }
             .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerNowPlayingItemDidChange)){ _ in
-                let song = player.nowPlayingItem
-                progressRate = 0.0
+                let song = playerViewModel.player.nowPlayingItem
+                playerViewModel.progressRate = 0.0
                 playerViewModel.makeNowPlayingSong(title: song?.title,
                                                    albumeTitle: song?.albumTitle,
                                                    artist: song?.artist,
                                                    artWork: song?.artwork,
-                                                   totalRate: player.nowPlayingItem?.playbackDuration)
+                                                   totalRate: playerViewModel.player.nowPlayingItem?.playbackDuration)
             }
             .onAppear {
                 switch (UserDefaults.standard.integer(forKey: "repeatDefault")) {
                 case 0:
-                    player.repeatMode = .none
+                    playerViewModel.player.repeatMode = .none
                     playerViewModel.repeatMode = .noRepeat
                 case 1:
-                    player.repeatMode = .all
+                    playerViewModel.player.repeatMode = .all
                     playerViewModel.repeatMode = .albumRepeat
                 case 2:
-                    player.repeatMode = .one
+                    playerViewModel.player.repeatMode = .one
                     playerViewModel.repeatMode = .oneSongRepeat
                 default:
-                    player.repeatMode = .none
+                    playerViewModel.player.repeatMode = .none
                     playerViewModel.repeatMode = .noRepeat
                 }
                 if (UserDefaults.standard.array(forKey: "queueDefault") != nil) {
-                    player.setQueue(with: UserDefaults.standard.array(forKey: "queueDefault") as? [String] ?? [String]())
-                    player.prepareToPlay()
-                    player.skipToBeginning()
+                    playerViewModel.player.setQueue(with: UserDefaults.standard.array(forKey: "queueDefault") as? [String] ?? [String]())
+                    playerViewModel.player.prepareToPlay()
+                    playerViewModel.player.skipToBeginning()
                 }
                 
                 if UserDefaults.standard.bool(forKey: "shuffleDefault") {
-                    player.shuffleMode = MPMusicShuffleMode.songs
+                    playerViewModel.player.shuffleMode = MPMusicShuffleMode.songs
                 }
             }
         }
@@ -140,7 +141,7 @@ struct MiniPlayerView: View {
             Spacer()
             HStack {
                 Button {
-                    player.repeatMode = playerViewModel.changeRepeatMode()
+                    playerViewModel.player.repeatMode = playerViewModel.changeRepeatMode()
                 } label: {
                     switch playerViewModel.repeatMode {
                     case .noRepeat:
@@ -162,10 +163,10 @@ struct MiniPlayerView: View {
                 }
                 Spacer()
                 Button {
-                    if player.currentPlaybackTime > 5 {
-                        player.skipToBeginning()
+                    if playerViewModel.player.currentPlaybackTime > 5 {
+                        playerViewModel.player.skipToBeginning()
                     } else {
-                        player.skipToPreviousItem()
+                        playerViewModel.player.skipToPreviousItem()
                     }
                 } label: {
                     Image(systemName: "backward.fill")
@@ -177,7 +178,7 @@ struct MiniPlayerView: View {
                 playPauseButton()
                 Spacer()
                 Button {
-                    player.skipToNextItem()
+                    playerViewModel.player.skipToNextItem()
                 } label: {
                     Image(systemName: "forward.fill")
                         .font(.headline)
@@ -186,13 +187,13 @@ struct MiniPlayerView: View {
                 }
                 Spacer()
                 Button {
-                    player.shuffleMode = player.shuffleMode == .off ? MPMusicShuffleMode.songs : MPMusicShuffleMode.off
-                    playerViewModel.isShuffle = player.shuffleMode == .off ? false : true
+                    playerViewModel.player.shuffleMode = playerViewModel.player.shuffleMode == .off ? MPMusicShuffleMode.songs : MPMusicShuffleMode.off
+                    playerViewModel.isShuffle = playerViewModel.player.shuffleMode == .off ? false : true
                     playerViewModel.isShuffle ? UserDefaults.standard.set(true, forKey: "shuffleDefault") : UserDefaults.standard.set(false, forKey: "shuffleDefault")
                 } label: {
                     Image(systemName: "shuffle")
                         .font(.headline)
-                        .foregroundColor(player.shuffleMode == .off ? subColor : mainColor)
+                        .foregroundColor(playerViewModel.player.shuffleMode == .off ? subColor : mainColor)
                         .frame(width: 50, height: 50)
                 }
             }
@@ -204,24 +205,24 @@ struct MiniPlayerView: View {
             VStack {
                 Spacer()
                 ZStack {
-                    Text(playerViewModel.getTimeFrom(rawValue: (player.nowPlayingItem?.playbackDuration ?? 1) - progressRate, timeLeftMode: true))
+                    Text(playerViewModel.getTimeFrom(rawValue: (playerViewModel.player.nowPlayingItem?.playbackDuration ?? 1) - playerViewModel.progressRate, timeLeftMode: true))
                         .frame(width: UIScreen.main.bounds.width, alignment: .trailing)
                         .font(.caption)
                         .offset(x: 0, y: -10)
                         .font(.caption)
                         .foregroundColor(subColor)
-                    Text(playerViewModel.getTimeFrom(rawValue: progressRate, timeLeftMode: false))
+                    Text(playerViewModel.getTimeFrom(rawValue: playerViewModel.progressRate, timeLeftMode: false))
                         .frame(width: UIScreen.main.bounds.width, alignment: .leading)
                         .padding(EdgeInsets(top: 0, leading: -10, bottom: 0, trailing: -10))
-                        .offset(x: UIScreen.main.bounds.width * progressRate / (player.nowPlayingItem?.playbackDuration ?? 1) - 30, y: -10)
+                        .offset(x: UIScreen.main.bounds.width * playerViewModel.progressRate / (playerViewModel.player.nowPlayingItem?.playbackDuration ?? 1) - 30, y: -10)
                         .font(.caption)
                         .foregroundColor(mainTextColor)
                 }
-                ProgressView(value: progressRate < 0 ? progressRate * -1: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 1)
+                ProgressView(value: playerViewModel.progressRate < 0 ? playerViewModel.progressRate * -1: playerViewModel.progressRate, total: playerViewModel.player.nowPlayingItem?.playbackDuration ?? 1)
                     .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
                     .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
                     .onReceive(timer) { _ in
-                        progressRate = player.currentPlaybackTime
+                        playerViewModel.progressRate = playerViewModel.player.currentPlaybackTime
                     }
             }
             .fixedSize()
@@ -230,7 +231,7 @@ struct MiniPlayerView: View {
     
     private func contentInfoText() -> some View {
         VStack(alignment: .center) {
-            if player.nowPlayingItem != nil {
+            if playerViewModel.player.nowPlayingItem != nil {
                 Text(playerViewModel.nowPlayingSong.title)
                     .font(.headline)
                     .foregroundColor(mainTextColor)
@@ -251,21 +252,13 @@ struct MiniPlayerView: View {
     private func playPauseButton() -> some View {
         Button {
             DispatchQueue.global(qos: .userInteractive).async {
-                playbackState == .playing ? pauseSong() : playSong()
+                playerViewModel.playbackState == .playing ? playerViewModel.player.pause() : playerViewModel.player.play()
             }
         } label: {
-            (playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill"))
+            (playerViewModel.playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill"))
                 .font(.title)
                 .foregroundColor(mainColor)
                 .frame(width: 50, height: 50)
         }
-    }
-    
-    private func playSong() {
-        player.play()
-    }
-    
-    private func pauseSong() {
-        player.pause()
     }
 }

@@ -8,6 +8,7 @@
 import MediaPlayer
 
 class AlbumDetailViewModel: ObservableObject {
+    
     private var player: MPMusicPlayerController
     var album: Album
     @Published var albumContents: AlbumContents?
@@ -18,6 +19,10 @@ class AlbumDetailViewModel: ObservableObject {
         self.album = album
         self.player = player
         initSongsInAlbum()
+    }
+    
+    func initSongsInAlbum() {
+        setSongsInAlbumDetail(albumTitle: album.title)
     }
 
     func setIDsQueue() {
@@ -85,9 +90,5 @@ class AlbumDetailViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.waitingForPrepare = false
         }
-    }
-    
-    func initSongsInAlbum() {
-        setSongsInAlbumDetail(albumTitle: album.title)
     }
 }
