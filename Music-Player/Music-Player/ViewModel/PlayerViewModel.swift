@@ -28,6 +28,32 @@ class MiniPlayerViewModel: ObservableObject {
         self.player = player
     }
     
+    func initPlayerFromUserDefaults() {
+        switch (UserDefaults.standard.integer(forKey: "repeatDefault")) {
+        case 0:
+            player.repeatMode = .none
+            repeatMode = .noRepeat
+        case 1:
+            player.repeatMode = .all
+            repeatMode = .albumRepeat
+        case 2:
+            player.repeatMode = .one
+            repeatMode = .oneSongRepeat
+        default:
+            player.repeatMode = .none
+            repeatMode = .noRepeat
+        }
+        if (UserDefaults.standard.array(forKey: "queueDefault") != nil) {
+            player.setQueue(with: UserDefaults.standard.array(forKey: "queueDefault") as? [String] ?? [String]())
+            player.prepareToPlay()
+            player.skipToBeginning()
+        }
+        
+        if UserDefaults.standard.bool(forKey: "shuffleDefault") {
+            player.shuffleMode = MPMusicShuffleMode.songs
+        }
+    }
+    
     func changeRepeatMode() -> MPMusicRepeatMode {
         repeatMode = repeatMode.next()
         switch repeatMode {

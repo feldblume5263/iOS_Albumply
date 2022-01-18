@@ -19,7 +19,6 @@ struct MiniPlayerView: View {
     init(player: MPMusicPlayerController, isFullPlayer: Binding<Bool>) {
         _playerViewModel = StateObject(wrappedValue: MiniPlayerViewModel(player: player))
         self._isFullPlayer = isFullPlayer
-
     }
     
     var body: some View {
@@ -29,8 +28,7 @@ struct MiniPlayerView: View {
             }
             VStack() {
                 if !isFullPlayer {
-                    let currentRate = playerViewModel.progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : playerViewModel.progressRate
-                    ProgressView(value: currentRate < 0 ? currentRate * -1: currentRate, total: playerViewModel.nowPlayingSong.totalRate)
+                    PlayerProgressView(playerViewModel: playerViewModel)
                         .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
                         .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
                         .onReceive(timer) { _ in
@@ -40,10 +38,10 @@ struct MiniPlayerView: View {
                 HStack() {
                     if !isFullPlayer {
                         if playerViewModel.player.nowPlayingItem != nil {
-                            playPauseButton()
+                            PlayPauseButton(playerViewModel: playerViewModel)
                         }
                         Spacer()
-                        contentInfoText()
+                        ContentInfoTextView(playerViewModel: playerViewModel)
                         Spacer()
                     }
                     VStack {
@@ -61,7 +59,7 @@ struct MiniPlayerView: View {
                                             .foregroundColor(mainColor)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    contentInfoText()
+                                    ContentInfoTextView(playerViewModel: playerViewModel)
                                         .frame(width: 300, alignment: .center)
                                 }
                             }
@@ -81,7 +79,7 @@ struct MiniPlayerView: View {
                 .padding(.bottom)
                 if isFullPlayer {
                     Spacer()
-                    makefullPlayerView()
+                    FullSizePlayerControllerView(playerViewModel: playerViewModel, timer: timer)
                 }
             }
             .padding(EdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10))
@@ -107,34 +105,59 @@ struct MiniPlayerView: View {
                                                    totalRate: playerViewModel.player.nowPlayingItem?.playbackDuration)
             }
             .onAppear {
-                switch (UserDefaults.standard.integer(forKey: "repeatDefault")) {
-                case 0:
-                    playerViewModel.player.repeatMode = .none
-                    playerViewModel.repeatMode = .noRepeat
-                case 1:
-                    playerViewModel.player.repeatMode = .all
-                    playerViewModel.repeatMode = .albumRepeat
-                case 2:
-                    playerViewModel.player.repeatMode = .one
-                    playerViewModel.repeatMode = .oneSongRepeat
-                default:
-                    playerViewModel.player.repeatMode = .none
-                    playerViewModel.repeatMode = .noRepeat
-                }
-                if (UserDefaults.standard.array(forKey: "queueDefault") != nil) {
-                    playerViewModel.player.setQueue(with: UserDefaults.standard.array(forKey: "queueDefault") as? [String] ?? [String]())
-                    playerViewModel.player.prepareToPlay()
-                    playerViewModel.player.skipToBeginning()
-                }
-                
-                if UserDefaults.standard.bool(forKey: "shuffleDefault") {
-                    playerViewModel.player.shuffleMode = MPMusicShuffleMode.songs
-                }
+                playerViewModel.initPlayerFromUserDefaults()
             }
         }
     }
+}
+
+
+struct ContentInfoTextView: View {
+    @StateObject var playerViewModel: MiniPlayerViewModel
     
-    private func makefullPlayerView() -> some View {
+    var body: some View {
+        VStack(alignment: .center) {
+            if playerViewModel.player.nowPlayingItem != nil {
+                Text(playerViewModel.nowPlayingSong.title)
+                    .font(.headline)
+                    .foregroundColor(mainTextColor)
+                    .lineLimit(1)
+                Text(playerViewModel.nowPlayingSong.artist + " ― " + playerViewModel.nowPlayingSong.albumTitle)
+                    .font(.subheadline)
+                    .foregroundColor(mainTextColor)
+                    .lineLimit(1)
+            } else {
+                Text("앨범을 추가해주세요.")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .lineLimit(1)
+            }
+        }
+    }
+}
+
+
+struct PlayPauseButton: View {
+    @StateObject var playerViewModel: MiniPlayerViewModel
+    
+    var body: some View {
+        Button {
+            playerViewModel.playbackState == .playing ? playerViewModel.player.pause() : playerViewModel.player.play()
+        } label: {
+            (playerViewModel.playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill"))
+                .font(.title)
+                .foregroundColor(mainColor)
+                .frame(width: 50, height: 50)
+        }
+    }
+}
+
+
+struct FullSizePlayerControllerView: View {
+    @StateObject var playerViewModel: MiniPlayerViewModel
+    let timer: Publishers.Autoconnect<Timer.TimerPublisher>
+    
+    var body: some View {
         VStack{
             Spacer()
             HStack {
@@ -173,7 +196,7 @@ struct MiniPlayerView: View {
                         .frame(width: 50, height: 50)
                 }
                 Spacer()
-                playPauseButton()
+                PlayPauseButton(playerViewModel: playerViewModel)
                 Spacer()
                 Button {
                     playerViewModel.player.skipToNextItem()
@@ -216,7 +239,7 @@ struct MiniPlayerView: View {
                         .font(.caption)
                         .foregroundColor(mainTextColor)
                 }
-                ProgressView(value: playerViewModel.progressRate < 0 ? playerViewModel.progressRate * -1: playerViewModel.progressRate, total: playerViewModel.player.nowPlayingItem?.playbackDuration ?? 1)
+                PlayerProgressView(playerViewModel: playerViewModel)
                     .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
                     .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
                     .onReceive(timer) { _ in
@@ -226,35 +249,13 @@ struct MiniPlayerView: View {
             .fixedSize()
         }
     }
+}
+
+struct PlayerProgressView: View {
+    @StateObject var playerViewModel: MiniPlayerViewModel
     
-    private func contentInfoText() -> some View {
-        VStack(alignment: .center) {
-            if playerViewModel.player.nowPlayingItem != nil {
-                Text(playerViewModel.nowPlayingSong.title)
-                    .font(.headline)
-                    .foregroundColor(mainTextColor)
-                    .lineLimit(1)
-                Text(playerViewModel.nowPlayingSong.artist + " ― " + playerViewModel.nowPlayingSong.albumTitle)
-                    .font(.subheadline)
-                    .foregroundColor(mainTextColor)
-                    .lineLimit(1)
-            } else {
-                Text("앨범을 추가해주세요.")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .lineLimit(1)
-            }
-        }
-    }
-    
-    private func playPauseButton() -> some View {
-        Button {
-            playerViewModel.playbackState == .playing ? playerViewModel.player.pause() : playerViewModel.player.play()
-        } label: {
-            (playerViewModel.playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill"))
-                .font(.title)
-                .foregroundColor(mainColor)
-                .frame(width: 50, height: 50)
-        }
+    var body: some View {
+        let currentRate = playerViewModel.progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : playerViewModel.progressRate
+        ProgressView(value: currentRate < 0 ? currentRate * -1: currentRate, total: playerViewModel.nowPlayingSong.totalRate)
     }
 }
