@@ -27,12 +27,12 @@ struct LibraryView: View {
             }
             .navigationTitle("라이브러리")
             .padding(.top, 20)
+            .padding(.bottom, 30)
         }
         .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
         .onAppear {
             libraryViewModel.refreshAlbums()
-            if (UserDefaults.standard.array(forKey: "queueDefault") == nil) {
-                if player.nowPlayingItem == nil {
+            if UserDefaults.standard.array(forKey: "queueDefault") == nil || player.nowPlayingItem == nil {
                     if libraryViewModel.getAlbumsCount() > 0 {
                         player.setQueue(with: MPMediaQuery.songs())
                         player.prepareToPlay()
@@ -40,7 +40,6 @@ struct LibraryView: View {
                     }
                 }
             }
-        }
     }
     
     private func makeGridAlbumItem(index: Int) -> some View {

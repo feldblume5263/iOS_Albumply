@@ -21,7 +21,6 @@ struct MiniPlayerView: View {
     var body: some View {
         
         VStack {
-            
             if isFullPlayer {
                 Spacer()
             }
@@ -37,7 +36,9 @@ struct MiniPlayerView: View {
                 }
                 HStack() {
                     if !isFullPlayer {
-                        playPauseButton()
+                        if player.nowPlayingItem != nil {
+                            playPauseButton()
+                        }
                         Spacer()
                         contentInfoText()
                         Spacer()
@@ -65,14 +66,15 @@ struct MiniPlayerView: View {
                             }
                             Divider()
                         }
-                        
-                        Image(uiImage: playerViewModel.nowPlayingSong.artWork)
-                            .resizable()
-                            .frame(maxWidth: isFullPlayer ? .infinity : 50, maxHeight: isFullPlayer ? .infinity : 50)
-                            .aspectRatio(contentMode: .fit)
-                            .cornerRadius(10)
-                            .allowsHitTesting(false)
-                            .padding(isFullPlayer ? EdgeInsets(top: 0, leading: -30, bottom: -30, trailing: -30) : EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        if player.nowPlayingItem != nil {
+                            Image(uiImage: playerViewModel.nowPlayingSong.artWork)
+                                .resizable()
+                                .frame(maxWidth: isFullPlayer ? .infinity : 50, maxHeight: isFullPlayer ? .infinity : 50)
+                                .aspectRatio(contentMode: .fit)
+                                .cornerRadius(10)
+                                .allowsHitTesting(false)
+                                .padding(isFullPlayer ? EdgeInsets(top: 0, leading: -30, bottom: -30, trailing: -30) : EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        }
                     }
                 }
                 .padding(.bottom)
@@ -83,7 +85,7 @@ struct MiniPlayerView: View {
             }
             .padding(EdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10))
             .background(Color.white.onTapGesture {
-                if !isFullPlayer {
+                if !isFullPlayer && player.nowPlayingItem != nil {
                     DispatchQueue.global(qos: .userInteractive).async {
                         withAnimation(Animation.easeOut(duration: 0.3)) {
                             self.isFullPlayer.toggle()
@@ -229,14 +231,21 @@ struct MiniPlayerView: View {
     
     private func contentInfoText() -> some View {
         VStack(alignment: .center) {
-            Text(playerViewModel.nowPlayingSong.title)
-                .font(.headline)
-                .foregroundColor(mainTextColor)
-                .lineLimit(1)
-            Text(playerViewModel.nowPlayingSong.artist + " ― " + playerViewModel.nowPlayingSong.albumTitle)
-                .font(.subheadline)
-                .foregroundColor(mainTextColor)
-                .lineLimit(1)
+            if player.nowPlayingItem != nil {
+                Text(playerViewModel.nowPlayingSong.title)
+                    .font(.headline)
+                    .foregroundColor(mainTextColor)
+                    .lineLimit(1)
+                Text(playerViewModel.nowPlayingSong.artist + " ― " + playerViewModel.nowPlayingSong.albumTitle)
+                    .font(.subheadline)
+                    .foregroundColor(mainTextColor)
+                    .lineLimit(1)
+            } else {
+                Text("라이브리에 앨범을 추가해주세요.")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .lineLimit(1)
+            }
         }
     }
     
