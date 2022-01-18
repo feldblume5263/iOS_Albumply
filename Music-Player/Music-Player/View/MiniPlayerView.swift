@@ -30,7 +30,7 @@ struct MiniPlayerView: View {
                 if !isFullPlayer {
                     PlayerProgressView(playerViewModel: playerViewModel)
                         .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
-                        .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
+                        .progressViewStyle(LinearProgressViewStyle(tint: AppColor.mainColor))
                         .onReceive(timer) { _ in
                             playerViewModel.progressRate = playerViewModel.player.currentPlaybackTime
                         }
@@ -56,7 +56,7 @@ struct MiniPlayerView: View {
                                     } label: {
                                         Image(systemName: "chevron.down")
                                             .frame(width: 50, height: 50)
-                                            .foregroundColor(mainColor)
+                                            .foregroundColor(AppColor.mainColor)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     ContentInfoTextView(playerViewModel: playerViewModel)
@@ -120,11 +120,11 @@ struct ContentInfoTextView: View {
             if playerViewModel.player.nowPlayingItem != nil {
                 Text(playerViewModel.nowPlayingSong.title)
                     .font(.headline)
-                    .foregroundColor(mainTextColor)
+                    .foregroundColor(AppColor.mainTextColor)
                     .lineLimit(1)
                 Text(playerViewModel.nowPlayingSong.artist + " ― " + playerViewModel.nowPlayingSong.albumTitle)
                     .font(.subheadline)
-                    .foregroundColor(mainTextColor)
+                    .foregroundColor(AppColor.mainTextColor)
                     .lineLimit(1)
             } else {
                 Text("앨범을 추가해주세요.")
@@ -146,7 +146,7 @@ struct PlayPauseButton: View {
         } label: {
             (playerViewModel.playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill"))
                 .font(.title)
-                .foregroundColor(mainColor)
+                .foregroundColor(AppColor.mainColor)
                 .frame(width: 50, height: 50)
         }
     }
@@ -168,17 +168,17 @@ struct FullSizePlayerControllerView: View {
                     case .noRepeat:
                         Image(systemName: "repeat")
                             .font(.headline)
-                            .foregroundColor(subColor)
+                            .foregroundColor(AppColor.subColor)
                             .frame(width: 50, height: 50)
                     case .albumRepeat:
                         Image(systemName: "repeat")
                             .font(.headline)
-                            .foregroundColor(mainColor)
+                            .foregroundColor(AppColor.mainColor)
                             .frame(width: 50, height: 50)
                     case .oneSongRepeat:
                         Image(systemName: "repeat.1")
                             .font(.headline)
-                            .foregroundColor(mainColor)
+                            .foregroundColor(AppColor.mainColor)
                             .frame(width: 50, height: 50)
                     }
                 }
@@ -192,7 +192,7 @@ struct FullSizePlayerControllerView: View {
                 } label: {
                     Image(systemName: "backward.fill")
                         .font(.headline)
-                        .foregroundColor(mainColor)
+                        .foregroundColor(AppColor.mainColor)
                         .frame(width: 50, height: 50)
                 }
                 Spacer()
@@ -203,7 +203,7 @@ struct FullSizePlayerControllerView: View {
                 } label: {
                     Image(systemName: "forward.fill")
                         .font(.headline)
-                        .foregroundColor(mainColor)
+                        .foregroundColor(AppColor.mainColor)
                         .frame(width: 50, height: 50)
                 }
                 Spacer()
@@ -214,7 +214,7 @@ struct FullSizePlayerControllerView: View {
                 } label: {
                     Image(systemName: "shuffle")
                         .font(.headline)
-                        .foregroundColor(playerViewModel.player.shuffleMode == .off ? subColor : mainColor)
+                        .foregroundColor(playerViewModel.player.shuffleMode == .off ? AppColor.subColor : AppColor.mainColor)
                         .frame(width: 50, height: 50)
                 }
             }
@@ -231,16 +231,16 @@ struct FullSizePlayerControllerView: View {
                         .font(.caption)
                         .offset(x: 0, y: -10)
                         .font(.caption)
-                        .foregroundColor(subColor)
+                        .foregroundColor(AppColor.subColor)
                     Text(playerViewModel.getTimeFrom(rawValue: playerViewModel.progressRate, timeLeftMode: false))
                         .frame(width: UIScreen.main.bounds.width, alignment: .leading)
                         .padding(EdgeInsets(top: 0, leading: -10, bottom: 0, trailing: -10))
                         .offset(x: (UIScreen.main.bounds.width - 35) * playerViewModel.progressRate / (playerViewModel.player.nowPlayingItem?.playbackDuration ?? 10), y: -10)
                         .font(.caption)
-                        .foregroundColor(mainTextColor)
+                        .foregroundColor(AppColor.mainTextColor)
                 }
                 PlayerProgressView(playerViewModel: playerViewModel)
-                    .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
+                    .progressViewStyle(LinearProgressViewStyle(tint: AppColor.mainColor))
                     .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
                     .onReceive(timer) { _ in
                         playerViewModel.progressRate = playerViewModel.player.currentPlaybackTime

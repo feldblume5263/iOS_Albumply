@@ -55,12 +55,12 @@ struct makeAlbumItemContents: View {
             VStack {
                 // MARK: - index로 받아오기 (try, catch)
                 Text(libraryViewModel.getAlbum(at: index).title)
-                    .font(libraryAlbumTitleFont)
-                    .foregroundColor(libraryAlbumTitleFontColor)
+                    .font(AppFont.libraryAlbumTitleFont)
+                    .foregroundColor(AppColor.libraryAlbumTitleFontColor)
                     .lineLimit(1)
                 Text(libraryViewModel.getAlbum(at: index).artist)
-                    .font(libraryAlbumArtistFont)
-                    .foregroundColor(libraryAlbumArtistFontColor)
+                    .font(AppFont.libraryAlbumArtistFont)
+                    .foregroundColor(AppColor.libraryAlbumArtistFontColor)
                     .lineLimit(1)
             }
             .padding(EdgeInsets(top: 5, leading: 20, bottom: 10, trailing: 20))

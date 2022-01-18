@@ -30,7 +30,7 @@ struct ContentView: View {
                         .frame(minHeight: 450, idealHeight: 600, maxHeight: 750, alignment: .bottom)
                 }
                 .edgesIgnoringSafeArea(.bottom)
-                .navigationBarColor(backgroundColor: mainUIColor, tintColor: .white)
+                .navigationBarColor(backgroundColor: AppUIColor.mainUIColor, tintColor: .white)
             }
         } else if authViewModel.authStatus == .notPermitted {
             RequestAuthView()

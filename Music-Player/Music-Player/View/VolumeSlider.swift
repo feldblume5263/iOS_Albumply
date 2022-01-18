@@ -16,8 +16,8 @@ struct VolumeSlider: UIViewRepresentable {
         for current in subViews {
             if current.isKind(of: UISlider.self) {
                 let tempSlider = current as! UISlider
-                tempSlider.minimumTrackTintColor = mainUIColor
-                tempSlider.maximumTrackTintColor = subUIColor
+                tempSlider.minimumTrackTintColor = AppUIColor.mainUIColor
+                tempSlider.maximumTrackTintColor = AppUIColor.subUIColor
                 return current
             }
         }

@@ -40,14 +40,14 @@ struct AlbumSongListView: View {
                         .font(.subheadline)
                         .foregroundColor(Color.gray)
                         .lineLimit(1)
-                    Text(albumDetail.albumContents?.songs[songIndex].title ?? undefinedString)
+                    Text(albumDetail.albumContents?.songs[songIndex].title ?? AppString.undefinedString)
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                         .font(.subheadline)
                         .foregroundColor(Color.black)
                         .lineLimit(1)
                     Spacer()
                     Image(systemName: "ellipsis")
-                        .foregroundColor(mainColor)
+                        .foregroundColor(AppColor.mainColor)
                 }
                 .frame(height: 40)
                 .background(Color.white .onTapGesture {
@@ -105,9 +105,9 @@ struct AlbumControllView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(height: 40, alignment: .center)
-                            .foregroundColor(subColor)
+                            .foregroundColor(AppColor.subColor)
                         Image(systemName: "play.fill")
-                            .foregroundColor(mainColor)
+                            .foregroundColor(AppColor.mainColor)
                             .font(.headline)
                     }
                 }
@@ -120,9 +120,9 @@ struct AlbumControllView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(height: 40, alignment: .center)
-                            .foregroundColor(subColor)
+                            .foregroundColor(AppColor.subColor)
                         Image(systemName: "shuffle")
-                            .foregroundColor(mainColor)
+                            .foregroundColor(AppColor.mainColor)
                             .font(.headline)
                     }
                 }
