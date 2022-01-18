@@ -14,7 +14,7 @@ struct MiniPlayerView: View {
     @StateObject var playerViewModel: MiniPlayerViewModel
     @Binding var isFullPlayer: Bool
     
-    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 0.5, tolerance: 0.05, on: .main, in: .common).autoconnect()
     
     init(player: MPMusicPlayerController, isFullPlayer: Binding<Bool>) {
         _playerViewModel = StateObject(wrappedValue: MiniPlayerViewModel(player: player))
