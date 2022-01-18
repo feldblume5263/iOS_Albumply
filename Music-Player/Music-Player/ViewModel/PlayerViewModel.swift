@@ -22,12 +22,10 @@ class MiniPlayerViewModel: ObservableObject {
     @Published var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     @Published var repeatMode: RepeatMode = .noRepeat
     @Published var isShuffle: Bool = false
-    @Published var isFullPlayer: Bool
     @Published var progressRate:Double = 0.0
     
-    init(player: MPMusicPlayerController, isFullPlayer: Bool) {
+    init(player: MPMusicPlayerController) {
         self.player = player
-        self.isFullPlayer = isFullPlayer
     }
     
     func changeRepeatMode() -> MPMusicRepeatMode {

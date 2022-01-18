@@ -28,7 +28,7 @@ struct ContentView: View {
                     .opacity(isFullPlayer ? 0.5 : 0.0)
                 VStack {
                     Spacer()
-                    MiniPlayerView(player: player, isFullPlayer: isFullPlayer)
+                    MiniPlayerView(player: player, isFullPlayer: $isFullPlayer)
                         .frame(minHeight: 450, idealHeight: 600, maxHeight: 750, alignment: .bottom)
                 }
                 .edgesIgnoringSafeArea(.bottom)
@@ -66,7 +66,5 @@ struct BlurView: UIViewRepresentable {
         return view
     }
     
-    func updateUIView(_ uiView: UIViewType, context: Context) {
-        
-    }
+    func updateUIView(_ uiView: UIViewType, context: Context) { }
 }

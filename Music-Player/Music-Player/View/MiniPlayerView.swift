@@ -12,21 +12,23 @@ import Combine
 
 struct MiniPlayerView: View {
     @StateObject var playerViewModel: MiniPlayerViewModel
+    @Binding var isFullPlayer: Bool
+    
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
-    init(player: MPMusicPlayerController, isFullPlayer: Bool) {
-        _playerViewModel = StateObject(wrappedValue: MiniPlayerViewModel(player: player, isFullPlayer: isFullPlayer))
+    init(player: MPMusicPlayerController, isFullPlayer: Binding<Bool>) {
+        _playerViewModel = StateObject(wrappedValue: MiniPlayerViewModel(player: player))
+        self._isFullPlayer = isFullPlayer
+
     }
     
-    
     var body: some View {
-        
         VStack {
-            if playerViewModel.isFullPlayer {
+            if isFullPlayer {
                 Spacer()
             }
             VStack() {
-                if !playerViewModel.isFullPlayer {
+                if !isFullPlayer {
                     let currentRate = playerViewModel.progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : playerViewModel.progressRate
                     ProgressView(value: currentRate < 0 ? currentRate * -1: currentRate, total: playerViewModel.nowPlayingSong.totalRate)
                         .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
@@ -36,7 +38,7 @@ struct MiniPlayerView: View {
                         }
                 }
                 HStack() {
-                    if !playerViewModel.isFullPlayer {
+                    if !isFullPlayer {
                         if playerViewModel.player.nowPlayingItem != nil {
                             playPauseButton()
                         }
@@ -45,15 +47,13 @@ struct MiniPlayerView: View {
                         Spacer()
                     }
                     VStack {
-                        if playerViewModel.isFullPlayer {
+                        if isFullPlayer {
                             Spacer()
                             HStack {
                                 ZStack {
                                     Button {
-                                        DispatchQueue.global(qos: .userInteractive).async {
-                                            withAnimation(Animation.easeOut(duration: 0.3)) {
-                                                playerViewModel.isFullPlayer.toggle()
-                                            }
+                                        withAnimation(Animation.easeOut(duration: 0.3)) {
+                                            isFullPlayer.toggle()
                                         }
                                     } label: {
                                         Image(systemName: "chevron.down")
@@ -70,27 +70,25 @@ struct MiniPlayerView: View {
                         if playerViewModel.player.nowPlayingItem != nil {
                             Image(uiImage: playerViewModel.nowPlayingSong.artWork)
                                 .resizable()
-                                .frame(maxWidth: playerViewModel.isFullPlayer ? .infinity : 50, maxHeight: playerViewModel.isFullPlayer ? .infinity : 50)
+                                .frame(maxWidth: isFullPlayer ? .infinity : 50, maxHeight: isFullPlayer ? .infinity : 50)
                                 .aspectRatio(contentMode: .fit)
                                 .cornerRadius(10)
                                 .allowsHitTesting(false)
-                                .padding(playerViewModel.isFullPlayer ? EdgeInsets(top: 0, leading: -30, bottom: -30, trailing: -30) : EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                .padding(isFullPlayer ? EdgeInsets(top: 0, leading: -30, bottom: -30, trailing: -30) : EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         }
                     }
                 }
                 .padding(.bottom)
-                if playerViewModel.isFullPlayer {
+                if isFullPlayer {
                     Spacer()
                     makefullPlayerView()
                 }
             }
             .padding(EdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10))
             .background(Color.white.onTapGesture {
-                if !playerViewModel.isFullPlayer && playerViewModel.player.nowPlayingItem != nil {
-                    DispatchQueue.global(qos: .userInteractive).async {
-                        withAnimation(Animation.easeOut(duration: 0.3)) {
-                            playerViewModel.isFullPlayer.toggle()
-                        }
+                if !isFullPlayer && playerViewModel.player.nowPlayingItem != nil {
+                    withAnimation(Animation.easeOut(duration: 0.3)) {
+                        isFullPlayer.toggle()
                     }
                 }
             })
@@ -251,9 +249,7 @@ struct MiniPlayerView: View {
     
     private func playPauseButton() -> some View {
         Button {
-            DispatchQueue.global(qos: .userInteractive).async {
-                playerViewModel.playbackState == .playing ? playerViewModel.player.pause() : playerViewModel.player.play()
-            }
+            playerViewModel.playbackState == .playing ? playerViewModel.player.pause() : playerViewModel.player.play()
         } label: {
             (playerViewModel.playbackState == .playing ? Image(systemName: "pause.fill") : Image(systemName: "play.fill"))
                 .font(.title)
