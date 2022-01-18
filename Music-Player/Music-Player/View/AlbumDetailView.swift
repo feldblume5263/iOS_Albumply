@@ -9,85 +9,28 @@ import SwiftUI
 import MediaPlayer
 
 struct AlbumDetailView: View {
-    var player: MPMusicPlayerController
     @StateObject var albumDetail: AlbumDetailViewModel
-    @State var waitingForPrepare: Bool = false
     
     init(album: Album, player: MPMusicPlayerController) {
-        _albumDetail = StateObject(wrappedValue: AlbumDetailViewModel(album: album))
-        self.player = player
+        _albumDetail = StateObject(wrappedValue: AlbumDetailViewModel(album: album, player: player))
     }
     
     var body: some View {
         VStack {
-            VStack {
-                HStack {
-                    Image(uiImage: albumDetail.album.artwork)
-                        .resizable()
-                        .frame(width: 100, height: 100, alignment: .leading)
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(10)
-                        .padding()
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(albumDetail.album.title)
-                            .font(.headline)
-                            .foregroundColor(Color.black)
-                            .lineLimit(1)
-                            .frame(maxWidth: 200, alignment: .leading)
-                        Text(albumDetail.album.artist)
-                            .font(.subheadline)
-                            .foregroundColor(Color.secondary)
-                            .frame(alignment: .topLeading)
-                            .lineLimit(1)
-                            .frame(maxWidth: 200, alignment: .leading)
-                        Spacer()
-                        
-                    }
-                    .padding(.top, 25)
-                    .padding(.bottom)
-                    Spacer()
-                }
-                .fixedSize()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.trailing)
-                Divider()
-                HStack {
-                    Spacer()
-                    Button {
-                        if !waitingForPrepare {
-                            allSongsPlayButtonPressed(isShuffle: false)
-                        }
-                    } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .frame(height: 40, alignment: .center)
-                                .foregroundColor(subColor)
-                            Image(systemName: "play.fill")
-                                .foregroundColor(mainColor)
-                                .font(.headline)
-                        }
-                    }
-                    Spacer()
-                    Button {
-                        if !waitingForPrepare {
-                            allSongsPlayButtonPressed(isShuffle: true)
-                        }
-                    } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .frame(height: 40, alignment: .center)
-                                .foregroundColor(subColor)
-                            Image(systemName: "shuffle")
-                                .foregroundColor(mainColor)
-                                .font(.headline)
-                        }
-                    }
-                    Spacer()
-                }
-                .padding()
-            }
-            .background(Color.white)
+            AlbumControllView(albumDetail: albumDetail)
+                .background(Color.white)
+            
+            AlbumSongListView(albumDetail: albumDetail)
+                .padding(.bottom, 80)
         }
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+struct AlbumSongListView: View {
+    let albumDetail: AlbumDetailViewModel
+    
+    var body: some View {
         List {
             ForEach(0 ..< albumDetail.getSongsCount(), id: \.self) { songIndex in
                 HStack {
@@ -108,56 +51,84 @@ struct AlbumDetailView: View {
                 }
                 .frame(height: 40)
                 .background(Color.white .onTapGesture {
-                    if !waitingForPrepare {
-                        specificSongPlayButtonPressed(songIndex: songIndex)
+                    if !albumDetail.waitingForPrepare {
+                        albumDetail.specificSongPlayButtonPressed(songIndex: songIndex)
                     }
                 })
             }
         }
-        .padding(.bottom, 80)
-        .onAppear {
-            initSongsInAlbum()
-        }
-        .navigationBarTitleDisplayMode(.inline)
     }
+}
+
+struct AlbumControllView: View {
+    let albumDetail: AlbumDetailViewModel
     
-    private func initSongsInAlbum() {
-        albumDetail.setSongsInAlbumDetail(albumTitle: albumDetail.album.title)
-    }
-    
-    private func allSongsPlayButtonPressed(isShuffle: Bool) {
-        waitingForPrepare = true
-        player.stop()
-        albumDetail.setIDsQueue()
-        let IDsQueue = albumDetail.songIDsQueue
-        player.setQueue(with: IDsQueue)
-        UserDefaults.standard.set(IDsQueue, forKey: "queueDefault")
-        if isShuffle {
-            player.shuffleMode = MPMusicShuffleMode.songs
-            UserDefaults.standard.set(true, forKey: "shuffleDefault")
-            player.shuffleMode = MPMusicShuffleMode.songs
-        } else {
-            UserDefaults.standard.set(false, forKey: "shuffleDefault")
-            player.shuffleMode = MPMusicShuffleMode.off
-        }
-        player.play()
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
-            waitingForPrepare = false
-        }
-    }
-    
-    private func specificSongPlayButtonPressed(songIndex: Int) {
-        waitingForPrepare = true
-        albumDetail.setIDsQueue()
-        let IDsQueue = albumDetail.songIDsQueue
-        player.setQueue(with: IDsQueue)
-        UserDefaults.standard.set(IDsQueue, forKey: "queueDefault")
-        player.play()
-        player.nowPlayingItem = albumDetail.albumContents?.songs[songIndex]
-        UserDefaults.standard.set(false, forKey: "shuffleDefault")
-        player.shuffleMode = MPMusicShuffleMode.off
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
-            waitingForPrepare = false
+    var body: some View {
+        VStack {
+            HStack {
+                Image(uiImage: albumDetail.album.artwork)
+                    .resizable()
+                    .frame(width: 100, height: 100, alignment: .leading)
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(10)
+                    .padding()
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(albumDetail.album.title)
+                        .font(.headline)
+                        .foregroundColor(Color.black)
+                        .lineLimit(1)
+                        .frame(maxWidth: 200, alignment: .leading)
+                    Text(albumDetail.album.artist)
+                        .font(.subheadline)
+                        .foregroundColor(Color.secondary)
+                        .frame(alignment: .topLeading)
+                        .lineLimit(1)
+                        .frame(maxWidth: 200, alignment: .leading)
+                    Spacer()
+                    
+                }
+                .padding(.top, 25)
+                .padding(.bottom)
+                Spacer()
+            }
+            .fixedSize()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.trailing)
+            Divider()
+            HStack {
+                Spacer()
+                Button {
+                    if !albumDetail.waitingForPrepare {
+                        albumDetail .allSongsPlayButtonPressed(isShuffle: false)
+                    }
+                } label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(height: 40, alignment: .center)
+                            .foregroundColor(subColor)
+                        Image(systemName: "play.fill")
+                            .foregroundColor(mainColor)
+                            .font(.headline)
+                    }
+                }
+                Spacer()
+                Button {
+                    if !albumDetail.waitingForPrepare {
+                        albumDetail.allSongsPlayButtonPressed(isShuffle: true)
+                    }
+                } label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(height: 40, alignment: .center)
+                            .foregroundColor(subColor)
+                        Image(systemName: "shuffle")
+                            .foregroundColor(mainColor)
+                            .font(.headline)
+                    }
+                }
+                Spacer()
+            }
+            .padding()
         }
     }
 }
