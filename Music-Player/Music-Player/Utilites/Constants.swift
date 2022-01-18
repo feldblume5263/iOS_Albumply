@@ -13,7 +13,6 @@ enum UserDefaultsKey {
     static let repeatDefault = "repeatDefault"
     static let queueDefault = "queueDefault"
     static let shuffleDefault = "shuffleDefault"
-    static let indexDefault = "indexDefault"
 }
 
 // String
