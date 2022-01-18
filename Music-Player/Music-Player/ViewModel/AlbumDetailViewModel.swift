@@ -61,13 +61,13 @@ final class AlbumDetailViewModel: ObservableObject {
         setIDsQueue()
         let IDsQueue = songIDsQueue
         player.setQueue(with: IDsQueue)
-        UserDefaults.standard.set(IDsQueue, forKey: "queueDefault")
+        UserDefaults.standard.set(IDsQueue, forKey: UserDefaultsKey.queueDefault)
         if isShuffle {
             player.shuffleMode = MPMusicShuffleMode.songs
-            UserDefaults.standard.set(true, forKey: "shuffleDefault")
+            UserDefaults.standard.set(true, forKey: UserDefaultsKey.shuffleDefault)
             player.shuffleMode = MPMusicShuffleMode.songs
         } else {
-            UserDefaults.standard.set(false, forKey: "shuffleDefault")
+            UserDefaults.standard.set(false, forKey: UserDefaultsKey.shuffleDefault)
             player.shuffleMode = MPMusicShuffleMode.off
         }
         player.play()
@@ -81,10 +81,10 @@ final class AlbumDetailViewModel: ObservableObject {
         setIDsQueue()
         let IDsQueue = songIDsQueue
         player.setQueue(with: IDsQueue)
-        UserDefaults.standard.set(IDsQueue, forKey: "queueDefault")
+        UserDefaults.standard.set(IDsQueue, forKey: UserDefaultsKey.queueDefault)
         player.play()
         player.nowPlayingItem = albumContents?.songs[songIndex]
-        UserDefaults.standard.set(false, forKey: "shuffleDefault")
+        UserDefaults.standard.set(false, forKey: UserDefaultsKey.shuffleDefault)
         player.shuffleMode = MPMusicShuffleMode.off
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.waitingForPrepare = false

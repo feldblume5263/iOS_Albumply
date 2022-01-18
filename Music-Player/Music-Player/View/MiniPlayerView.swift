@@ -9,7 +9,6 @@ import SwiftUI
 import MediaPlayer
 import Combine
 
-
 struct MiniPlayerView: View {
     @StateObject private var playerViewModel: MiniPlayerViewModel
     @Binding private var isFullPlayer: Bool
@@ -210,7 +209,7 @@ struct FullSizePlayerControllerView: View {
                 Button {
                     playerViewModel.player.shuffleMode = playerViewModel.player.shuffleMode == .off ? MPMusicShuffleMode.songs : MPMusicShuffleMode.off
                     playerViewModel.playerOption.isShuffle = playerViewModel.player.shuffleMode == .off ? false : true
-                    playerViewModel.playerOption.isShuffle ? UserDefaults.standard.set(true, forKey: "shuffleDefault") : UserDefaults.standard.set(false, forKey: "shuffleDefault")
+                    playerViewModel.playerOption.isShuffle ? UserDefaults.standard.set(true, forKey: UserDefaultsKey.shuffleDefault) : UserDefaults.standard.set(false, forKey: UserDefaultsKey.shuffleDefault)
                 } label: {
                     Image(systemName: "shuffle")
                         .font(.headline)

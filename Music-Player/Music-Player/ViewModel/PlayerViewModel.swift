@@ -10,7 +10,6 @@ import MediaPlayer
 import Combine
 
 final class MiniPlayerViewModel: ObservableObject {
-    
     private(set) var player: MPMusicPlayerController
     @Published private(set) var nowPlayingSong = NowPlayingSong(title: "", albumTitle: "", artist: "", artWork: UIImage(), totalRate: 1.0)
     @Published var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
@@ -22,7 +21,7 @@ final class MiniPlayerViewModel: ObservableObject {
     }
     
     func initPlayerFromUserDefaults() {
-        switch (UserDefaults.standard.integer(forKey: "repeatDefault")) {
+        switch (UserDefaults.standard.integer(forKey: UserDefaultsKey.repeatDefault)) {
         case 0:
             player.repeatMode = .none
             playerOption.repeatMode = .noRepeat
@@ -36,13 +35,13 @@ final class MiniPlayerViewModel: ObservableObject {
             player.repeatMode = .none
             playerOption.repeatMode = .noRepeat
         }
-        if (UserDefaults.standard.array(forKey: "queueDefault") != nil) {
-            player.setQueue(with: UserDefaults.standard.array(forKey: "queueDefault") as? [String] ?? [String]())
+        if (UserDefaults.standard.array(forKey: UserDefaultsKey.queueDefault) != nil) {
+            player.setQueue(with: UserDefaults.standard.array(forKey: UserDefaultsKey.queueDefault) as? [String] ?? [String]())
             player.prepareToPlay()
             player.skipToBeginning()
         }
         
-        if UserDefaults.standard.bool(forKey: "shuffleDefault") {
+        if UserDefaults.standard.bool(forKey: UserDefaultsKey.shuffleDefault) {
             player.shuffleMode = MPMusicShuffleMode.songs
         }
     }
@@ -51,13 +50,13 @@ final class MiniPlayerViewModel: ObservableObject {
         playerOption.repeatMode = playerOption.repeatMode.next()
         switch playerOption.repeatMode {
         case .noRepeat:
-            UserDefaults.standard.set(0, forKey: "repeatDefault")
+            UserDefaults.standard.set(0, forKey: UserDefaultsKey.repeatDefault)
             return MPMusicRepeatMode.none
         case .albumRepeat:
-            UserDefaults.standard.set(1, forKey: "repeatDefault")
+            UserDefaults.standard.set(1, forKey: UserDefaultsKey.repeatDefault)
             return MPMusicRepeatMode.all
         case .oneSongRepeat:
-            UserDefaults.standard.set(2, forKey: "repeatDefault")
+            UserDefaults.standard.set(2, forKey: UserDefaultsKey.repeatDefault)
             return MPMusicRepeatMode.one
         }
     }

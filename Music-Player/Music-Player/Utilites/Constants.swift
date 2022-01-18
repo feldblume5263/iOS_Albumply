@@ -8,6 +8,14 @@
 import SwiftUI
 import MediaPlayer
 
+// UserDefaults key
+enum UserDefaultsKey {
+    static let repeatDefault = "repeatDefault"
+    static let queueDefault = "queueDefault"
+    static let shuffleDefault = "shuffleDefault"
+    static let indexDefault = "indexDefault"
+}
+
 // String
 enum AppString {
     static let undefinedString: String = "Undefined"

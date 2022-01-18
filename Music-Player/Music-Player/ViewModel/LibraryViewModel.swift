@@ -8,7 +8,6 @@
 import MediaPlayer
 
 final class LibraryViewModel: ObservableObject {
-    
     private var albumsItemCollection: [MPMediaItemCollection]?
     @Published private var albums = [Album]()
     
