@@ -71,10 +71,9 @@ class AlbumDetailViewModel: ObservableObject {
             player.shuffleMode = MPMusicShuffleMode.off
         }
         player.play()
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.waitingForPrepare = false
         }
-        
     }
     
     func specificSongPlayButtonPressed(songIndex: Int) {
