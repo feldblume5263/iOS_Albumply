@@ -234,7 +234,7 @@ struct FullSizePlayerControllerView: View {
                         .foregroundColor(subColor)
                     Text(playerViewModel.getTimeFrom(rawValue: playerViewModel.progressRate, timeLeftMode: false))
                         .frame(width: UIScreen.main.bounds.width, alignment: .leading)
-                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                        .padding(EdgeInsets(top: 0, leading: -10, bottom: 0, trailing: -10))
                         .offset(x: (UIScreen.main.bounds.width - 35) * playerViewModel.progressRate / (playerViewModel.player.nowPlayingItem?.playbackDuration ?? 10), y: -10)
                         .font(.caption)
                         .foregroundColor(mainTextColor)
