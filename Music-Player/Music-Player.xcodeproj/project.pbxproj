@@ -24,7 +24,7 @@
 		4FD95D7B27953E55008FFB68 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D7A27953E54008FFB68 /* AuthViewModel.swift */; };
 		4FD95D7D27957252008FFB68 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D7C27957252008FFB68 /* NavigationView.swift */; };
 		4FD95D9927965897008FFB68 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D9827965897008FFB68 /* VolumeSlider.swift */; };
-		4FD95D9B2796856D008FFB68 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D9A2796856D008FFB68 /* Enum.swift */; };
+		4FD95D9B2796856D008FFB68 /* EnumExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95D9A2796856D008FFB68 /* EnumExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +47,7 @@
 		4FD95D7A27953E54008FFB68 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		4FD95D7C27957252008FFB68 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		4FD95D9827965897008FFB68 /* VolumeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSlider.swift; sourceTree = "<group>"; };
-		4FD95D9A2796856D008FFB68 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
+		4FD95D9A2796856D008FFB68 /* EnumExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +138,7 @@
 			children = (
 				4FD95D5C27902D54008FFB68 /* Constants.swift */,
 				4FD95D7C27957252008FFB68 /* NavigationView.swift */,
-				4FD95D9A2796856D008FFB68 /* Enum.swift */,
+				4FD95D9A2796856D008FFB68 /* EnumExtension.swift */,
 			);
 			path = Utilites;
 			sourceTree = "<group>";
@@ -223,7 +223,7 @@
 				4FD95D9927965897008FFB68 /* VolumeSlider.swift in Sources */,
 				4FD95D77279444FE008FFB68 /* NowPlayingSong.swift in Sources */,
 				4FD95D6D27915824008FFB68 /* LibraryView.swift in Sources */,
-				4FD95D9B2796856D008FFB68 /* Enum.swift in Sources */,
+				4FD95D9B2796856D008FFB68 /* EnumExtension.swift in Sources */,
 				4FD95D5D27902D54008FFB68 /* Constants.swift in Sources */,
 				4FD95D7B27953E55008FFB68 /* AuthViewModel.swift in Sources */,
 				4FD95D712791662F008FFB68 /* AlbumContents.swift in Sources */,

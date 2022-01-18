@@ -11,8 +11,6 @@ import MediaPlayer
 @main
 struct Music_PlayerApp: App {
     
-    @State var mediaAuth: Bool = false
-    
     var body: some Scene {
         
         WindowGroup {
