@@ -16,7 +16,7 @@ struct MiniPlayerView: View {
     @Binding var isFullPlayer: Bool
     @State private var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
     @State private var progressRate:Double = 0.0
-    @State private var currentTime: Date = Date()
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         
@@ -31,6 +31,9 @@ struct MiniPlayerView: View {
                     ProgressView(value: currentRate < 0 ? currentRate * -1: currentRate, total: playerViewModel.nowPlayingSong.totalRate)
                         .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
                         .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
+                        .onReceive(timer) { _ in
+                            progressRate = player.currentPlaybackTime
+                        }
                 }
                 HStack() {
                     if !isFullPlayer {
@@ -102,37 +105,6 @@ struct MiniPlayerView: View {
                                                    artist: song?.artist,
                                                    artWork: song?.artwork,
                                                    totalRate: player.nowPlayingItem?.playbackDuration)
-            }
-//            .onReceive(playerViewModel.currentTimePublisher.receive(on: DispatchQueue.global(qos: .background))) { newCurrentTime in
-//
-//                print("is MainThread? : ", Thread.isMainThread)
-//                print()
-//                    self.currentTime = newCurrentTime
-//                    progressRate = player.currentPlaybackTime
-//                    print(progressRate)
-//
-//            }
-            .onAppear {
-                DispatchQueue.global(qos: .background).async {
-                    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                        progressRate = player.currentPlaybackTime
-                    }
-                    RunLoop.current.run()
-                }
-                //                DispatchQueue.global(qos: .background).async {
-                //                    var subscriptions = Set<AnyCancellable>()
-                //                    let start = Date()
-                //                    Timer.publish(every: 1.0, on: .current, in: .common).autoconnect()
-                //                        .map({ (output) in
-                //                            return output.timeIntervalSince(start)
-                //                        })
-                //                        .map({ (timeInterval) in
-                //                            return Int(timeInterval)
-                //                        })
-                //                        .sink { (seconds) in
-                //                            progressRate = player.currentPlaybackTime
-                //                        }
-                //                        .store(in: &subscriptions)
             }
         }
     }
@@ -221,6 +193,9 @@ struct MiniPlayerView: View {
                 ProgressView(value: progressRate < 0 ? progressRate * -1: progressRate, total: player.nowPlayingItem?.playbackDuration ?? 1)
                     .progressViewStyle(LinearProgressViewStyle(tint: mainColor))
                     .padding(EdgeInsets(top: -20, leading: -10, bottom: -20, trailing: -10))
+                    .onReceive(timer) { _ in
+                        progressRate = player.currentPlaybackTime
+                    }
             }
             .fixedSize()
         }
