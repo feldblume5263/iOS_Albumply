@@ -106,6 +106,31 @@ struct MiniPlayerView: View {
                                                    artWork: song?.artwork,
                                                    totalRate: player.nowPlayingItem?.playbackDuration)
             }
+            .onAppear {
+                switch (UserDefaults.standard.integer(forKey: "repeatDefault")) {
+                case 0:
+                    player.repeatMode = .none
+                    playerViewModel.repeatMode = .noRepeat
+                case 1:
+                    player.repeatMode = .all
+                    playerViewModel.repeatMode = .albumRepeat
+                case 2:
+                    player.repeatMode = .one
+                    playerViewModel.repeatMode = .oneSongRepeat
+                default:
+                    player.repeatMode = .none
+                    playerViewModel.repeatMode = .noRepeat
+                }
+                if (UserDefaults.standard.array(forKey: "queueDefault") != nil) {
+                    player.setQueue(with: UserDefaults.standard.array(forKey: "queueDefault") as? [String] ?? [String]())
+                    player.prepareToPlay()
+                    player.skipToBeginning()
+                }
+                
+                if UserDefaults.standard.bool(forKey: "shuffleDefault") {
+                    player.shuffleMode = MPMusicShuffleMode.songs
+                }
+            }
         }
     }
     
@@ -162,6 +187,7 @@ struct MiniPlayerView: View {
                 Button {
                     player.shuffleMode = player.shuffleMode == .off ? MPMusicShuffleMode.songs : MPMusicShuffleMode.off
                     playerViewModel.isShuffle = player.shuffleMode == .off ? false : true
+                    playerViewModel.isShuffle ? UserDefaults.standard.set(true, forKey: "shuffleDefault") : UserDefaults.standard.set(false, forKey: "shuffleDefault")
                 } label: {
                     Image(systemName: "shuffle")
                         .font(.headline)
@@ -233,26 +259,5 @@ struct MiniPlayerView: View {
     
     private func pauseSong() {
         player.pause()
-    }
-}
-
-struct VolumeSlider: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIView {
-        
-        let view = MPVolumeView(frame: .zero)
-        let subViews = view.subviews
-        for current in subViews {
-            if current.isKind(of: UISlider.self) {
-                let tempSlider = current as! UISlider
-                tempSlider.minimumTrackTintColor = mainUIColor
-                tempSlider.maximumTrackTintColor = subUIColor
-                return current
-            }
-        }
-        return view
-    }
-    
-    func updateUIView(_ view: UIView, context: Context) {
-        
     }
 }

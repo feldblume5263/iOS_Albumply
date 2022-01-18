@@ -25,10 +25,13 @@ class MiniPlayerViewModel: ObservableObject {
         repeatMode = repeatMode.next()
         switch repeatMode {
         case .noRepeat:
+            UserDefaults.standard.set(0, forKey: "repeatDefault")
             return MPMusicRepeatMode.none
         case .albumRepeat:
+            UserDefaults.standard.set(1, forKey: "repeatDefault")
             return MPMusicRepeatMode.all
         case .oneSongRepeat:
+            UserDefaults.standard.set(2, forKey: "repeatDefault")
             return MPMusicRepeatMode.one
         }
     }

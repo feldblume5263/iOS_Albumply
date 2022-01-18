@@ -129,9 +129,16 @@ struct AlbumDetailView: View {
         waitingForPrepare = true
         player.stop()
         albumDetail.setIDsQueue()
-        player.setQueue(with: albumDetail.songIDsQueue)
+        let IDsQueue = albumDetail.songIDsQueue
+        player.setQueue(with: IDsQueue)
+        UserDefaults.standard.set(IDsQueue, forKey: "queueDefault")
         if isShuffle {
             player.shuffleMode = MPMusicShuffleMode.songs
+            UserDefaults.standard.set(true, forKey: "shuffleDefault")
+            player.shuffleMode = MPMusicShuffleMode.songs
+        } else {
+            UserDefaults.standard.set(false, forKey: "shuffleDefault")
+            player.shuffleMode = MPMusicShuffleMode.off
         }
         player.play()
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
@@ -142,9 +149,13 @@ struct AlbumDetailView: View {
     private func specificSongPlayButtonPressed(songIndex: Int) {
         waitingForPrepare = true
         albumDetail.setIDsQueue()
-        player.setQueue(with: albumDetail.songIDsQueue)
+        let IDsQueue = albumDetail.songIDsQueue
+        player.setQueue(with: IDsQueue)
+        UserDefaults.standard.set(IDsQueue, forKey: "queueDefault")
         player.play()
         player.nowPlayingItem = albumDetail.albumContents?.songs[songIndex]
+        UserDefaults.standard.set(false, forKey: "shuffleDefault")
+        player.shuffleMode = MPMusicShuffleMode.off
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
             waitingForPrepare = false
         }
