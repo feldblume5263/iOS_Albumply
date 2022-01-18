@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+// MARK: - NavigationBar color 설정 -  https://medium.com/swlh/custom-navigationview-bar-in-swiftui-4b782eb68e94
 struct NavigationBarColor: ViewModifier {
 
   init(backgroundColor: UIColor, tintColor: UIColor) {

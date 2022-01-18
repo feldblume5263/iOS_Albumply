@@ -9,9 +9,9 @@ import SwiftUI
 import MediaPlayer
 
 enum AuthStatus {
-    case notYetDetermined
-    case permitted
-    case notPermitted
+    case notYetDetermined // 권한 미정(초기값)
+    case permitted // 권한 수락 - 앱 로드
+    case notPermitted // 권한 거절 - 설정 창으로 이동
 }
 
 final class AuthViewModel: ObservableObject {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// MARK: - Enum 순환을 위한 Extension - https://stackoverflow.com/questions/51103795/how-to-get-next-case-of-enumi-e-write-a-circulating-method-in-swift-4-2
 extension CaseIterable where Self: Equatable, AllCases: BidirectionalCollection {
     func previous() -> Self {
         let all = Self.allCases

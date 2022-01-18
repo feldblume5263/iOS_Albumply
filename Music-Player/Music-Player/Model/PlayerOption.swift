@@ -8,11 +8,12 @@
 import SwiftUI
 
 enum RepeatMode: CaseIterable {
-    case noRepeat
-    case albumRepeat
-    case oneSongRepeat
+    case noRepeat // 반복 없음
+    case albumRepeat // 앨범 내 전곡 반복
+    case oneSongRepeat // 한 곡 반복
 }
 
+// 플레이어의 옵션
 struct PlayerOption {
     var repeatMode: RepeatMode = .noRepeat
     var isShuffle: Bool = false
