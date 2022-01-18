@@ -27,10 +27,12 @@ class AuthViewModel: ObservableObject {
             self.authStatus = .permitted
         } else {
             MPMediaLibrary.requestAuthorization() { status in
-                if status == .authorized {
-                    self.authStatus = .permitted
-                } else {
-                    self.authStatus = .notPermitted
+                DispatchQueue.main.async {
+                    if status == .authorized {
+                        self.authStatus = .permitted
+                    } else {
+                        self.authStatus = .notPermitted
+                    }
                 }
             }
         }

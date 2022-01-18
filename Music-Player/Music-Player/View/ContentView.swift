@@ -11,9 +11,7 @@ import MediaPlayer
 struct ContentView: View {
     
     @State private var player = MPMusicPlayerController.applicationMusicPlayer
-    @State var isPlaying = false
     @State var isFullPlayer: Bool = false
-    @State var alertVisible: Bool = false
     @ObservedObject var authViewModel = AuthViewModel()
     
     var body: some View {
