@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// 앨범 정보
+//MARK: 앨범 정보
 struct Album {
     var title: String
     var artist: String

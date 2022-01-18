@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// 현재 재생/재생대기 중에 있는 음악의 정보
+//MARK: 현재 재생/재생대기 중에 있는 음악의 정보
 struct NowPlayingSong {
     var title: String
     var albumTitle: String

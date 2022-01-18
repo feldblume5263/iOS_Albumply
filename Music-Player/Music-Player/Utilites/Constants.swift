@@ -8,28 +8,27 @@
 import SwiftUI
 import MediaPlayer
 
-// UserDefaults key
+//MARK: - UserDefaults key
 enum UserDefaultsKey {
     static let repeatDefault = "repeatDefault"
     static let queueDefault = "queueDefault"
     static let shuffleDefault = "shuffleDefault"
 }
 
-// String
+//MARK: String
 enum AppString {
     static let undefinedString: String = "Undefined"
 }
 
 
-// Font
+//MARK: Font
 enum AppFont {
     static let libraryAlbumTitleFont = Font.system(size: 15, weight: .semibold)
     static let libraryAlbumArtistFont = Font.system(size: 13, weight: .regular)
 }
 
 
-// Color
-
+//MARK: Color
 enum AppUIColor {
     static let mainUIColor = UIColor(red: 130/255, green: 200/255, blue: 227/255, alpha: 1.0)
     static let subUIColor = UIColor(red: 218/255, green: 239/255, blue: 248/255, alpha: 1.0)

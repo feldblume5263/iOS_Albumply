@@ -7,7 +7,7 @@
 
 import MediaPlayer
 
-// 단일 앨범의 노래
+//MARK: 단일 앨범의 노래
 struct AlbumContents {
     var songs: [MPMediaItem] = []
 }

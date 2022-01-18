@@ -13,7 +13,7 @@ enum RepeatMode: CaseIterable {
     case oneSongRepeat // 한 곡 반복
 }
 
-// 플레이어의 옵션
+//MARK: 플레이어의 옵션
 struct PlayerOption {
     var repeatMode: RepeatMode = .noRepeat
     var isShuffle: Bool = false
