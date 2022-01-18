@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Album {
-    var albumTitle: String
-    var albumArtist: String
-    var albumArtwork: UIImage
+    var title: String
+    var artist: String
+    var artwork: UIImage
 }

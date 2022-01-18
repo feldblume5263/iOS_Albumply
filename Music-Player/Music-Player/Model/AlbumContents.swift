@@ -9,5 +9,4 @@ import MediaPlayer
 
 struct AlbumContents {
     var songs: [MPMediaItem] = []
-    var firstPlayingIndex: Int = 0
 }

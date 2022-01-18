@@ -22,19 +22,19 @@ struct AlbumDetailView: View {
         VStack {
             VStack {
                 HStack {
-                    Image(uiImage: albumDetail.album.albumArtwork)
+                    Image(uiImage: albumDetail.album.artwork)
                         .resizable()
                         .frame(width: 100, height: 100, alignment: .leading)
                         .aspectRatio(contentMode: .fit)
                         .cornerRadius(10)
                         .padding()
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(albumDetail.album.albumTitle)
+                        Text(albumDetail.album.title)
                             .font(.headline)
                             .foregroundColor(Color.black)
                             .lineLimit(1)
                             .frame(maxWidth: 200, alignment: .leading)
-                        Text(albumDetail.album.albumArtist)
+                        Text(albumDetail.album.artist)
                             .font(.subheadline)
                             .foregroundColor(Color.secondary)
                             .frame(alignment: .topLeading)
@@ -86,6 +86,7 @@ struct AlbumDetailView: View {
                 }
                 .padding()
             }
+            .background(Color.white)
         }
         List {
             ForEach(0 ..< albumDetail.getSongsCount(), id: \.self) { songIndex in
@@ -114,7 +115,6 @@ struct AlbumDetailView: View {
             }
         }
         .padding(.bottom, 80)
-        .background(Color.white)
         .onAppear {
             initSongsInAlbum()
         }
@@ -122,7 +122,7 @@ struct AlbumDetailView: View {
     }
     
     private func initSongsInAlbum() {
-        albumDetail.setSongsInAlbumDetail(albumTitle: albumDetail.album.albumTitle)
+        albumDetail.setSongsInAlbumDetail(albumTitle: albumDetail.album.title)
     }
     
     private func allSongsPlayButtonPressed(isShuffle: Bool) {

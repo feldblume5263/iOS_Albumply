@@ -35,6 +35,14 @@ struct ContentView: View {
                 .navigationBarColor(backgroundColor: mainUIColor, tintColor: .white)
             }
         } else if authViewModel.authStatus == .notPermitted {
+            RequestAuthView()
+        }
+    }
+}
+
+struct RequestAuthView: View {
+    var body: some View {
+        VStack {
             Spacer()
             Text("미디어 및 Apple Music 권한 설정이 필요합니다.")
                 .font(.subheadline)

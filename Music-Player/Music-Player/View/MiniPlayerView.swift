@@ -97,7 +97,6 @@ struct MiniPlayerView: View {
             .shadow(radius: 3)
             .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerPlaybackStateDidChange)){ _ in
                 playbackState = MPMusicPlayerController.applicationMusicPlayer.playbackState
-                playbackState?.printState()
             }
             .onReceive(NotificationCenter.default.publisher(for: .MPMusicPlayerControllerNowPlayingItemDidChange)){ _ in
                 let song = player.nowPlayingItem
@@ -241,7 +240,7 @@ struct MiniPlayerView: View {
                     .foregroundColor(mainTextColor)
                     .lineLimit(1)
             } else {
-                Text("라이브리에 앨범을 추가해주세요.")
+                Text("앨범을 추가해주세요.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .lineLimit(1)

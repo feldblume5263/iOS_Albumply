@@ -11,7 +11,6 @@ import MediaPlayer
 struct LibraryView: View {
     @StateObject var libraryViewModel = LibraryViewModel()
     var player: MPMusicPlayerController
-    
     let columns: [GridItem] = [GridItem(.flexible(), spacing: 20, alignment: .center),
                                GridItem(.flexible(), spacing: 20, alignment: .center)]
     
@@ -21,7 +20,7 @@ struct LibraryView: View {
                 ForEach(0 ..< libraryViewModel.getAlbumsCount(), id: \.self) { index in
                     NavigationLink(destination: AlbumDetailView(album: libraryViewModel.getAlbum(at: index), player: player)) {
                         
-                        makeGridAlbumItem(index: index)
+                        makeGridAlbumItem(index: index, libraryViewModel: libraryViewModel)
                     }
                 }
             }
@@ -33,39 +32,34 @@ struct LibraryView: View {
         .onAppear {
             libraryViewModel.refreshAlbums()
             if UserDefaults.standard.array(forKey: "queueDefault") == nil || player.nowPlayingItem == nil {
-                    if libraryViewModel.getAlbumsCount() > 0 {
-                        player.setQueue(with: MPMediaQuery.songs())
-                        player.prepareToPlay()
-                        player.skipToBeginning()
-                    }
+                if libraryViewModel.getAlbumsCount() > 0 {
+                    player.setQueue(with: MPMediaQuery.songs())
+                    player.prepareToPlay()
+                    player.skipToBeginning()
                 }
             }
-    }
-    
-    private func makeGridAlbumItem(index: Int) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(.white)
-                .shadow(radius: 3)
-                .frame(minHeight: 100, idealHeight: 200, maxHeight: 350, alignment: .center)
-            makeAlbumItemContents(index: index)
         }
-        .padding(5)
+        .background(.white)
     }
+}
+
+struct makeAlbumItemContents: View {
+    let index: Int
+    let libraryViewModel: LibraryViewModel
     
-    private func makeAlbumItemContents(index: Int) -> some View {
+    var body: some View {
         VStack{
-            Image(uiImage: libraryViewModel.getAlbum(at: index).albumArtwork)
+            Image(uiImage: libraryViewModel.getAlbum(at: index).artwork)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             VStack {
                 // MARK: - index로 받아오기 (try, catch)
-                Text(libraryViewModel.getAlbum(at: index).albumTitle)
+                Text(libraryViewModel.getAlbum(at: index).title)
                     .font(libraryAlbumTitleFont)
                     .foregroundColor(libraryAlbumTitleFontColor)
                     .lineLimit(1)
-                Text(libraryViewModel.getAlbum(at: index).albumArtist)
+                Text(libraryViewModel.getAlbum(at: index).artist)
                     .font(libraryAlbumArtistFont)
                     .foregroundColor(libraryAlbumArtistFontColor)
                     .lineLimit(1)
@@ -73,5 +67,21 @@ struct LibraryView: View {
             .padding(EdgeInsets(top: 5, leading: 20, bottom: 10, trailing: 20))
         }
         .cornerRadius(20)
+    }
+}
+
+struct makeGridAlbumItem: View {
+    let index: Int
+    let libraryViewModel: LibraryViewModel
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.white)
+                .shadow(radius: 3)
+                .frame(minHeight: 100, idealHeight: 200, maxHeight: 350, alignment: .center)
+            makeAlbumItemContents(index: index, libraryViewModel: libraryViewModel)
+        }
+        .padding(5)
     }
 }

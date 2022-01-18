@@ -14,7 +14,7 @@ class LibraryViewModel: ObservableObject {
     
     func getAlbum(at index: Int) -> Album {
         if index < 0 || index >= albums.count {
-            return Album(albumTitle: undefinedString, albumArtist: undefinedString, albumArtwork: UIImage())
+            return Album(title: undefinedString, artist: undefinedString, artwork: UIImage())
         }
         return albums[index]
     }
@@ -36,7 +36,7 @@ class LibraryViewModel: ObservableObject {
             let newAlbumTitle = libraryAlbumRepresentativeItem?.albumTitle ?? undefinedString
             let newAlbumArtist = libraryAlbumRepresentativeItem?.albumArtist ?? undefinedString
             let newAlbumArtwork = libraryAlbumRepresentativeItem?.artwork?.image(at: CGSize(width: 500, height: 500)) ?? UIImage()
-            let newLibraryAlbum = Album(albumTitle: newAlbumTitle, albumArtist: newAlbumArtist, albumArtwork: newAlbumArtwork)
+            let newLibraryAlbum = Album(title: newAlbumTitle, artist: newAlbumArtist, artwork: newAlbumArtwork)
             albums.append(newLibraryAlbum)
         })
     }
