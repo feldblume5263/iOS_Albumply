@@ -9,19 +9,12 @@ import SwiftUI
 import MediaPlayer
 import Combine
 
-enum RepeatMode: CaseIterable {
-    case noRepeat
-    case albumRepeat
-    case oneSongRepeat
-}
-
-class MiniPlayerViewModel: ObservableObject {
+final class MiniPlayerViewModel: ObservableObject {
     
-    var player: MPMusicPlayerController
-    @Published var nowPlayingSong = NowPlayingSong(title: "", albumTitle: "", artist: "", artWork: UIImage(), totalRate: 1.0)
+    private(set) var player: MPMusicPlayerController
+    @Published private(set) var nowPlayingSong = NowPlayingSong(title: "", albumTitle: "", artist: "", artWork: UIImage(), totalRate: 1.0)
     @Published var playbackState: MPMusicPlaybackState? = MPMusicPlayerController.applicationMusicPlayer.playbackState
-    @Published var repeatMode: RepeatMode = .noRepeat
-    @Published var isShuffle: Bool = false
+    @Published var playerOption = PlayerOption()
     @Published var progressRate:Double = 0.0
     
     init(player: MPMusicPlayerController) {
@@ -32,16 +25,16 @@ class MiniPlayerViewModel: ObservableObject {
         switch (UserDefaults.standard.integer(forKey: "repeatDefault")) {
         case 0:
             player.repeatMode = .none
-            repeatMode = .noRepeat
+            playerOption.repeatMode = .noRepeat
         case 1:
             player.repeatMode = .all
-            repeatMode = .albumRepeat
+            playerOption.repeatMode = .albumRepeat
         case 2:
             player.repeatMode = .one
-            repeatMode = .oneSongRepeat
+            playerOption.repeatMode = .oneSongRepeat
         default:
             player.repeatMode = .none
-            repeatMode = .noRepeat
+            playerOption.repeatMode = .noRepeat
         }
         if (UserDefaults.standard.array(forKey: "queueDefault") != nil) {
             player.setQueue(with: UserDefaults.standard.array(forKey: "queueDefault") as? [String] ?? [String]())
@@ -55,8 +48,8 @@ class MiniPlayerViewModel: ObservableObject {
     }
     
     func changeRepeatMode() -> MPMusicRepeatMode {
-        repeatMode = repeatMode.next()
-        switch repeatMode {
+        playerOption.repeatMode = playerOption.repeatMode.next()
+        switch playerOption.repeatMode {
         case .noRepeat:
             UserDefaults.standard.set(0, forKey: "repeatDefault")
             return MPMusicRepeatMode.none
@@ -77,9 +70,7 @@ class MiniPlayerViewModel: ObservableObject {
         self.nowPlayingSong.totalRate = totalRate ?? 10.0
     }
     
-    func getTimeFrom(rawValue: Double, timeLeftMode: Bool) -> String {
-        
-        
+    static func getTimeFrom(rawValue: Double, timeLeftMode: Bool) -> String {
         let hour = (Int(rawValue) % 86400) / 3600
         let minute = (Int(rawValue) % 3600) / 60
         let second = (Int(rawValue) % 3600) % 60

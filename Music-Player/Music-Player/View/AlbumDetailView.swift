@@ -9,7 +9,7 @@ import SwiftUI
 import MediaPlayer
 
 struct AlbumDetailView: View {
-    @StateObject var albumDetail: AlbumDetailViewModel
+    @StateObject fileprivate var albumDetail: AlbumDetailViewModel
     
     init(album: Album, player: MPMusicPlayerController) {
         _albumDetail = StateObject(wrappedValue: AlbumDetailViewModel(album: album, player: player))
@@ -28,7 +28,7 @@ struct AlbumDetailView: View {
 }
 
 struct AlbumSongListView: View {
-    let albumDetail: AlbumDetailViewModel
+    @StateObject fileprivate var albumDetail: AlbumDetailViewModel
     
     var body: some View {
         List {
@@ -61,7 +61,7 @@ struct AlbumSongListView: View {
 }
 
 struct AlbumControllView: View {
-    let albumDetail: AlbumDetailViewModel
+    @StateObject fileprivate var albumDetail: AlbumDetailViewModel
     
     var body: some View {
         VStack {

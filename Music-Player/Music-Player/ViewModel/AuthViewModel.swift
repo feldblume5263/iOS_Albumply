@@ -14,14 +14,14 @@ enum AuthStatus {
     case notPermitted
 }
 
-class AuthViewModel: ObservableObject {
-    @Published var authStatus: AuthStatus = .notYetDetermined
+final class AuthViewModel: ObservableObject {
+    @Published private(set) var authStatus: AuthStatus = .notYetDetermined
     
     init() {
         getAuthrization()
     }
     
-    func getAuthrization()  {
+    private func getAuthrization()  {
         let status = MPMediaLibrary.authorizationStatus()
         if (status == MPMediaLibraryAuthorizationStatus.authorized) {
             self.authStatus = .permitted

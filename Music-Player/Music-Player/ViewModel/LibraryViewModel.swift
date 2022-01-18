@@ -7,10 +7,10 @@
 
 import MediaPlayer
 
-class LibraryViewModel: ObservableObject {
+final class LibraryViewModel: ObservableObject {
     
     private var albumsItemCollection: [MPMediaItemCollection]?
-    @Published var albums = [Album]()
+    @Published private var albums = [Album]()
     
     func getAlbum(at index: Int) -> Album {
         if index < 0 || index >= albums.count {
@@ -20,11 +20,6 @@ class LibraryViewModel: ObservableObject {
     }
     
     func refreshAlbums() {
-        self.makeAlbumsQuery()
-        self.setAlbums()
-    }
-    
-    func testRefreshAlbums() {
         self.makeAlbumsQuery()
         self.setAlbums()
     }

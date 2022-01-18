@@ -7,13 +7,13 @@
 
 import MediaPlayer
 
-class AlbumDetailViewModel: ObservableObject {
+final class AlbumDetailViewModel: ObservableObject {
     
     private var player: MPMusicPlayerController
-    var album: Album
-    @Published var albumContents: AlbumContents?
-    @Published var songIDsQueue: [String] = []
-    @Published var waitingForPrepare: Bool = false
+    private(set) var album: Album
+    @Published private(set) var albumContents: AlbumContents?
+    @Published private var songIDsQueue: [String] = []
+    @Published private(set) var waitingForPrepare: Bool = false
     
     init(album: Album, player: MPMusicPlayerController) {
         self.album = album
@@ -21,11 +21,11 @@ class AlbumDetailViewModel: ObservableObject {
         initSongsInAlbum()
     }
     
-    func initSongsInAlbum() {
+    private func initSongsInAlbum() {
         setSongsInAlbumDetail(albumTitle: album.title)
     }
 
-    func setIDsQueue() {
+    private func setIDsQueue() {
         var stringQueue: [String] = []
         songIDsQueue.removeAll()
         albumContents?.songs.forEach({ song in
@@ -35,7 +35,7 @@ class AlbumDetailViewModel: ObservableObject {
         songIDsQueue = stringQueue
     }
     
-    func setSongsInAlbumDetail(albumTitle: String) {
+    private func setSongsInAlbumDetail(albumTitle: String) {
         albumContents = AlbumContents(songs: getSongsFor(Album: albumTitle))
     }
     

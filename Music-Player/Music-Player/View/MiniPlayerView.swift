@@ -11,10 +11,10 @@ import Combine
 
 
 struct MiniPlayerView: View {
-    @StateObject var playerViewModel: MiniPlayerViewModel
-    @Binding var isFullPlayer: Bool
+    @StateObject private var playerViewModel: MiniPlayerViewModel
+    @Binding private var isFullPlayer: Bool
     
-    let timer = Timer.publish(every: 0.5, tolerance: 0.05, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 0.5, tolerance: 0.05, on: .main, in: .common).autoconnect()
     
     init(player: MPMusicPlayerController, isFullPlayer: Binding<Bool>) {
         _playerViewModel = StateObject(wrappedValue: MiniPlayerViewModel(player: player))
@@ -113,7 +113,7 @@ struct MiniPlayerView: View {
 
 
 struct ContentInfoTextView: View {
-    @StateObject var playerViewModel: MiniPlayerViewModel
+    @StateObject fileprivate var playerViewModel: MiniPlayerViewModel
     
     var body: some View {
         VStack(alignment: .center) {
@@ -138,7 +138,7 @@ struct ContentInfoTextView: View {
 
 
 struct PlayPauseButton: View {
-    @StateObject var playerViewModel: MiniPlayerViewModel
+    @StateObject fileprivate var playerViewModel: MiniPlayerViewModel
     
     var body: some View {
         Button {
@@ -154,8 +154,8 @@ struct PlayPauseButton: View {
 
 
 struct FullSizePlayerControllerView: View {
-    @StateObject var playerViewModel: MiniPlayerViewModel
-    let timer: Publishers.Autoconnect<Timer.TimerPublisher>
+    @StateObject fileprivate var playerViewModel: MiniPlayerViewModel
+    fileprivate let timer: Publishers.Autoconnect<Timer.TimerPublisher>
     
     var body: some View {
         VStack{
@@ -164,7 +164,7 @@ struct FullSizePlayerControllerView: View {
                 Button {
                     playerViewModel.player.repeatMode = playerViewModel.changeRepeatMode()
                 } label: {
-                    switch playerViewModel.repeatMode {
+                    switch playerViewModel.playerOption.repeatMode {
                     case .noRepeat:
                         Image(systemName: "repeat")
                             .font(.headline)
@@ -209,8 +209,8 @@ struct FullSizePlayerControllerView: View {
                 Spacer()
                 Button {
                     playerViewModel.player.shuffleMode = playerViewModel.player.shuffleMode == .off ? MPMusicShuffleMode.songs : MPMusicShuffleMode.off
-                    playerViewModel.isShuffle = playerViewModel.player.shuffleMode == .off ? false : true
-                    playerViewModel.isShuffle ? UserDefaults.standard.set(true, forKey: "shuffleDefault") : UserDefaults.standard.set(false, forKey: "shuffleDefault")
+                    playerViewModel.playerOption.isShuffle = playerViewModel.player.shuffleMode == .off ? false : true
+                    playerViewModel.playerOption.isShuffle ? UserDefaults.standard.set(true, forKey: "shuffleDefault") : UserDefaults.standard.set(false, forKey: "shuffleDefault")
                 } label: {
                     Image(systemName: "shuffle")
                         .font(.headline)
@@ -226,13 +226,13 @@ struct FullSizePlayerControllerView: View {
             VStack {
                 Spacer()
                 ZStack {
-                    Text(playerViewModel.getTimeFrom(rawValue: (playerViewModel.player.nowPlayingItem?.playbackDuration ?? 1) - playerViewModel.progressRate, timeLeftMode: true))
+                    Text(MiniPlayerViewModel.getTimeFrom(rawValue: (playerViewModel.player.nowPlayingItem?.playbackDuration ?? 1) - playerViewModel.progressRate, timeLeftMode: true))
                         .frame(width: UIScreen.main.bounds.width, alignment: .trailing)
                         .font(.caption)
                         .offset(x: 0, y: -10)
                         .font(.caption)
                         .foregroundColor(AppColor.subColor)
-                    Text(playerViewModel.getTimeFrom(rawValue: playerViewModel.progressRate, timeLeftMode: false))
+                    Text(MiniPlayerViewModel.getTimeFrom(rawValue: playerViewModel.progressRate, timeLeftMode: false))
                         .frame(width: UIScreen.main.bounds.width, alignment: .leading)
                         .padding(EdgeInsets(top: 0, leading: -10, bottom: 0, trailing: -10))
                         .offset(x: (UIScreen.main.bounds.width - 35) * playerViewModel.progressRate / (playerViewModel.player.nowPlayingItem?.playbackDuration ?? 10), y: -10)
@@ -252,7 +252,7 @@ struct FullSizePlayerControllerView: View {
 }
 
 struct PlayerProgressView: View {
-    @StateObject var playerViewModel: MiniPlayerViewModel
+    @StateObject fileprivate var playerViewModel: MiniPlayerViewModel
     
     var body: some View {
         let currentRate = playerViewModel.progressRate > playerViewModel.nowPlayingSong.totalRate ?  playerViewModel.nowPlayingSong.totalRate : playerViewModel.progressRate

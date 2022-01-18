@@ -9,9 +9,9 @@ import SwiftUI
 import MediaPlayer
 
 struct LibraryView: View {
-    @StateObject var libraryViewModel = LibraryViewModel()
-    var player: MPMusicPlayerController
-    let columns: [GridItem] = [GridItem(.flexible(), spacing: 20, alignment: .center),
+    @StateObject fileprivate var libraryViewModel = LibraryViewModel()
+    fileprivate(set) var player: MPMusicPlayerController
+    private let columns: [GridItem] = [GridItem(.flexible(), spacing: 20, alignment: .center),
                                GridItem(.flexible(), spacing: 20, alignment: .center)]
     
     var body: some View {
@@ -44,7 +44,7 @@ struct LibraryView: View {
 
 struct makeAlbumItemContents: View {
     let index: Int
-    let libraryViewModel: LibraryViewModel
+    @StateObject var libraryViewModel: LibraryViewModel
     
     var body: some View {
         VStack{
@@ -53,7 +53,6 @@ struct makeAlbumItemContents: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             VStack {
-                // MARK: - index로 받아오기 (try, catch)
                 Text(libraryViewModel.getAlbum(at: index).title)
                     .font(AppFont.libraryAlbumTitleFont)
                     .foregroundColor(AppColor.libraryAlbumTitleFontColor)
@@ -71,7 +70,7 @@ struct makeAlbumItemContents: View {
 
 struct makeGridAlbumItem: View {
     let index: Int
-    let libraryViewModel: LibraryViewModel
+    @StateObject var libraryViewModel: LibraryViewModel
     
     var body: some View {
         ZStack {

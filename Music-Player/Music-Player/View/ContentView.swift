@@ -11,8 +11,8 @@ import MediaPlayer
 struct ContentView: View {
     
     @State private var player = MPMusicPlayerController.applicationMusicPlayer
-    @State var isFullPlayer: Bool = false
-    @ObservedObject var authViewModel = AuthViewModel()
+    @State fileprivate var isFullPlayer: Bool = false
+    @ObservedObject private var authViewModel = AuthViewModel()
     
     var body: some View {
         if authViewModel.authStatus == .permitted {
