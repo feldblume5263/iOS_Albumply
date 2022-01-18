@@ -23,16 +23,14 @@ class AuthViewModel: ObservableObject {
     
     func getAuthrization()  {
         let status = MPMediaLibrary.authorizationStatus()
-        if(status == MPMediaLibraryAuthorizationStatus.authorized){
+        if (status == MPMediaLibraryAuthorizationStatus.authorized) {
             self.authStatus = .permitted
-        }else{
+        } else {
             MPMediaLibrary.requestAuthorization() { status in
-                DispatchQueue.main.async {
-                    if status == .authorized {
-                        self.authStatus = .permitted
-                    }else{
-                        self.authStatus = .notPermitted
-                    }
+                if status == .authorized {
+                    self.authStatus = .permitted
+                } else {
+                    self.authStatus = .notPermitted
                 }
             }
         }
