@@ -9,27 +9,13 @@ import SwiftUI
 import MediaPlayer
 
 @main
-struct Music_Player_V1App: App {
-    
-    init() {
-        authMediaLibrary()
-    }
+struct Music_PlayerApp: App {
     
     var body: some Scene {
+        
         WindowGroup {
             ContentView()
-        }
-    }
-    
-    private func authMediaLibrary() {
-        MPMediaLibrary.requestAuthorization { status in
-            if status == .authorized {
-                print("Success to Get media permission")
-            } else {
-                print("Fail to get media permission")
-                
-            }
-            
+                .preferredColorScheme(.light)
         }
     }
 }

@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct LibraryAlbumModel {
-    
-    var albumTitle: String
-    var albumArtist: String
+// 앨범 정보
+struct Album {
+    var title: String
+    var artist: String
+    var artwork: UIImage
 }

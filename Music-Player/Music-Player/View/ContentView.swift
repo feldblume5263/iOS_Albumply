@@ -6,42 +6,62 @@
 //
 
 import SwiftUI
+import MediaPlayer
 
 struct ContentView: View {
+    @State private var player = MPMusicPlayerController.applicationMusicPlayer
+    @State fileprivate var isFullPlayer: Bool = false
+    @ObservedObject private var authViewModel = AuthViewModel()
     
     var body: some View {
-        NavigationView {
-            LibraryAlbumsView()
-                .padding(EdgeInsets(top: 50, leading: 0, bottom: 0, trailing: 0))
+        if authViewModel.authStatus == .permitted {
+            ZStack {
+                NavigationView {
+                    LibraryView(player: player)
+                        .padding(.bottom, 80)
+                }
+                .edgesIgnoringSafeArea(.bottom)
+                BlurView()
+                    .opacity(isFullPlayer ? 0.5 : 0.0)
+                VStack {
+                    Spacer()
+                    MiniPlayerView(player: player, isFullPlayer: $isFullPlayer)
+                        .frame(minHeight: 450, idealHeight: 600, maxHeight: 750, alignment: .bottom)
+                }
+                .edgesIgnoringSafeArea(.bottom)
+                .navigationBarColor(backgroundColor: AppUIColor.mainUIColor, tintColor: .white)
+            }
+        } else if authViewModel.authStatus == .notPermitted {
+            RequestAuthView()
         }
     }
 }
 
-
-struct LibraryAlbumsView: View {
-    
-    @ObservedObject var libraryAlbumsViewModel = LibraryAlbumsViewModel()
-    
-    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
+struct RequestAuthView: View {
     var body: some View {
-        ScrollView {
-            Button("test button") {
-                libraryAlbumsViewModel.changeDataForTest()
+        VStack {
+            Spacer()
+            Text("미디어 및 Apple Music 권한 설정이 필요합니다.")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            Spacer()
+            Button("설정창으로 가기") {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
             }
-            LazyVGrid(columns: columns, spacing: 30) {
-                ForEach(0 ..< libraryAlbumsViewModel.getLibraryAlbumsCount(), id: \.self) { libraryAlbumIndex in
-                    VStack {
-                        Text(libraryAlbumsViewModel.libraryAlbums[libraryAlbumIndex].albumTitle)
-                            .font(libraryAlbumTitleFont)
-                            .foregroundColor(libraryAlbumTitleFontColor)
-                        Text(libraryAlbumsViewModel.libraryAlbums[libraryAlbumIndex].albumArtist)
-                            .font(libraryAlbumArtistFont)
-                            .foregroundColor(libraryAlbumArtistFontColor)
-                    }
-                }.background(Color.green)
-            }
-            .navigationTitle("라이브러리")
-        }.onAppear(perform: libraryAlbumsViewModel.refreshLibraryAlbums)
+            .font(.subheadline)
+            .foregroundColor(.primary)
+            Spacer()
+        }
     }
 }
 
+struct BlurView: UIViewRepresentable {
+    func makeUIView(context: Context) -> some UIView {
+        let view = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+        return view
+    }
+    
+    func updateUIView(_ uiView: UIViewType, context: Context) { }
+}
