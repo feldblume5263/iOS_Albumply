@@ -39,7 +39,6 @@ struct LibraryView: View {
                 }
             }
         }
-        .background(.white)
     }
 }
 
