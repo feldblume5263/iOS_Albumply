@@ -9,7 +9,7 @@ import SwiftUI
 import MediaPlayer
 
 struct AlbumDetailView: View {
-    @StateObject fileprivate var albumDetail: AlbumDetailViewModel
+    @StateObject private var albumDetail: AlbumDetailViewModel
     
     init(album: Album, player: MPMusicPlayerController) {
         _albumDetail = StateObject(wrappedValue: AlbumDetailViewModel(album: album, player: player))

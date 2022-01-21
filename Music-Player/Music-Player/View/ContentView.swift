@@ -9,7 +9,7 @@ import SwiftUI
 import MediaPlayer
 
 struct ContentView: View {
-    @State private var player = MPMusicPlayerController.applicationMusicPlayer
+    private var player = MPMusicPlayerController.applicationMusicPlayer
     @State fileprivate var isFullPlayer: Bool = false
     @ObservedObject private var authViewModel = AuthViewModel()
     
