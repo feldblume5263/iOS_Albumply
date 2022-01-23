@@ -19,6 +19,7 @@ final class AlbumDetailViewModel: ObservableObject {
         self.album = album
         self.player = player
         initSongsInAlbum()
+        setIDsQueue()
     }
     
     private func initSongsInAlbum() {
@@ -58,10 +59,8 @@ final class AlbumDetailViewModel: ObservableObject {
     func allSongsPlayButtonPressed(isShuffle: Bool) {
         waitingForPrepare = true
         player.stop()
-        setIDsQueue()
-        let IDsQueue = songIDsQueue
-        player.setQueue(with: IDsQueue)
-        UserDefaults.standard.set(IDsQueue, forKey: UserDefaultsKey.queueDefault)
+        player.setQueue(with: songIDsQueue)
+        UserDefaults.standard.set(songIDsQueue, forKey: UserDefaultsKey.queueDefault)
         if isShuffle {
             player.shuffleMode = MPMusicShuffleMode.songs
             UserDefaults.standard.set(true, forKey: UserDefaultsKey.shuffleDefault)
@@ -78,10 +77,9 @@ final class AlbumDetailViewModel: ObservableObject {
     
     func specificSongPlayButtonPressed(songIndex: Int) {
         waitingForPrepare = true
-        setIDsQueue()
-        let IDsQueue = songIDsQueue
-        player.setQueue(with: IDsQueue)
-        UserDefaults.standard.set(IDsQueue, forKey: UserDefaultsKey.queueDefault)
+        player.stop()
+        player.setQueue(with: songIDsQueue)
+        UserDefaults.standard.set(songIDsQueue, forKey: UserDefaultsKey.queueDefault)
         player.play()
         player.nowPlayingItem = albumContents?.songs[songIndex]
         UserDefaults.standard.set(false, forKey: UserDefaultsKey.shuffleDefault)
