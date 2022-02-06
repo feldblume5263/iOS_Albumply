@@ -26,6 +26,15 @@
 </p>
 
 ---
+### 👨🏼‍💻 기술 문서
+#### - 앱 제작에 사용했던 MediaPlayer 프레임워크에 대한 설명을 작성하였습니다. (현재 작성 중)
+
+[MediaPlayer 프레임워크 소개 1](https://hasensprung.tistory.com/123)
+[MediaPlayer 프레임워크 소개 2](https://hasensprung.tistory.com/124)
+[Apple Music 라이브러리 접근 권한 받아오기](https://hasensprung.tistory.com/125)
+
+---
+
 <br/><br/>
 #### 📚 라이브러리 화면
 <img width="150" src="https://user-images.githubusercontent.com/53016167/152551966-19d8b5aa-f9b0-486d-98df-953e346c9855.gif">
