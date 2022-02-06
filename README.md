@@ -32,6 +32,7 @@
 #### [💡 MediaPlayer 프레임워크 소개 1](https://hasensprung.tistory.com/123)
 #### [💡 MediaPlayer 프레임워크 소개 2](https://hasensprung.tistory.com/124)
 #### [💡 Apple Music 라이브러리 접근 권한 받아오기](https://hasensprung.tistory.com/125)
+#### [💡 Apple Music 라이브러리 가져오기](https://hasensprung.tistory.com/126)
 
 ---
 
