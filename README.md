@@ -1,5 +1,5 @@
 # 🎧 Albumply
-앨범 단위로 음악을 재생할 수 있는 음악 플레이어
+SwiftUI와 MediaPlayer framework로 제작한, 앨범 단위로 음악을 재생할 수 있는 음악 플레이어
 <br/><br/>
 ---
 ### 🎹 개발 기간
