@@ -27,7 +27,7 @@ SwiftUI와 MediaPlayer framework로 제작한, 앨범 단위로 음악을 재생
 
 ---
 ### 👨🏼‍💻 기술 문서
-#### - 앱 제작에 사용했던 MediaPlayer 프레임워크에 대한 설명을 작성하였습니다. (현재 작성 중)
+#### - 앱 제작에 사용했던 MediaPlayer 프레임워크에 대한 설명을 작성하였습니다.
 
 #### [💡 MediaPlayer 프레임워크 소개 1](https://hasensprung.tistory.com/123)
 #### [💡 MediaPlayer 프레임워크 소개 2](https://hasensprung.tistory.com/124)
